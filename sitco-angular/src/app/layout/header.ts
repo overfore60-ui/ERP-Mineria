@@ -22,7 +22,12 @@ export class Header {
   readonly sim = inject(SimService);
   readonly auth = input(false);
   readonly brand = BRAND;
-  readonly notifs = NOTIFS;
+  /** El operador de pala no tiene sesión ni acceso a datos (SD4): no recibe notificaciones. */
+  readonly verNotifs = computed(() => this.ses.user()?.role !== 'operador');
+  readonly notifs = computed(() => {
+    const rol = this.ses.user()?.role ?? '';
+    return NOTIFS.filter(n => (!n.solo || n.solo.includes(rol)) && !n.no?.includes(rol) && this.ses.permitidoRuta(n.h));
+  });
   confirmarSalida = false;
 
   readonly conexion = computed(() => {

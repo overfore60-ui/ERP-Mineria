@@ -26,7 +26,7 @@ import { PageHeader } from '../../shared/page-header';
 
       <h2 class="mt-6">Preguntas frecuentes</h2>
       <details open [class]="acc"><summary [class]="sum">¿Qué pasa si se corta la fibra?</summary>
-        <div class="px-4 pb-4"><p>La operación sigue en modo local desde el Nodo de Faena, hasta 48 horas. Todo se sincroniza solo al volver el enlace. Mira el estado en <a routerLink="/conectividad">Conectividad y nube</a>.</p></div></details>
+        <div class="px-4 pb-4"><p>La operación sigue en modo local desde el Nodo de Faena, hasta 48 horas. Todo se sincroniza solo al volver el enlace. @if (ses.permitidoRuta('/conectividad')) { Mira el estado en <a routerLink="/conectividad">Conectividad y nube</a>. }</p></div></details>
       @for (f of preguntas; track f[0]) {
         <details [class]="acc"><summary [class]="sum">{{ f[0] }}</summary><div class="px-4 pb-4"><p>{{ f[1] }}</p></div></details>
       }

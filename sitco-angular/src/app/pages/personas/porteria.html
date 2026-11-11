@@ -39,7 +39,7 @@
         @case ('vencido') {
           <p><strong>{{ l.doc }}</strong> venció el {{ l.vence }}.</p>
           <p class="text-sm">El sistema avisó a la persona, a {{ l.t.empresa }} y a Seguridad el {{ l.avisos[0] }}, el {{ l.avisos[1] }} y el {{ l.avisos[2] }}. Por eso este rechazo no debería ocurrir: la empresa tuvo 30 días para renovar.</p>
-          <div class="flex flex-wrap gap-3 mt-2"><a class="btn btn-sec" [routerLink]="['/acreditacion', l.t.id]">Ver ficha</a><button type="button" class="btn btn-ter" (click)="avisarSeguridad()">Avisar a Seguridad</button></div>
+          <div class="flex flex-wrap gap-3 mt-2">@if (ses.permitidoRuta('/acreditacion')) { <a class="btn btn-sec" [routerLink]="['/acreditacion', l.t.id]">Ver ficha</a> }<button type="button" class="btn btn-ter" (click)="avisarSeguridad()">Avisar a Seguridad</button></div>
         }
         @case ('revision') { <p class="text-sm">La persona aún no está habilitada. Seguridad revisa sus documentos; no puede ingresar hasta que se apruebe.</p> }
         @case ('porvencer') { <p class="text-sm"><strong>Aviso:</strong> {{ l.doc }} vence el {{ l.vence }} (en {{ l.dias }} días). Ya se avisó a la persona, a su empleador y a Seguridad.</p> }

@@ -1,5 +1,5 @@
 <app-page-header titulo="Seguridad y fatiga" sub="Los registros nacen digitales en el lugar del hecho y se pueden mostrar a la autoridad sin buscar carpetas. Toda alerta de fatiga tiene una acción documentada.">
-  <a class="btn" routerLink="/terreno"><app-icon name="plus" /> Registrar en terreno</a>
+  @if (ses.permitidoRuta('/terreno')) { <a class="btn" routerLink="/terreno"><app-icon name="plus" /> Registrar en terreno</a> }
 </app-page-header>
 
 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -30,7 +30,7 @@
     @case ('f') {
       <app-banner tipo="info">Datos sensibles (Ley N° 21.719): el acceso a fatiga y somnolencia está restringido por rol y queda auditado.</app-banner>
       <app-data-table [rows]="fatiga()" [cols]="colsFat" [tam]="7" caption="Alertas de fatiga" [buscarEn]="['id', 'eq', 'op', 'tipo']" [filtros]="[{ key: 'tipo', label: 'Tipo', options: ['Somnolencia', 'Microsueño', 'Distracción'] }]">
-        <ng-template appCell="eq" let-r><a [routerLink]="['/equipos', r.eq]">{{ r.eq }}</a></ng-template>
+        <ng-template appCell="eq" let-r>@if (ses.permitidoRuta('/equipos')) { <a [routerLink]="['/equipos', r.eq]">{{ r.eq }}</a> } @else { {{ r.eq }} }</ng-template>
         <ng-template appCell="f" let-r>{{ fdt(r.f) }}</ng-template>
         <ng-template appCell="accion" let-r>
           @if (r.accion) { <app-estado [v]="'✓ ' + r.accion" tipo="ok" /><div class="text-[13px] muted">{{ r.por }}</div> }
@@ -47,7 +47,7 @@
             <div class="font-titulo font-bold text-[34px] leading-none text-cobre">{{ x.ok }}/{{ x.tot }}</div>
             <div class="bar mt-2" [class.warn]="x.ok < x.tot"><i [style.width.%]="x.ok / x.tot * 100"></i></div>
             <p class="text-[13px] muted mt-2">{{ x.ok === x.tot ? 'Completa y firmada en terreno.' : (x.tot - x.ok) + ' puntos pendientes.' }}</p>
-            <a class="btn btn-sm btn-sec" routerLink="/terreno">Abrir inspección</a>
+            @if (ses.permitidoRuta('/terreno')) { <a class="btn btn-sm btn-sec" routerLink="/terreno">Abrir inspección</a> }
           </div>
         }
       </div>

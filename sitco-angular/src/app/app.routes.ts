@@ -28,7 +28,8 @@ export const routes: Routes = [
   { path: 'registro', title: 'Registro de empresa contratista', data: publico, loadComponent: () => import('./pages/publico/registro').then(m => m.Registro) },
   {
     path: 'conectividad-demo', redirectTo: () => {
-      if (inject(SessionService).user()) return '/conectividad';
+      const ses = inject(SessionService);
+      if (ses.user()) return ses.permitidoRuta('/conectividad') ? '/conectividad' : '/inicio';
       inject(ToastService).show('Inicia sesión para ver la arquitectura de conectividad en vivo (o usa “Explorar como evaluador”).', 'info');
       return '/login';
     },

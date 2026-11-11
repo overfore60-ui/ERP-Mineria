@@ -20,7 +20,7 @@ import { cnt } from './comun';
   imports: [FormsModule, RouterLink, DataTable, Cell, ExportDialog, Icon, Modal, PageHeader, Banner, Estado, Kpi, Menu, Tabs, Timeline],
 })
 export class Seguridad {
-  private ses = inject(SessionService);
+  readonly ses = inject(SessionService);
   private toast = inject(ToastService);
   readonly fdt = fdt;
   readonly ft = ft;

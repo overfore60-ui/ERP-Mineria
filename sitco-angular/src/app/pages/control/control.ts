@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EQ, EQUIPOS } from '../../core/data';
+import { SessionService } from '../../core/session.service';
 import { SimService } from '../../core/sim.service';
 import { ToastService } from '../../core/toast.service';
 import { nd, nf } from '../../core/util';
@@ -21,6 +22,7 @@ import {
 })
 export class Control implements OnInit, OnDestroy {
   readonly sim = inject(SimService);
+  readonly ses = inject(SessionService);
   private toast = inject(ToastService);
   readonly nf = nf;
   readonly nd = nd;

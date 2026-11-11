@@ -3,11 +3,11 @@
 <app-header [auth]="auth()" />
 
 @if (auth()) {
-  @if (sim.link === 'down') {
+  @if (sim.link === 'down' && ses.veFaena()) {
     <div class="flex gap-2.5 items-center flex-wrap px-4 py-2 bg-aviso-l border-b-2 border-[#E0A93B] text-[#4a2f00] text-sm" role="status">
       <app-icon name="wifiOff" /><strong>Sin camino a la nube.</strong>
       <span>La operación continúa en modo local desde el Nodo de Faena · {{ nd(sim.hours, 0) }} h de 48 h de autonomía · {{ nf(sim.pending()) }} registros por sincronizar.</span>
-      <a routerLink="/conectividad" class="link-btn">Ver detalle</a>
+      @if (ses.permitidoRuta('/conectividad')) { <a routerLink="/conectividad" class="link-btn">Ver detalle</a> }
     </div>
   }
   <div class="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[256px_minmax(0,1fr)] min-h-[calc(100vh-60px)]">
@@ -40,11 +40,11 @@
     </main>
   </div>
   <app-quick-menu />
+  @if (ses.veFaena()) { <app-sim-widget /> }
 } @else {
   <main id="main" tabindex="-1"><router-outlet /></main>
 }
 
-<app-sim-widget />
 <app-toasts />
 <app-tour />
 <app-role-picker />

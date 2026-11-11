@@ -9,7 +9,7 @@
           <div class="card-flat">
             <h3 [style.color]="g.c">{{ g.g }}</h3>
             <ul class="list-none pl-5 border-l-2 border-arena-3 my-1">
-              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="font-medium" [routerLink]="i[1]">{{ i[0] }}</a></li> }
+              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="font-medium" [routerLink]="i[1]">{{ i[0] }}</a>@if (!ses.permitidoRuta(i[1])) { <span class="text-[13px] muted"> · otro perfil</span> }</li> }
             </ul>
           </div>
         }

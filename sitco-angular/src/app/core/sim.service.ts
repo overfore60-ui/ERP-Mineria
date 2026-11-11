@@ -11,7 +11,8 @@ import { ToastService } from './toast.service';
 import { nd, nf } from './util';
 
 type Estado = 'ok' | 'down';
-export interface Evento { id: string; type: string; label: string; src: string; ts: Date; tier: number }
+export type Dispositivo = 'botonera' | 'tableta' | 'otro';
+export interface Evento { id: string; type: string; label: string; src: string; dev: Dispositivo; ts: Date; tier: number }
 export interface Bitacora { t: string; k: string; f: Date }
 export interface Nodo { id: string; n: string; s: 'ok' | 'warn' | 'err'; t: string }
 
@@ -55,9 +56,9 @@ export class SimService {
   say(t: string, k = 'info') { this.st.log = [{ t, k, f: new Date() }, ...this.st.log].slice(0, 40); }
 
   /** Registra un evento de terreno: queda en el equipo hasta que haya cobertura. */
-  capture(type: string, label: string, src = 'Terreno') {
+  capture(type: string, label: string, src = 'Terreno', dev: Dispositivo = 'otro') {
     const st = this.st;
-    const e: Evento = { id: 'EV-' + String(st.seq++).padStart(5, '0'), type, label, src, ts: new Date(), tier: 0 };
+    const e: Evento = { id: 'EV-' + String(st.seq++).padStart(5, '0'), type, label, src, dev, ts: new Date(), tier: 0 };
     st.queue = [e, ...st.queue].slice(0, 80);
     st.total++;
     if (st.lte === 'shadow') this.say(`${e.id} guardado en el equipo (zona sin cobertura LTE)`, 'warn');
@@ -111,7 +112,7 @@ export class SimService {
 
   reset() {
     const st = this.st;
-    st.link = st.fibA = st.fibB = st.leo = 'ok'; st.lte = 'ok'; st.hours = 0; st.bulk = 0;
+    st.link = st.fibA = st.fibB = st.leo = 'ok'; st.lte = 'ok'; st.hours = 0; st.bulk = 0; st.syncedAtCut = 0;
     st.queue.forEach(e => (e.tier = 2));
     this.emit();
   }

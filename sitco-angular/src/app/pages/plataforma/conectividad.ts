@@ -1,5 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SessionService } from '../../core/session.service';
 import { SimService } from '../../core/sim.service';
 import { fd, ft, nd, nf } from '../../core/util';
 import { HtmlPipe } from '../../shared/html.pipe';
@@ -55,6 +56,7 @@ function diagrama(s: SimService) {
 })
 export class Conectividad {
   readonly sim = inject(SimService);
+  readonly ses = inject(SessionService);
   readonly nf = nf;
   readonly ft = ft;
   readonly sinEnlace = SIN_ENLACE;

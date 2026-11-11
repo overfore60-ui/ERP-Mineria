@@ -45,7 +45,7 @@
         </div>
         @if (lote() > 0) { <p class="text-sm muted mt-2">+ {{ nf(lote()) }} registros adicionales del corte simulado pendientes de sincronizar.</p> }
       } @else {
-        <app-empty titulo="Sin eventos todavía" mensaje="Registra algo desde la app de terreno o simula un corte de fibra."><a class="btn" routerLink="/terreno">Abrir terreno</a></app-empty>
+        <app-empty titulo="Sin eventos todavía" mensaje="Registra algo desde la app de terreno o simula un corte de fibra.">@if (ses.permitidoRuta('/terreno')) { <a class="btn" routerLink="/terreno">Abrir terreno</a> }</app-empty>
       }
     </app-card>
     <app-card titulo="Bitácora">
@@ -55,7 +55,7 @@
     </app-card>
   </div>
   <div class="flex flex-col gap-3">
-    <div class="card"><app-sim-panel /></div>
+    <div class="card"><app-sim-panel [enlace]="false" /></div>
     <app-card titulo="Qué sigue y qué se detiene sin enlace (Subdocumento 4)">
       <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack text-sm!">

@@ -135,7 +135,7 @@
                 <p class="my-0.5 text-cc-mut">Utilización {{ s.e.util }} % · {{ s.destino }}</p>
                 @if (s.e.det) { <p class="my-0.5"><strong class="text-[#ff9d93]">Detenido · {{ s.e.det.causa === 'Sin clasificar' ? 'sin clasificar' : s.e.det.causa }}</strong></p> }
                 <div class="flex flex-wrap gap-2 mt-1.5">
-                  <a class="btn btn-dark" [routerLink]="['/equipos', s.e.id]">Vista única del equipo</a>
+                  @if (ses.permitidoRuta('/equipos')) { <a class="btn btn-dark" [routerLink]="['/equipos', s.e.id]">Vista única del equipo</a> }
                   @if (s.e.estado === 'Detenido' && s.e.det?.causa === 'Sin clasificar') { <button type="button" class="btn" (click)="clasificar = s.e.id">Clasificar causa</button> }
                 </div>
               } @else {

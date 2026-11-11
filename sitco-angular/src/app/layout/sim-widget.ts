@@ -1,5 +1,6 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { SessionService } from '../core/session.service';
 import { SimService } from '../core/sim.service';
 import { ToastService } from '../core/toast.service';
 import { nd, nf } from '../core/util';
@@ -40,13 +41,16 @@ import { Icon } from '../shared/icon';
       }
     </ul>
     <div class="flex flex-wrap gap-2 mt-2">
-      <a class="btn btn-sm" routerLink="/conectividad" (click)="ir.emit()">Ver arquitectura animada</a>
+      @if (enlace() && ses.permitidoRuta('/conectividad')) { <a class="btn btn-sm" routerLink="/conectividad" (click)="ir.emit()">Ver arquitectura animada</a> }
       <button type="button" class="btn btn-sm btn-ter" (click)="restablecer()">Restablecer</button>
     </div>`,
   imports: [RouterLink],
 })
 export class SimPanel {
   readonly sim = inject(SimService);
+  readonly ses = inject(SessionService);
+  /** El enlace a Conectividad no se ofrece dentro de esa misma pantalla ni a quien no puede abrirla. */
+  readonly enlace = input(true);
   private toast = inject(ToastService);
   readonly ir = output<void>();
   readonly nd = nd;

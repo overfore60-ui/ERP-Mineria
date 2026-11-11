@@ -53,13 +53,13 @@
             <ul class="list-none p-0 m-0">
               @for (e of detenidos; track e.id) {
                 <li class="flex justify-between items-center flex-wrap gap-3 border-b border-arena-2 py-2">
-                  <a [routerLink]="['/equipos', e.id]"><strong>{{ e.id }}</strong></a>
+                  @if (ses.permitidoRuta('/equipos')) { <a [routerLink]="['/equipos', e.id]"><strong>{{ e.id }}</strong></a> } @else { <strong>{{ e.id }}</strong> }
                   <span class="text-sm muted">{{ e.tipo }} · {{ desde(e.det!.desde) }}</span>
                   <app-estado [v]="e.det!.causa" [tipo]="e.det!.causa === 'Sin clasificar' ? 'err' : 'warn'" />
                 </li>
               }
             </ul>
-            <a class="btn btn-sec btn-sm mt-2" routerLink="/equipos">Ver equipos</a>
+            @if (ses.permitidoRuta('/equipos')) { <a class="btn btn-sec btn-sm mt-2" routerLink="/equipos">Ver equipos</a> }
           }
           @case ('acr') {
             <div class="flex flex-wrap items-center gap-5">
@@ -96,7 +96,7 @@
               <div class="w-full max-w-[260px]" [innerHTML]="grafConn() | html"></div>
               <div class="text-sm flex-1"><p><strong>{{ sim.link === 'down' ? 'Modo local activo.' : 'Todo sincronizado.' }}</strong><br>{{ nf(sim.pending()) }} registros pendientes.</p></div>
             </div>
-            <a class="btn btn-sec btn-sm mt-2" routerLink="/conectividad">Ver arquitectura</a>
+            @if (ses.permitidoRuta('/conectividad')) { <a class="btn btn-sec btn-sm mt-2" routerLink="/conectividad">Ver arquitectura</a> }
           }
           @case ('act') { <app-timeline [items]="actividad" /> }
         }

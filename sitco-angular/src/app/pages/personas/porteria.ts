@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TRAB, Trabajador } from '../../core/data';
+import { SessionService } from '../../core/session.service';
 import { SimService } from '../../core/sim.service';
 import { ToastService } from '../../core/toast.service';
 import { dOff, fd, ft, hace, rng, uid } from '../../core/util';
@@ -33,6 +34,7 @@ interface Lectura { t: Trabajador; tipo: 'ok' | 'warn' | 'err'; titulo: string; 
 })
 export class Porteria {
   private sim = inject(SimService);
+  readonly ses = inject(SessionService);
   private toast = inject(ToastService);
   readonly ft = ft;
   readonly bitacora = signal([...BITACORA]);

@@ -319,8 +319,10 @@ export const AUDIT: Auditoria[] = Array.from({ length: 140 }, (_, i) => {
   const u = USUARIOS[Math.floor(R() * 20)];
   return { id: 'AU-' + (9000 - i), f: hace(i * 37 + Math.floor(R() * 20)), u: u.nombre, rol: u.rolL, a: pick(ACC), ip: `10.${Math.floor(R() * 40)}.${Math.floor(R() * 250)}.${Math.floor(R() * 250)}`, hash: Math.floor(R() * 0xffffff).toString(16).padStart(6, '0') + '…' };
 });
-export const NOTIFS = [
-  { t: '12 personas con documentos por vencer en 30 días', d: 'Se notificó a cada persona, su empleador y Seguridad.', h: '/acreditacion', k: 'warn' },
+export const NOTIFS: { t: string; d: string; h: string; k: string; solo?: string[]; no?: string[] }[] = [
+  { t: '12 personas con documentos por vencer en 30 días', d: 'Se notificó a cada persona, su empleador y Seguridad.', h: '/acreditacion', k: 'warn', no: ['contratista'] },
+  { t: '7 personas de tu empresa con documentos por vencer en 30 días', d: 'Se notificó a cada persona y a tu empresa. Renueva antes para evitar rechazos en portería.', h: '/acreditacion', k: 'warn', solo: ['contratista'] },
+  { t: 'Detención de CF-07 sin clasificar (34 min)', d: 'Clasifica la causa para que cuente en el análisis de disponibilidad.', h: '/equipos/CF-07', k: 'warn', solo: ['supervisor'] },
   { t: 'Embarque E-2026-26: arsénico proyectado sobre el límite', d: 'Requiere revisar la mezcla antes de aprobar.', h: '/trazabilidad/lote/E-2026-26', k: 'err' },
   { t: 'Sincronización completa con la nube', d: 'Sin conflictos manuales.', h: '/conectividad', k: 'ok' },
 ];

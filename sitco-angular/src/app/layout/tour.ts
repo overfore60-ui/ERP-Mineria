@@ -19,14 +19,14 @@ const PASOS = [
         [style.left.px]="c.l" [style.top.px]="c.t" [style.width.px]="c.w" [style.height.px]="c.h"></div>
       <div class="fixed z-152 w-[min(340px,calc(100vw-24px))] bg-white rounded-xl p-4 shadow-[0_12px_40px_rgba(0,0,0,.4)]" role="dialog" aria-modal="true" aria-label="Recorrido guiado"
         [style.left.px]="c.pl" [style.top.px]="c.pt">
-        <div class="text-[13px] muted">Paso {{ i() + 1 }} de {{ pasos.length }}</div>
-        <h3>{{ pasos[i()].t }}</h3>
-        <p class="text-sm">{{ pasos[i()].d }}</p>
+        <div class="text-[13px] muted">Paso {{ i() + 1 }} de {{ pasos().length }}</div>
+        <h3>{{ pasos()[i()].t }}</h3>
+        <p class="text-sm">{{ pasos()[i()].d }}</p>
         <div class="flex justify-between items-center gap-3">
           <button type="button" class="btn btn-sm btn-ter" (click)="terminar()">Omitir</button>
           <div class="flex gap-3">
             <button type="button" class="btn btn-sm btn-sec" [disabled]="i() === 0" (click)="ir(i() - 1)">Atrás</button>
-            <button type="button" class="btn btn-sm" id="tour-sig" (click)="siguiente()">{{ i() === pasos.length - 1 ? 'Entendido' : 'Siguiente' }}</button>
+            <button type="button" class="btn btn-sm" id="tour-sig" (click)="siguiente()">{{ i() === pasos().length - 1 ? 'Entendido' : 'Siguiente' }}</button>
           </div>
         </div>
       </div>
@@ -36,18 +36,27 @@ export class Tour {
   readonly ses = inject(SessionService);
   private page = inject(PageService);
   private toast = inject(ToastService);
-  readonly pasos = PASOS;
+  /** Solo los pasos cuyo elemento existe para este perfil y esta pantalla: así el contador no se descuadra. */
+  readonly pasos = signal(PASOS);
   readonly i = signal(0);
   readonly caja = signal<{ l: number; t: number; w: number; h: number; pl: number; pt: number } | null>(null);
 
   constructor() {
-    effect(() => { if (this.ses.tourActivo()) { this.i.set(0); setTimeout(() => this.mostrar()); } });
+    effect(() => {
+      if (!this.ses.tourActivo()) return;
+      setTimeout(() => {
+        this.pasos.set(PASOS.filter(p => document.querySelector(p.sel)));
+        this.i.set(0);
+        this.mostrar();
+      });
+    });
   }
 
   private mostrar() {
+    const lista = this.pasos();
     let k = this.i();
-    let el = document.querySelector(PASOS[k].sel);
-    while (!el && k < PASOS.length - 1) el = document.querySelector(PASOS[++k].sel);
+    let el = lista[k] ? document.querySelector(lista[k].sel) : null;
+    while (!el && k < lista.length - 1) el = document.querySelector(lista[++k].sel);
     if (!el) { this.terminar(); return; }
     this.i.set(k);
     if (el.closest('#nav') && window.innerWidth < 1024) this.page.navAbierto.set(true);
@@ -63,7 +72,7 @@ export class Tour {
 
   ir(k: number) { this.i.set(k); this.mostrar(); }
   siguiente() {
-    if (this.i() === PASOS.length - 1) { this.terminar(); this.toast.show('¡Listo! Puedes repetir el recorrido desde tu menú de usuario.', 'ok'); }
+    if (this.i() === this.pasos().length - 1) { this.terminar(); this.toast.show('¡Listo! Puedes repetir el recorrido desde tu menú de usuario.', 'ok'); }
     else this.ir(this.i() + 1);
   }
   terminar() { this.caja.set(null); this.page.navAbierto.set(false); this.ses.terminarTour(); }

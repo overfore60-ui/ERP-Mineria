@@ -101,7 +101,7 @@
 
   <div class="flex flex-col gap-3">
     <div class="card">
-      <h3>Cola de este equipo</h3>
+      <h3>Historial de este equipo</h3>
       @for (e of cola(); track e.id) {
         <div class="flex gap-2 items-center py-1.5 border-b border-arena-2 last:border-0 text-[13px]">
           <span class="flex gap-1" [attr.aria-label]="['En equipo', 'En el Nodo', 'En nube'][e.tier]">
@@ -135,7 +135,7 @@
     </app-card>
     <div class="card-flat"><div class="text-sm"><strong>Prueba:</strong>
       @if (vista() === 'op') { abre “Simular nube”, activa <em>zona sin cobertura</em> y aprieta un destino. Verás el aviso “Guardado en el equipo” y el registro quedarse en el equipo y subir solo al restablecerse. }
-      @else { registra un incidente con firma, o firma una inspección, y mira cómo queda en la cola de este equipo. }
+      @else { registra un incidente con firma, o firma una inspección, y mira cómo queda en el historial de este equipo. }
     </div></div>
   </div>
 </div>
