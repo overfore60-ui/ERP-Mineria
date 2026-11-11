@@ -2,16 +2,16 @@
   <button type="button" class="ibtn lg:hidden! hover:bg-white/15" aria-label="Abrir menú de navegación" [attr.aria-expanded]="page.navAbierto()" aria-controls="nav"
     (click)="page.navAbierto.set(!page.navAbierto())"><app-icon name="menu" /></button>
 }
-<a [routerLink]="auth() ? '/inicio' : '/'" class="flex items-center gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[17px] md:text-[22px] tracking-wide hover:text-white"
+<a [routerLink]="auth() ? '/inicio' : '/'" class="flex items-center gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[1.0625rem] md:text-[1.375rem] tracking-wide hover:text-white"
   [attr.aria-label]="brand.product + ', ir al inicio'">
   <span class="grid place-items-center size-[34px] rounded-lg bg-cobre"><app-icon name="layers" /></span>
-  <span>{{ brand.product }}<small class="hidden md:block font-texto font-medium text-[11px] tracking-wider uppercase opacity-75 -mt-0.5">Altos de Aranda · por {{ brand.vendor }}</small></span>
+  <span>{{ brand.product }}<small class="hidden md:block font-texto font-medium text-[0.6875rem] tracking-wider uppercase opacity-75 -mt-0.5">Altos de Aranda · por {{ brand.vendor }}</small></span>
 </a>
 <span class="flex-1"></span>
 
 @if (auth()) {
   @if (ses.veFaena()) {
-  <a id="conn" [routerLink]="ses.permitidoRuta('/conectividad') ? '/conectividad' : null" class="inline-flex items-center gap-2 min-h-11 px-3 rounded-full border text-white text-[13px] font-semibold no-underline hover:text-white"
+  <a id="conn" [routerLink]="ses.permitidoRuta('/conectividad') ? '/conectividad' : null" class="inline-flex items-center gap-2 min-h-11 px-3 rounded-full border text-white text-[0.8125rem] font-semibold no-underline hover:text-white"
     [class]="sim.mode() === 'down' ? 'border-[#FFC24A]' : 'border-white/35'" [attr.aria-label]="'Estado de conectividad: ' + conexion() + (ses.permitidoRuta('/conectividad') ? '. Abrir detalle' : '')">
     <span class="size-2.5 rounded-full" [class]="punto()"></span><span class="hidden md:inline">{{ conexion() }}</span>
   </a>
@@ -19,9 +19,9 @@
 
   @if (verNotifs()) {
     <app-menu [etiqueta]="notifs().length ? 'Notificaciones: ' + notifs().length + ' nuevas' : 'Notificaciones: sin novedades'" claseBoton="ibtn relative hover:bg-white/15" ancho="w-[min(360px,92vw)]">
-      <span boton><app-icon name="bell" />@if (notifs().length) { <span class="badge-n absolute top-0.5 right-0.5 min-w-[18px] h-[18px] text-[11px]">{{ notifs().length }}</span> }</span>
+      <span boton><app-icon name="bell" />@if (notifs().length) { <span class="badge-n absolute top-0.5 right-0.5 min-w-[18px] h-[18px] text-[0.6875rem]">{{ notifs().length }}</span> }</span>
       @for (n of notifs(); track n.t) {
-        <a role="menuitem" [routerLink]="n.h" class="menu-item h-auto! flex-col items-start! gap-0.5 py-2.5"><strong class="text-sm">{{ n.t }}</strong><span class="text-[13px] muted">{{ n.d }}</span></a>
+        <a role="menuitem" [routerLink]="n.h" class="menu-item h-auto! flex-col items-start! gap-0.5 py-2.5"><strong class="text-sm">{{ n.t }}</strong><span class="text-[0.8125rem] muted">{{ n.d }}</span></a>
       } @empty {
         <p class="px-3 py-2 text-sm muted m-0">Sin notificaciones nuevas.</p>
       }
@@ -37,7 +37,7 @@
         <span class="hidden md:inline">{{ r.label }}</span><app-icon name="chD" class="max-md:hidden!" />
       </span>
       <div class="px-3 py-2"><strong>{{ r.person }}</strong>
-        <div class="text-[13px] muted">{{ r.label }} · {{ ses.user()?.role === 'operador' ? 'toque de credencial, sin sesión' : 'sesión federada con el directorio corporativo' }}</div></div>
+        <div class="text-[0.8125rem] muted">{{ r.label }} · {{ ses.user()?.role === 'operador' ? 'toque de credencial, sin sesión' : 'sesión federada con el directorio corporativo' }}</div></div>
       <hr class="border-0 border-t border-arena-2">
       <button role="menuitem" type="button" class="menu-item" (click)="ses.cambiarPerfil.set(true)"><app-icon name="users" /> Cambiar de perfil (demostración)</button>
       <button role="menuitem" type="button" class="menu-item" (click)="ses.alternarSol()"><app-icon name="sun" /> Modo sol (alto contraste)</button>

@@ -6,7 +6,7 @@
 
 <app-data-table [rows]="usuarios()" [cols]="cols" [filtros]="filtros" caption="Personas usuarias" buscarPh="Buscar por nombre, correo o rol…" [buscarEn]="['nombre', 'correo', 'rolL']"
   [masivas]="[{ id: 'mfa', label: 'Forzar segundo factor' }, { id: 'off', label: 'Desactivar' }]" (masiva)="masiva($event)">
-  <ng-template appCell="nombre" let-r><strong>{{ r.nombre }}</strong><br><span class="text-[13px] muted">{{ r.correo }}</span></ng-template>
+  <ng-template appCell="nombre" let-r><strong>{{ r.nombre }}</strong><br><span class="text-[0.8125rem] muted">{{ r.correo }}</span></ng-template>
   <ng-template appCell="mfa" let-r><app-estado [v]="r.mfa" [tipo]="r.mfa === 'Activo' ? 'ok' : 'warn'" /></ng-template>
   <ng-template appCell="estado" let-r><app-estado [v]="r.estado" /></ng-template>
   <ng-template appCell="acceso" let-r>{{ fdt(r.acceso) }}</ng-template>

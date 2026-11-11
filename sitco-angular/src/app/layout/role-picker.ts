@@ -13,7 +13,7 @@ import { Modal } from '../shared/modal';
       <button type="button" class="flex flex-col gap-1.5 text-left bg-white border border-arena-2 rounded-xl p-4 cursor-pointer min-h-30 transition hover:-translate-y-0.5 hover:border-cobre" (click)="elegir(r[0])">
         <span class="grid place-items-center size-11 rounded-[10px] bg-cobre-l text-cobre-d"><app-icon [name]="r[1].ico" /></span>
         <strong>{{ r[1].label }}</strong>
-        <span class="text-[13px] muted">{{ r[1].desc }}</span>
+        <span class="text-[0.8125rem] muted">{{ r[1].desc }}</span>
       </button>
     }`,
   imports: [Icon],

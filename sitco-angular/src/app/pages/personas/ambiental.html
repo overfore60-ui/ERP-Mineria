@@ -23,13 +23,13 @@
         <div class="card">
           <h3>tCO₂e por tonelada de cobre fino (mensual)</h3>
           <div [innerHTML]="huella | html"></div>
-          <div class="flex flex-wrap gap-4 text-[13px] mt-2">@for (l of leyHuella; track l[0]) { <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px]" [style.background]="l[1]"></i>{{ l[0] }}</span> }</div>
+          <div class="flex flex-wrap gap-4 text-[0.8125rem] mt-2">@for (l of leyHuella; track l[0]) { <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px]" [style.background]="l[1]"></i>{{ l[0] }}</span> }</div>
         </div>
         <div class="card">
           <h3>Octubre</h3>
           <div [innerHTML]="octubre | html"></div>
           <button type="button" class="btn btn-sec w-full mt-2" (click)="verificar = true">Solicitar verificación del tercero</button>
-          <p class="text-[13px] muted mt-2">Compradores exigen cálculo trimestral auditado desde 2029. Aquí es mensual (antes: anual, con consultora, dos meses).</p>
+          <p class="text-[0.8125rem] muted mt-2">Compradores exigen cálculo trimestral auditado desde 2029. Aquí es mensual (antes: anual, con consultora, dos meses).</p>
         </div>
       </div>
     }
@@ -37,7 +37,7 @@
       <div class="card">
         <h3>Consumo de agua por área (m³ por día)</h3>
         <div [innerHTML]="agua | html"></div>
-        <div class="flex flex-wrap gap-4 text-[13px] mt-2">@for (l of leyAgua; track l[0]) { <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px]" [style.background]="l[1]"></i>{{ l[0] }}</span> }</div>
+        <div class="flex flex-wrap gap-4 text-[0.8125rem] mt-2">@for (l of leyAgua; track l[0]) { <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px]" [style.background]="l[1]"></i>{{ l[0] }}</span> }</div>
         <p class="text-sm muted mt-2">Con medidores por área se reemplaza la regla de reparto que se inventó en 2019 sobre un solo medidor general.</p>
       </div>
     }
@@ -64,7 +64,7 @@
   <div class="field"><label for="rp">Reporte</label><select id="rp" [(ngModel)]="reporte">@for (r of reportes; track r) { <option [value]="r">{{ r }}</option> }</select></div>
   <div class="field" [class.invalid]="!hasta"><label for="rd">Período hasta <span class="text-error" aria-hidden="true">*</span></label><input id="rd" type="date" [(ngModel)]="hasta" aria-required="true">
     @if (!hasta) { <div class="err-m" role="alert">Este campo es obligatorio.</div> }</div>
-  @if (progreso() > 0) { <div class="flex items-center gap-3 mt-2"><div class="bar cu"><i [style.width.%]="progreso()"></i></div><span class="text-[13px]">Consolidando…</span></div> }
+  @if (progreso() > 0) { <div class="flex items-center gap-3 mt-2"><div class="bar cu"><i [style.width.%]="progreso()"></i></div><span class="text-[0.8125rem]">Consolidando…</span></div> }
   <div pie><button type="button" class="btn btn-sec" (click)="generar = false">Cancelar</button><button type="button" class="btn" [disabled]="progreso() > 0" (click)="generarReporte()">Generar</button></div>
 </app-modal>
 

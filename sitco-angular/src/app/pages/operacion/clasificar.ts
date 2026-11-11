@@ -11,7 +11,7 @@ import { Modal } from '../../shared/modal';
       <p>Elige la causa con <strong>un toque</strong>. Todas las detenciones deben quedar clasificadas dentro del turno siguiente.</p>
       <div class="grid grid-cols-2 gap-2.5">
         @for (c of causas; track c) {
-          <button type="button" class="min-h-14 rounded-[14px] border-[3px] border-pizarra bg-white font-titulo font-bold text-[15px] uppercase cursor-pointer hover:bg-cobre-l" (click)="elegir(c)">{{ c }}</button>
+          <button type="button" class="min-h-14 rounded-[14px] border-[3px] border-pizarra bg-white font-titulo font-bold text-[0.9375rem] uppercase cursor-pointer hover:bg-cobre-l" (click)="elegir(c)">{{ c }}</button>
         }
       </div>
       <div pie><button type="button" class="btn btn-sec" (click)="cerrar.emit()">Cancelar</button></div>

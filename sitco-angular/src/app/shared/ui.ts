@@ -37,7 +37,7 @@ let tipN = 0;
       aria-label="Más información" [attr.aria-describedby]="id"
       (mouseenter)="ver.set(true)" (mouseleave)="ver.set(false)" (focus)="ver.set(true)" (blur)="ver.set(false)" (keydown.escape)="ver.set(false)">
       <app-icon name="help" />
-      <span role="tooltip" [id]="id" class="absolute z-30 left-1/2 bottom-[90%] -translate-x-1/2 w-60 bg-pizarra text-white px-3 py-2.5 rounded-lg text-[13px] text-left font-normal shadow-suave"
+      <span role="tooltip" [id]="id" class="absolute z-30 left-1/2 bottom-[90%] -translate-x-1/2 w-60 bg-pizarra text-white px-3 py-2.5 rounded-lg text-[0.8125rem] text-left font-normal shadow-suave"
         [class.hidden]="!ver()">{{ texto() }}</span>
     </button>`,
   imports: [Icon],
@@ -55,10 +55,10 @@ export class Tip {
   host: { class: 'block' },
   template: `
     <ng-template #cuerpo>
-      <span class="text-[13px] text-acero font-medium">{{ lbl() }}</span>
-      <span class="font-titulo font-bold text-[34px] leading-tight">{{ val() }}@if (unit()) { <small class="ml-1 text-base font-semibold text-acero">{{ unit() }}</small>}</span>
+      <span class="text-[0.8125rem] text-acero font-medium">{{ lbl() }}</span>
+      <span class="font-titulo font-bold text-[2.125rem] leading-tight">{{ val() }}@if (unit()) { <small class="ml-1 text-base font-semibold text-acero">{{ unit() }}</small>}</span>
       @if (dlt()) {
-        <span class="text-[13px] font-semibold flex gap-1.5 items-center" [class]="cls() === 'good' ? 'text-senal' : cls() === 'bad' ? 'text-error' : 'text-acero'">
+        <span class="text-[0.8125rem] font-semibold flex gap-1.5 items-center" [class]="cls() === 'good' ? 'text-senal' : cls() === 'bad' ? 'text-error' : 'text-acero'">
           {{ dlt() }}
           @if (!href() && lineaBase()) { <app-tip [inl]="true" texto="Línea base: el valor de 2025, antes de SITCO, tomado de las Bases técnicas del caso. La flecha muestra la mejora que estima el prototipo." /> }
         </span>
@@ -88,7 +88,7 @@ export class Kpi {
   selector: 'app-banner',
   host: { class: 'block mb-4' },
   template: `
-    <div class="flex gap-3 items-start px-4 py-3 rounded-lg border text-[15px]" [class]="colores()" [attr.role]="tipo() === 'err' || tipo() === 'warn' ? 'alert' : 'note'">
+    <div class="flex gap-3 items-start px-4 py-3 rounded-lg border text-[0.9375rem]" [class]="colores()" [attr.role]="tipo() === 'err' || tipo() === 'warn' ? 'alert' : 'note'">
       <app-icon [name]="tipo() === 'ok' ? 'check' : tipo() === 'info' ? 'info' : 'alert'" />
       <div class="flex-1 min-w-0"><ng-content /></div>
       <ng-content select="[accion]" />
@@ -131,7 +131,7 @@ export interface Hito { t: string; w?: string; d?: string; s?: string }
         <li class="relative pl-4 pb-4">
           <span class="absolute -left-[31px] top-1 size-4 rounded-full border-[3px]" [class]="punto(i.s)"></span>
           <strong [innerHTML]="i.t | html"></strong>
-          @if (i.w) { <span class="block text-[13px] text-acero">{{ i.w }}</span> }
+          @if (i.w) { <span class="block text-[0.8125rem] text-acero">{{ i.w }}</span> }
           @if (i.d) { <div class="text-sm text-acero" [innerHTML]="i.d | html"></div> }
         </li>
       }
@@ -152,7 +152,7 @@ export class Timeline {
   template: `
     <ol class="flex p-0 m-0 mb-6 overflow-x-auto pb-1" [attr.aria-label]="'Progreso: paso ' + (actual() + 1) + ' de ' + pasos().length">
       @for (p of pasos(); track $index; let k = $index, ultimo = $last) {
-        <li class="relative list-none flex-1 min-w-[78px] md:min-w-24 flex flex-col items-center text-center gap-1.5 text-xs md:text-[13px] font-semibold"
+        <li class="relative list-none flex-1 min-w-[78px] md:min-w-24 flex flex-col items-center text-center gap-1.5 text-xs md:text-[0.8125rem] font-semibold"
           [class]="k === actual() ? 'text-pizarra' : 'text-acero'" [attr.aria-current]="k === actual() ? 'step' : null">
           @if (!ultimo) { <span class="absolute top-[18px] left-[calc(50%+20px)] right-[calc(-50%+20px)] h-0.5" [class]="k < actual() ? 'bg-senal' : 'bg-acero-l'"></span> }
           <span class="relative z-10 grid place-items-center size-9 rounded-full border-2 font-titulo font-bold text-base"
@@ -191,7 +191,7 @@ export interface TabItem { id: string; label: string }
     <div class="flex gap-1 border-b-2 border-arena-2 mb-4 overflow-x-auto" role="tablist">
       @for (t of items(); track t.id) {
         <button role="tab" type="button" [attr.aria-selected]="t.id === activa()" [tabindex]="t.id === activa() ? 0 : -1"
-          class="min-h-12 px-[18px] border-0 bg-transparent text-[15px] font-semibold cursor-pointer border-b-4 -mb-0.5 whitespace-nowrap hover:text-pizarra"
+          class="min-h-12 px-[18px] border-0 bg-transparent text-[0.9375rem] font-semibold cursor-pointer border-b-4 -mb-0.5 whitespace-nowrap hover:text-pizarra"
           [class]="t.id === activa() ? 'text-pizarra border-cobre' : 'text-acero border-transparent'"
           (click)="activa.set(t.id)" (keydown)="teclas($event)">{{ t.label }}</button>
       }

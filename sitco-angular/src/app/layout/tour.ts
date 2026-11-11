@@ -19,7 +19,7 @@ const PASOS = [
         [style.left.px]="c.l" [style.top.px]="c.t" [style.width.px]="c.w" [style.height.px]="c.h"></div>
       <div class="fixed z-152 w-[min(340px,calc(100vw-24px))] bg-white rounded-xl p-4 shadow-[0_12px_40px_rgba(0,0,0,.4)]" role="dialog" aria-modal="true" aria-label="Recorrido guiado"
         [style.left.px]="c.pl" [style.top.px]="c.pt">
-        <div class="text-[13px] muted">Paso {{ i() + 1 }} de {{ pasos().length }}</div>
+        <div class="text-[0.8125rem] muted">Paso {{ i() + 1 }} de {{ pasos().length }}</div>
         <h3>{{ pasos()[i()].t }}</h3>
         <p class="text-sm">{{ pasos()[i()].d }}</p>
         <div class="flex justify-between items-center gap-3">

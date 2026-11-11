@@ -20,7 +20,7 @@ export interface DatosCsv { name: string; head: string[]; rows: (string | number
       </fieldset>
       <label class="check"><input type="checkbox" checked> Incluir trazabilidad hasta la medición de origen</label>
       @if (progreso() > 0) {
-        <div class="flex items-center gap-3 mt-2"><div class="bar cu"><i [style.width.%]="progreso()"></i></div><span class="text-[13px]">Generando…</span></div>
+        <div class="flex items-center gap-3 mt-2"><div class="bar cu"><i [style.width.%]="progreso()"></i></div><span class="text-[0.8125rem]">Generando…</span></div>
       }
       <div pie>
         <button type="button" class="btn btn-sec" (click)="abierto.set(false)">Cancelar</button>

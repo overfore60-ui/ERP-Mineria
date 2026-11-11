@@ -13,7 +13,7 @@
 
 <app-data-table [rows]="eventos()" [cols]="cols" [filtros]="filtros" [tam]="10" caption="Registro de auditoría" buscarPh="Buscar usuario o acción…" [buscarEn]="['u', 'a', 'rol', 'ip']">
   <ng-template appCell="f" let-r>{{ fdt(r.f) }}</ng-template>
-  <ng-template appCell="hash" let-r><code class="text-[13px]">{{ r.hash }}</code></ng-template>
+  <ng-template appCell="hash" let-r><code class="text-[0.8125rem]">{{ r.hash }}</code></ng-template>
 </app-data-table>
 
 <app-export-dialog [(abierto)]="exportar" titulo="Registro de auditoría" [csv]="csv" />

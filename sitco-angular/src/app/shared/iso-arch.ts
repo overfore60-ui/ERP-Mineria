@@ -36,12 +36,12 @@ export function dibujoArquitectura(down: boolean, sombra: boolean) {
   host: { class: 'block bg-cc-bg text-cc-tx rounded-[10px] border border-[#0e1215] overflow-hidden' },
   template: `
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2 bg-[#0f1418] border-b border-cc-line">
-      <span class="font-titulo font-bold text-[15px] tracking-wider uppercase text-white">Arquitectura de tres niveles</span>
-      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[13px] font-semibold bg-cc-p2 border border-cc-line">
+      <span class="font-titulo font-bold text-[0.9375rem] tracking-wider uppercase text-white">Arquitectura de tres niveles</span>
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.8125rem] font-semibold bg-cc-p2 border border-cc-line">
         <i class="size-[9px] rounded-full" [class]="down() ? 'bg-cc-bad' : pendientes() > 2 ? 'bg-cc-warn' : 'bg-cc-ok'"></i>{{ estado() }}</span>
     </div>
     <div [innerHTML]="svg() | html"></div>
-    <div class="px-3 py-2 text-[13px] text-cc-mut bg-cc-p border-t border-cc-line"><b class="text-white">Cómo se lee:</b> el equipo guarda cada evento y lo manda al Nodo de Faena; el Nodo responde a la faena aunque no haya enlace con la nube (hasta 48 h) y sube todo en orden cuando vuelve un camino.</div>`,
+    <div class="px-3 py-2 text-[0.8125rem] text-cc-mut bg-cc-p border-t border-cc-line"><b class="text-white">Cómo se lee:</b> el equipo guarda cada evento y lo manda al Nodo de Faena; el Nodo responde a la faena aunque no haya enlace con la nube (hasta 48 h) y sube todo en orden cuando vuelve un camino.</div>`,
   imports: [HtmlPipe],
 })
 export class IsoArch {

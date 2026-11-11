@@ -13,7 +13,7 @@
         <li>Doble factor obligatorio · sin credenciales compartidas</li>
         <li>Registro completo de accesos</li>
       </ul>
-      <p class="mt-6 text-[13px] text-[#C3CDD4] border-t border-white/20 pt-3">Plataforma de trazabilidad, cumplimiento y operación · SITCO Aranda por OVERFORE</p>
+      <p class="mt-6 text-[0.8125rem] text-[#C3CDD4] border-t border-white/20 pt-3">Plataforma de trazabilidad, cumplimiento y operación · SITCO Aranda por OVERFORE</p>
     </div>
   </div>
 
@@ -42,7 +42,7 @@
           <app-field label="RUT de la credencial" for="rutc">
             <input id="rutc" name="rutc" type="text" appRegla="required|rut" placeholder="12.345.678-5" [(ngModel)]="rut">
           </app-field>
-          <div class="lbl-t" id="pin-l">PIN de 4 dígitos <span class="muted text-[13px]">(demostración: 1234)</span></div>
+          <div class="lbl-t" id="pin-l">PIN de 4 dígitos <span class="muted text-[0.8125rem]">(demostración: 1234)</span></div>
           <div class="flex gap-3 justify-center my-3" aria-live="polite" [attr.aria-label]="'Dígitos ingresados: ' + pin().length + ' de 4'">
             @for (k of [0, 1, 2, 3]; track k) { <i class="size-[18px] rounded-full border-2 border-pizarra" [class.bg-pizarra]="k < pin().length"></i> }
           </div>

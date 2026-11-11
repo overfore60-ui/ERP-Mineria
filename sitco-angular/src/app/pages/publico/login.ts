@@ -32,7 +32,7 @@ export class Login {
   readonly pin = signal('');
   readonly pinError = signal('');
   private intentos = 0;
-  readonly claseTecla = 'h-16 rounded-xl border-2 border-pizarra bg-white font-titulo font-bold text-[26px] cursor-pointer hover:bg-cobre-l';
+  readonly claseTecla = 'h-16 rounded-xl border-2 border-pizarra bg-white font-titulo font-bold text-[1.625rem] cursor-pointer hover:bg-cobre-l';
 
   entrar() {
     if (!validarTodos(this.reglas())) return;

@@ -44,8 +44,8 @@
           </div>
           <div class="card-flat" aria-live="polite">
             <h4>Mezcla resultante</h4>
-            <span class="text-[13px] text-acero font-medium">Total</span>
-            <div class="font-titulo font-bold text-[34px] leading-tight">{{ nf(calc().t) }} <small class="text-base text-acero">t</small></div>
+            <span class="text-[0.8125rem] text-acero font-medium">Total</span>
+            <div class="font-titulo font-bold text-[2.125rem] leading-tight">{{ nf(calc().t) }} <small class="text-base text-acero">t</small></div>
             <div class="text-sm" [class.muted]="!enRango()">{{ enRango() ? '✓ Dentro de ±2 % del objetivo' : 'Objetivo: ' + nf(objetivo()) + ' t (±2 %)' }}</div>
             <div class="mt-2">
               <div class="flex justify-between text-sm"><span>Cu</span><strong>{{ nd(calc().cu, 2) }} %</strong></div>
@@ -81,7 +81,7 @@
                 <span class="inline-block size-[22px] border-[3px] border-acero-l border-t-cobre rounded-full animate-spin"></span>
               } @else { <span class="inline-block size-[22px]"></span> }
               <span>{{ t }}</span>
-              <span class="text-[13px] muted ml-auto text-right">{{ i < verificadas() ? (i === 1 ? '2 viajes sin pesaje de a bordo: se usó báscula (regla R-03)' : 'Verificado') : '' }}</span>
+              <span class="text-[0.8125rem] muted ml-auto text-right">{{ i < verificadas() ? (i === 1 ? '2 viajes sin pesaje de a bordo: se usó báscula (regla R-03)' : 'Verificado') : '' }}</span>
             </li>
           }
         </ul>

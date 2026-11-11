@@ -37,21 +37,21 @@
         <p class="text-sm muted text-center mt-2.5 mb-0">Cabina de PA-03 · polígono B3015-P106 · turno día</p>
         <div aria-live="polite" class="min-h-23">
           @if (aviso(); as a) {
-            <app-banner tipo="ok" class="mb-0! mt-2" role="status"><strong>{{ a.t }}</strong><div class="text-[13px]">{{ sim.lte === 'shadow' ? 'Guardado en el equipo. Se enviará solo al volver la señal.' : 'Guardado.' }}</div></app-banner>
-            @if (a.sinCred) { <p class="text-[13px] muted text-center">Sin toque de credencial: el sistema registró el hecho como "operador no identificado" y avisó al supervisor.</p> }
+            <app-banner tipo="ok" class="mb-0! mt-2" role="status"><strong>{{ a.t }}</strong><div class="text-[0.8125rem]">{{ sim.lte === 'shadow' ? 'Guardado en el equipo. Se enviará solo al volver la señal.' : 'Guardado.' }}</div></app-banner>
+            @if (a.sinCred) { <p class="text-[0.8125rem] muted text-center">Sin toque de credencial: el sistema registró el hecho como "operador no identificado" y avisó al supervisor.</p> }
           } @else {
             <p class="text-sm muted text-center my-3.5">Hoy: {{ cuenta() }} declaraciones · 0 pasos extra: aprietas el botón de lo que ves</p>
           }
         </div>
-        <p class="text-[13px] muted text-center">Luz blanca: destino del plan · luz azul: registrado</p>
+        <p class="text-[0.8125rem] muted text-center">Luz blanca: destino del plan · luz azul: registrado</p>
       </div>
     } @else {
       <!-- Tableta o teléfono de supervisión -->
       <div class="mx-auto border-[10px] border-pizarra bg-arena overflow-hidden shadow-suave flex flex-col"
         [class]="tipo() === 'tablet' ? 'w-full max-w-[860px] rounded-[22px] min-h-[520px]' : 'w-full max-w-[380px] rounded-[34px] min-h-[700px]'">
-        <div class="flex justify-between items-center gap-2 px-3.5 py-2.5 bg-pizarra text-white text-[13px]">
+        <div class="flex justify-between items-center gap-2 px-3.5 py-2.5 bg-pizarra text-white text-[0.8125rem]">
           <span><strong>Supervisor · Rampa norte</strong> · Turno día</span>
-          <span class="flex items-center gap-1.5"><span class="size-2.5 rounded-full" [class]="estadoEquipo()[0] === 'ok' ? 'bg-[#58D3A5]' : 'bg-[#FFC24A]'"></span><span class="text-[13px]">{{ estadoEquipo()[1] }}</span></span>
+          <span class="flex items-center gap-1.5"><span class="size-2.5 rounded-full" [class]="estadoEquipo()[0] === 'ok' ? 'bg-[#58D3A5]' : 'bg-[#FFC24A]'"></span><span class="text-[0.8125rem]">{{ estadoEquipo()[1] }}</span></span>
         </div>
         <div class="p-3.5 flex-1 flex flex-col gap-3">
           <app-tabs [items]="tabs" [(activa)]="tab" />
@@ -103,7 +103,7 @@
     <div class="card">
       <h3>Historial de este equipo</h3>
       @for (e of cola(); track e.id) {
-        <div class="flex gap-2 items-center py-1.5 border-b border-arena-2 last:border-0 text-[13px]">
+        <div class="flex gap-2 items-center py-1.5 border-b border-arena-2 last:border-0 text-[0.8125rem]">
           <span class="flex gap-1" [attr.aria-label]="['En equipo', 'En el Nodo', 'En nube'][e.tier]">
             @for (k of [0, 1, 2]; track k) { <i class="size-2.5 rounded-full border" [class]="e.tier >= k ? 'bg-senal border-senal' : 'bg-acero-l border-acero'"></i> }
           </span>
@@ -112,7 +112,7 @@
       } @empty {
         <p class="text-sm muted">Aún no hay registros. {{ vista() === 'op' ? 'Aprieta un botón de destino.' : 'Firma un incidente o una inspección.' }}</p>
       }
-      <p class="text-[13px] muted mt-2">Los tres puntos son: equipo → Nodo de Faena → nube.</p>
+      <p class="text-[0.8125rem] muted mt-2">Los tres puntos son: equipo → Nodo de Faena → nube.</p>
     </div>
     <app-card titulo="Por qué está diseñado así">
       @if (vista() === 'op') {

@@ -18,7 +18,7 @@
               <div class="bar mt-2" [class.err]="x.dias < 0" [class.warn]="x.dias >= 0 && x.dias <= 30" role="progressbar" aria-valuemin="0" aria-valuemax="365"
                 [attr.aria-valuenow]="max(0, min(365, x.dias))" [attr.aria-label]="'Vigencia restante de ' + x.d"><i [style.width.%]="max(3, min(100, x.dias / 365 * 100))"></i></div>
               <div class="flex justify-between items-center gap-3 mt-2">
-                <span class="text-[13px] muted">Vence: {{ fd(dOff(x.dias)) }}</span>
+                <span class="text-[0.8125rem] muted">Vence: {{ fd(dOff(x.dias)) }}</span>
                 <button type="button" class="btn btn-sm btn-sec" (click)="abrirRenovacion(i)"><app-icon name="upload" /> Renovar</button>
               </div>
             </div>
@@ -31,13 +31,13 @@
     <div>
       <app-card titulo="Credencial">
         <div class="border-2 border-pizarra rounded-[14px] p-3.5 text-center">
-          <div class="grid place-items-center size-14 mx-auto mb-2 rounded-full bg-cobre-l font-titulo font-bold text-[22px]">{{ iniciales() }}</div>
+          <div class="grid place-items-center size-14 mx-auto mb-2 rounded-full bg-cobre-l font-titulo font-bold text-[1.375rem]">{{ iniciales() }}</div>
           <strong>{{ t.nombre }}</strong>
-          <div class="text-[13px] muted">{{ t.empresa }}</div>
+          <div class="text-[0.8125rem] muted">{{ t.empresa }}</div>
           <div [innerHTML]="qr() | html"></div>
           <app-estado [v]="t.estado" />
         </div>
-        <p class="text-[13px] muted mt-2">Identificación por credencial y PIN. La verificación facial no se muestra en este prototipo: la propuesta (Subdocumento 3) la deja sujeta a un acuerdo con el sindicato, que objetó formalmente la biometría en portería.</p>
+        <p class="text-[0.8125rem] muted mt-2">Identificación por credencial y PIN. La verificación facial no se muestra en este prototipo: la propuesta (Subdocumento 3) la deja sujeta a un acuerdo con el sindicato, que objetó formalmente la biometría en portería.</p>
       </app-card>
     </div>
   </div>

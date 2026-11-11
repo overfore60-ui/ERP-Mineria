@@ -50,7 +50,7 @@ export function validarTodos(campos: QueryList<Regla> | readonly Regla[]) {
     @if (opciones().length) {
       <div class="absolute left-0 right-0 top-full -mt-4 z-30 bg-white border-2 border-t-0 border-acero rounded-b-lg max-h-56 overflow-auto shadow-suave" role="listbox">
         @for (o of opciones(); track o; let k = $index) {
-          <button type="button" role="option" [attr.aria-selected]="k === marcada()" class="block w-full text-left min-h-11 px-3 border-0 text-[15px] cursor-pointer hover:bg-cobre-l"
+          <button type="button" role="option" [attr.aria-selected]="k === marcada()" class="block w-full text-left min-h-11 px-3 border-0 text-[0.9375rem] cursor-pointer hover:bg-cobre-l"
             [class.bg-cobre-l]="k === marcada()" (mousedown)="$event.preventDefault()" (click)="elegir(o)">{{ o }}</button>
         }
       </div>
@@ -109,7 +109,7 @@ let fileSeq = 0;
       <app-icon name="upload" class="mx-auto" />
       <div><strong>{{ etiqueta() }}</strong></div>
       <div class="text-sm muted">Arrastra y suelta aquí, o <span class="underline">elige un archivo</span></div>
-      <div class="text-[13px] muted">{{ hint() }}</div>
+      <div class="text-[0.8125rem] muted">{{ hint() }}</div>
       <input #sel type="file" class="sr" tabindex="-1" multiple (click)="$event.stopPropagation()" (change)="elegidos(sel)">
     </div>
     <div aria-live="polite">
@@ -119,7 +119,7 @@ let fileSeq = 0;
           <div class="flex-1 min-w-0">
             <div class="text-sm"><strong>{{ f.name }}</strong> <span class="muted">{{ (f.size / 1024).toFixed(0) }} KB</span></div>
             <div class="flex items-center gap-2"><div class="bar"><i [style.width.%]="f.p"></i></div>
-              @if (f.p >= 100) { <span class="text-[13px] text-senal">✓ Cargado y validado</span> } @else { <span class="text-[13px] muted">{{ f.p.toFixed(0) }}%</span> }
+              @if (f.p >= 100) { <span class="text-[0.8125rem] text-senal">✓ Cargado y validado</span> } @else { <span class="text-[0.8125rem] muted">{{ f.p.toFixed(0) }}%</span> }
             </div>
           </div>
           <button type="button" class="ibtn" [attr.aria-label]="'Quitar ' + f.name" (click)="quitar(f)"><app-icon name="x" /></button>
@@ -161,7 +161,7 @@ export class FileDrop {
     <div class="flex gap-1" aria-hidden="true">
       @for (k of [0, 1, 2, 3]; track k) { <i class="flex-1 h-1.5 rounded-sm" [style.background]="k < nivel() ? colores[nivel() - 1] : 'var(--color-acero-l)'"></i> }
     </div>
-    <div class="text-[13px] muted mt-1" aria-live="polite">{{ valor() ? textos[nivel()] : '' }}</div>`,
+    <div class="text-[0.8125rem] muted mt-1" aria-live="polite">{{ valor() ? textos[nivel()] : '' }}</div>`,
 })
 export class Strength {
   readonly valor = input('');

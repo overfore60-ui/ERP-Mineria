@@ -16,7 +16,7 @@ import { Icon } from '../shared/icon';
     <label class="switch"><input type="checkbox" [checked]="sim.fibA === 'down'" (change)="sim.setPath('A', $any($event.target).checked)"><span class="tr"></span><span>Cortar fibra A (proveedor actual)</span></label>
     <label class="switch"><input type="checkbox" [checked]="sim.fibB === 'down'" (change)="sim.setPath('B', $any($event.target).checked)"><span class="tr"></span><span>Cortar fibra B (otro proveedor y camino)</span></label>
     <label class="switch"><input type="checkbox" [checked]="sim.leo === 'down'" (change)="sim.setPath('L', $any($event.target).checked)"><span class="tr"></span><span>Cortar satélite de órbita baja</span></label>
-    <p class="text-[13px] muted mt-1 mb-2">El modo local solo se activa si caen las dos fibras y el satélite. El satélite geoestacionario existente sigue solo para telefonía y correo.</p>
+    <p class="text-[0.8125rem] muted mt-1 mb-2">El modo local solo se activa si caen las dos fibras y el satélite. El satélite geoestacionario existente sigue solo para telefonía y correo.</p>
     <label class="switch"><input type="checkbox" [checked]="sim.lte === 'shadow'" (change)="sim.setLte($any($event.target).checked)"><span class="tr"></span><span>Equipo en zona sin cobertura (fondo del rajo)</span></label>
     <div class="mt-2">
       <div class="flex justify-between text-sm"><strong>Autonomía local usada</strong><span>{{ nd(sim.hours, 0) }} h de 48 h</span></div>
@@ -28,15 +28,15 @@ import { Icon } from '../shared/icon';
       }
     </div>
     <div class="grid grid-cols-3 gap-2 mt-4">
-      <div class="card-flat px-2.5! py-2!"><div class="text-[13px] muted">En equipo</div><strong class="tabular-nums">{{ nf(sim.onDevice()) }}</strong></div>
-      <div class="card-flat px-2.5! py-2!"><div class="text-[13px] muted">En el Nodo</div><strong class="tabular-nums">{{ nf(sim.onEdge()) }}</strong></div>
-      <div class="card-flat px-2.5! py-2!"><div class="text-[13px] muted">Sincronizados</div><strong class="tabular-nums">{{ nf(sim.total - sim.pending()) }}</strong></div>
+      <div class="card-flat px-2.5! py-2!"><div class="text-[0.8125rem] muted">En equipo</div><strong class="tabular-nums">{{ nf(sim.onDevice()) }}</strong></div>
+      <div class="card-flat px-2.5! py-2!"><div class="text-[0.8125rem] muted">En el Nodo</div><strong class="tabular-nums">{{ nf(sim.onEdge()) }}</strong></div>
+      <div class="card-flat px-2.5! py-2!"><div class="text-[0.8125rem] muted">Sincronizados</div><strong class="tabular-nums">{{ nf(sim.total - sim.pending()) }}</strong></div>
     </div>
     <ul class="list-none p-0 mt-3 mb-0 text-sm">
       @for (n of sim.nodes(); track n.id) {
         <li class="flex gap-2 py-1">
           <span class="badge px-1.5! self-start" [class]="n.s === 'ok' ? 'badge-ok' : n.s === 'warn' ? 'badge-warn' : 'badge-err'">{{ n.s === 'ok' ? '●' : n.s === 'warn' ? '▲' : '✕' }}</span>
-          <span><strong>{{ n.n }}</strong><br><span class="muted text-[13px]">{{ n.t }}</span></span>
+          <span><strong>{{ n.n }}</strong><br><span class="muted text-[0.8125rem]">{{ n.t }}</span></span>
         </li>
       }
     </ul>

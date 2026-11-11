@@ -70,9 +70,9 @@
   html { scroll-behavior: smooth; }
   body { @apply bg-arena text-pizarra font-texto text-base leading-normal antialiased; }
   h1, h2, h3, h4 { @apply font-titulo text-pizarra leading-tight mb-3 tracking-wide; }
-  h1 { font-size: clamp(28px, 3.2vw, 38px); @apply font-bold; }
+  h1 { font-size: clamp(1.75rem, 3.2vw, 2.375rem); @apply font-bold; }
   h2 { @apply text-2xl font-bold; }
-  h3 { @apply text-[19px] font-semibold; }
+  h3 { @apply text-[1.1875rem] font-semibold; }
   h4 { @apply text-base font-semibold; }
   p { @apply mb-3; }
   a { @apply text-cobre-d underline-offset-[3px] hover:text-cobre; }
@@ -83,21 +83,21 @@
     @apply w-full min-h-11 px-3 py-2 border-2 border-acero rounded-lg bg-white text-pizarra text-base;
   }
   textarea { @apply min-h-24 resize-y; }
-  table { @apply w-full border-collapse text-[15px]; }
+  table { @apply w-full border-collapse text-[0.9375rem]; }
   th, td { @apply px-3.5 py-2.5 text-left align-middle border-b border-arena-2; }
-  th { @apply bg-acero-xl text-[13px] font-semibold tracking-wide whitespace-nowrap; }
+  th { @apply bg-acero-xl text-[0.8125rem] font-semibold tracking-wide whitespace-nowrap; }
   tr:last-child td { @apply border-b-0; }
   tbody tr:hover { background: #FBF8F3; }
 }
 
 @layer components {
   /* Botones: primario, secundario, terciario, oscuro y peligro */
-  .btn { @apply inline-flex items-center justify-center gap-2 min-h-11 min-w-11 px-[18px] rounded-lg border-2 border-transparent bg-cobre text-white text-[15px] font-semibold no-underline cursor-pointer transition hover:bg-cobre-d hover:text-white active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn { @apply inline-flex items-center justify-center gap-2 min-h-11 min-w-11 px-[18px] rounded-lg border-2 border-transparent bg-cobre text-white text-[0.9375rem] font-semibold no-underline cursor-pointer transition hover:bg-cobre-d hover:text-white active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed; }
   .btn-sec { @apply bg-white text-pizarra border-pizarra hover:bg-acero-xl hover:text-pizarra; }
   .btn-ter { @apply bg-transparent text-cobre-d px-3 hover:bg-cobre-l hover:text-cobre-d; }
   .btn-dark { @apply bg-pizarra text-white hover:bg-pizarra-2; }
   .btn-danger { @apply bg-error text-white hover:bg-[#7f1818]; }
-  .btn-lg { @apply min-h-14 px-[26px] text-[17px]; }
+  .btn-lg { @apply min-h-14 px-[26px] text-[1.0625rem]; }
   .btn-sm { @apply px-3 text-sm; }
   .ibtn { @apply inline-grid place-items-center size-11 rounded-lg border-0 bg-transparent text-inherit cursor-pointer hover:bg-[rgba(127,127,127,.18)]; }
   .link-btn { @apply inline-flex items-center min-h-11 text-cobre-d underline font-semibold cursor-pointer bg-transparent border-0 p-0; }
@@ -109,17 +109,17 @@
   /* Campos de formulario */
   .field { @apply flex flex-col gap-1.5 mb-4; }
   .field > label, .lbl-t { @apply font-semibold text-sm; }
-  .hint { @apply text-[13px] text-acero; }
-  .err-m { @apply flex gap-1.5 text-[13px] text-error font-semibold; }
+  .hint { @apply text-[0.8125rem] text-acero; }
+  .err-m { @apply flex gap-1.5 text-[0.8125rem] text-error font-semibold; }
   .field.invalid input, .field.invalid select, .field.invalid textarea { @apply border-error bg-[#fff8f8]; }
   .field.valid input { @apply border-senal; }
-  .check { @apply flex gap-3 items-start min-h-11 py-2 cursor-pointer text-[15px]; }
+  .check { @apply flex gap-3 items-start min-h-11 py-2 cursor-pointer text-[0.9375rem]; }
   .check input { @apply size-6 m-0 accent-cobre flex-none; }
   .choice { @apply flex gap-2.5 items-center px-3.5 py-2.5 border-2 border-arena-3 rounded-lg min-h-14 cursor-pointer bg-white font-semibold has-checked:border-cobre has-checked:bg-cobre-l; }
   .choice input { @apply size-[22px] accent-cobre; }
 
   /* Etiquetas de estado */
-  .badge { @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[13px] font-semibold whitespace-nowrap bg-acero-xl text-pizarra border border-acero-l; }
+  .badge { @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[0.8125rem] font-semibold whitespace-nowrap bg-acero-xl text-pizarra border border-acero-l; }
   .badge-ok { @apply bg-senal-l text-[#0F5C42] border-[#A8D5C4]; }
   .badge-warn { @apply bg-aviso-l text-aviso border-[#EBCB85]; }
   .badge-err { @apply bg-error-l text-error border-[#E7A8A8]; }
@@ -137,7 +137,7 @@
 
   /* Menú desplegable */
   .menu { @apply absolute right-0 top-full z-40 min-w-52 p-1.5 bg-white border border-arena-2 rounded-lg shadow-suave; }
-  .menu-item { @apply flex gap-2.5 items-center w-full min-h-11 px-3 rounded-md text-pizarra no-underline bg-transparent border-0 text-[15px] font-medium text-left cursor-pointer hover:bg-acero-xl hover:text-pizarra; }
+  .menu-item { @apply flex gap-2.5 items-center w-full min-h-11 px-3 rounded-md text-pizarra no-underline bg-transparent border-0 text-[0.9375rem] font-medium text-left cursor-pointer hover:bg-acero-xl hover:text-pizarra; }
 
   /* Interruptor */
   .switch { @apply relative inline-flex items-center gap-2.5 min-h-11 cursor-pointer font-medium; }

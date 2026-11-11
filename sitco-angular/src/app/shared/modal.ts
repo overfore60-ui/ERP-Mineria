@@ -11,7 +11,7 @@ import { Icon } from './icon';
       [class]="ancho() ? 'max-w-[760px]' : 'max-w-[560px]'">
       @if (abierto()) {
         <div class="flex justify-between items-start gap-3">
-          <h2 [id]="id" class="text-[22px]">{{ titulo() }}</h2>
+          <h2 [id]="id" class="text-[1.375rem]">{{ titulo() }}</h2>
           <button type="button" class="ibtn" aria-label="Cerrar diálogo" (click)="abierto.set(false)"><app-icon name="x" /></button>
         </div>
         <ng-content />

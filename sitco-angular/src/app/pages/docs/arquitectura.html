@@ -9,7 +9,7 @@
           <div class="card-flat">
             <h3 [style.color]="g.c">{{ g.g }}</h3>
             <ul class="list-none pl-5 border-l-2 border-arena-3 my-1">
-              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="font-medium" [routerLink]="i[1]">{{ i[0] }}</a>@if (!ses.permitidoRuta(i[1])) { <span class="text-[13px] muted"> · otro perfil</span> }</li> }
+              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="font-medium" [routerLink]="i[1]">{{ i[0] }}</a>@if (!ses.permitidoRuta(i[1])) { <span class="text-[0.8125rem] muted"> · otro perfil</span> }</li> }
             </ul>
           </div>
         }
@@ -25,7 +25,7 @@
           <tbody>
             @for (m of modulos; track m.id) {
               <tr>
-                <td data-l="Módulo"><strong>{{ m.n }}</strong><div class="text-[13px] muted">{{ m.d }}</div></td>
+                <td data-l="Módulo"><strong>{{ m.n }}</strong><div class="text-[0.8125rem] muted">{{ m.d }}</div></td>
                 <td data-l="Grupo">{{ m.g }}</td>
                 <td data-l="NODO">@if (m.nodo) { <span class="badge badge-dk">NODO</span> } @else { <span class="muted">—</span> }</td>
                 <td data-l="Pantallas">@for (p of m.pantallas; track p!.id; let ultimo = $last) { <a [routerLink]="p!.h">{{ p!.l }}</a>@if (!ultimo) { · } }</td>

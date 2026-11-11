@@ -20,7 +20,7 @@
 <app-card titulo="Conectores" sub="Estado simulado. En producción cada conector registra sus mensajes con un identificador único, así que un reintento nunca duplica un dato.">
   <app-data-table [rows]="sistemas()" [cols]="cols" [tam]="10" caption="Conectores con los sistemas existentes" buscarPh="Buscar sistema o módulo…" [buscarEn]="['n', 't', 'mod', 'q']"
     [filtros]="[{ key: 't', label: 'Tratamiento', options: ['Se integra', 'Solo lectura', 'Se amplía', 'Se reemplaza'] }]">
-    <ng-template appCell="n" let-r><strong>{{ r.n }}</strong><div class="text-[13px] muted">{{ r.q }}</div></ng-template>
+    <ng-template appCell="n" let-r><strong>{{ r.n }}</strong><div class="text-[0.8125rem] muted">{{ r.q }}</div></ng-template>
     <ng-template appCell="t" let-r><app-estado [v]="r.t" [tipo]="tratamiento[r.t]" /></ng-template>
     <ng-template appCell="loc" let-r>{{ r.loc === 'faena' ? 'Nodo de Faena' : r.loc === 'nube' ? 'Nube' : '—' }}</ng-template>
     <ng-template appCell="est" let-r>@let s = estado(r); <app-estado [v]="s.t" [tipo]="s.k" /></ng-template>
@@ -32,6 +32,6 @@
   <app-card titulo="Cómo trabaja un conector"><app-timeline [items]="pasos" /></app-card>
   <app-card titulo="Mensajes de las últimas 24 horas">
     <div [innerHTML]="mensajes | html"></div>
-    <p class="text-[13px] muted">Cifras de ejemplo.</p>
+    <p class="text-[0.8125rem] muted">Cifras de ejemplo.</p>
   </app-card>
 </div>

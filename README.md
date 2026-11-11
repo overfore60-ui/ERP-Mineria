@@ -161,8 +161,9 @@ Comprobado hasta ahora:
 - **Teclado:** el orden de tabulación es lógico, el foco es visible y no hay elementos clicables fuera del alcance del teclado en las 11 pantallas revisadas.
 - **Contraste:** una revisión automática de esas pantallas no encontró textos bajo el mínimo. Los contrastes de la paleta coinciden con los que declara la página de sistema de diseño.
 - **Objetivos táctiles:** en 1366 px se cumplen en la mayoría de las pantallas.
+- **Texto grande:** los tamaños de texto están en `rem`, así que el botón los amplía todos juntos (71 de 71 textos del Inicio del supervisor). Con el texto grande encendido, 25 pantallas revisadas no se desbordan a 375 px ni a 683 px de ancho. Los textos dentro de los gráficos SVG no se amplían.
 
-No está comprobado: el uso con un lector de pantalla real, el modo de alto contraste y el texto ampliable en pantalla.
+No está comprobado: el uso con un lector de pantalla real y el modo de alto contraste en pantalla.
 
 ## Cambios acordados ya implementados
 

@@ -19,7 +19,7 @@
     @case ('p') {
       <app-data-table [rows]="lista()" [cols]="cols" [filtros]="filtros()" caption="Personas acreditadas" buscarPh="Buscar por nombre, RUT, empresa o cargo…"
         [buscarEn]="['nombre', 'rut', 'empresa', 'cargo']" [masivas]="[{ id: 'rec', label: 'Enviar recordatorio' }, { id: 'csv', label: 'Exportar' }]" (masiva)="masiva($event)">
-        <ng-template appCell="nombre" let-r><a [routerLink]="['/acreditacion', r.id]"><strong>{{ r.nombre }}</strong></a><br><span class="text-[13px] muted">{{ r.rut }}</span></ng-template>
+        <ng-template appCell="nombre" let-r><a [routerLink]="['/acreditacion', r.id]"><strong>{{ r.nombre }}</strong></a><br><span class="text-[0.8125rem] muted">{{ r.rut }}</span></ng-template>
         <ng-template appCell="min" let-r><app-estado [v]="diasTxt(r.min)" [tipo]="diasTipo(r.min)" /></ng-template>
         <ng-template appCell="estado" let-r><app-estado [v]="r.estado" /></ng-template>
         <ng-template appCell="acc" let-r>

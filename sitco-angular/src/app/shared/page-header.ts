@@ -13,7 +13,7 @@ import { Tip } from './ui';
       <h1 id="pgh" tabindex="-1">{{ titulo() }}</h1>
       @if (modulo(); as m) {
         <div class="flex items-center gap-1.5 flex-wrap mt-0.5 mb-2">
-          <span class="text-[13px] muted">Módulo</span> <strong class="text-sm">{{ m.n }}</strong>
+          <span class="text-[0.8125rem] muted">Módulo</span> <strong class="text-sm">{{ m.n }}</strong>
           @if (m.nodo) {
             <span class="badge badge-dk">NODO</span>
             <app-tip class="-ml-1" [inl]="true" texto="NODO: también corre en el Nodo de Faena y sigue funcionando 48 h sin enlace. Fuente: Subdocumento 3." />

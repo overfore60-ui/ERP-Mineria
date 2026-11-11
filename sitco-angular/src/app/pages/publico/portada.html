@@ -8,7 +8,7 @@
     <div>
       <span class="badge bg-white/12! text-[#FFD8BF]! border-white/30!">Rajo Aranda · 3.180 m s. n. m. · Sierra Gorda</span>
       <h1 id="pgh" tabindex="-1" class="text-white! mt-4 text-[clamp(34px,5vw,58px)]!">Cada tonelada deja huella.</h1>
-      <p class="text-[19px] max-w-[54ch] text-acero-l">Trazabilidad del mineral, productividad de la flota y cumplimiento regulatorio en una sola plataforma, <strong>que sigue funcionando aunque se corte la fibra</strong>. Sin pedirle más pasos a quien opera.</p>
+      <p class="text-[1.1875rem] max-w-[54ch] text-acero-l">Trazabilidad del mineral, productividad de la flota y cumplimiento regulatorio en una sola plataforma, <strong>que sigue funcionando aunque se corte la fibra</strong>. Sin pedirle más pasos a quien opera.</p>
       <div class="flex flex-wrap gap-3 mt-4">
         <a class="btn btn-lg" routerLink="/login"><app-icon name="lock" /> Ingresar</a>
         <button type="button" class="btn btn-lg btn-sec" (click)="explorar = true"><app-icon name="eye" /> Explorar como evaluador</button>
@@ -18,7 +18,7 @@
     <div class="grid gap-3 sm:grid-cols-2" role="list" aria-label="Resultados comprometidos">
       @for (x of resultados; track x[0]) {
         <div role="listitem" class="rounded-xl border border-white/18 bg-white/7 px-6 py-4 text-white">
-          <div class="font-titulo font-bold text-[30px] leading-none text-[#FFB487]">{{ x[0] }}</div>
+          <div class="font-titulo font-bold text-[1.875rem] leading-none text-[#FFB487]">{{ x[0] }}</div>
           <div class="text-sm text-acero-l mt-1.5">{{ x[1] }}</div>
         </div>
       }

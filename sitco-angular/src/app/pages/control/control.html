@@ -3,8 +3,8 @@
 <!-- Consola oscura de despacho -->
 <div class="mt-4 bg-cc-bg text-cc-tx rounded-[10px] border border-[#0e1215] overflow-hidden min-w-0 w-full shadow-[0_2px_0_rgba(0,0,0,.2)]">
   <div class="flex flex-wrap items-center gap-x-4 gap-y-2 px-3 py-2 bg-[#0f1418] border-b border-cc-line">
-    <span class="font-titulo font-bold text-[15px] tracking-wider uppercase text-white">Centro Integrado de Operaciones</span>
-    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[13px] font-semibold bg-cc-p2 border border-cc-line">
+    <span class="font-titulo font-bold text-[0.9375rem] tracking-wider uppercase text-white">Centro Integrado de Operaciones</span>
+    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[0.8125rem] font-semibold bg-cc-p2 border border-cc-line">
       <i class="size-[9px] rounded-full" [class]="sim.link === 'down' ? 'bg-cc-warn' : 'bg-cc-ok'"></i>{{ sim.link === 'down' ? 'Modo local (Nodo de Faena)' : 'Nube conectada' }}</span>
     <div class="flex gap-0.5 overflow-x-auto max-w-full basis-full min-[900px]:basis-auto min-[900px]:ml-auto" role="tablist" aria-label="Vistas del centro de control">
       @for (t of tabs; track t[0]) {
@@ -19,7 +19,7 @@
     @case ('desp') {
       <div class="grid gap-px bg-cc-line border-b border-cc-line grid-cols-[repeat(auto-fit,minmax(min(130px,100%),1fr))]">
         @for (k of kpis(); track k[0]) {
-          <div class="bg-cc-p px-3 py-2"><small class="block text-cc-mut text-xs">{{ k[0] }}</small><b class="font-titulo font-bold text-[22px] text-white">{{ k[1] }}<em class="not-italic font-texto font-medium text-xs text-cc-mut ml-1">{{ k[2] }}</em></b></div>
+          <div class="bg-cc-p px-3 py-2"><small class="block text-cc-mut text-xs">{{ k[0] }}</small><b class="font-titulo font-bold text-[1.375rem] text-white">{{ k[1] }}<em class="not-italic font-texto font-medium text-xs text-cc-mut ml-1">{{ k[2] }}</em></b></div>
         }
       </div>
 
@@ -31,12 +31,12 @@
             @for (p of palas(); track p.k) {
               <div class="grid grid-cols-[96px_minmax(0,1fr)_84px] md:grid-cols-[120px_minmax(0,1fr)_112px] min-h-19 border-b border-cc-line bg-cc-p" [class]="sel() === p.k ? 'outline-2 outline-cc-cu -outline-offset-2' : ''">
                 <button type="button" class="px-2.5 py-2 border-r border-cc-line text-left cursor-pointer bg-transparent text-inherit hover:bg-cc-p2" [attr.aria-label]="'Seleccionar pala ' + p.k" (click)="seleccionar(p.k)">
-                  <b class="flex items-center gap-1.5 font-titulo font-bold text-[17px] text-white"><i class="size-[11px] rounded-full flex-none" [style.background]="p.c"></i>{{ p.k }}</b>
+                  <b class="flex items-center gap-1.5 font-titulo font-bold text-[1.0625rem] text-white"><i class="size-[11px] rounded-full flex-none" [style.background]="p.c"></i>{{ p.k }}</b>
                   <span class="block text-xs text-cc-mut leading-tight">{{ p.mat }}</span><span class="block text-xs text-cc-mut leading-tight">{{ p.op }} camiones en ciclo</span>
                 </button>
                 <div class="relative mx-2 before:content-[''] before:absolute before:inset-x-0 before:top-1/2 before:h-0.5 before:bg-[repeating-linear-gradient(90deg,#4a5a66_0_8px,transparent_8px_14px)]">
                   @for (t of p.ts; track t.id) {
-                    <button type="button" class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 motion-safe:transition-[left] duration-[450ms] ease-linear flex flex-col items-center text-[10px] font-semibold bg-transparent border-0 px-1 py-1.5 min-w-11 min-h-11 cursor-pointer"
+                    <button type="button" class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 motion-safe:transition-[left] duration-[450ms] ease-linear flex flex-col items-center text-[0.625rem] font-semibold bg-transparent border-0 px-1 py-1.5 min-w-11 min-h-11 cursor-pointer"
                       [class]="(sel() === t.id ? 'text-white drop-shadow-[0_0_4px_#e0793a] ' : 'text-cc-mut ') + (t.stale ? 'opacity-45' : '')"
                       [style.left.%]="t.t * 100" [attr.aria-label]="'Camión ' + t.id + ', ' + t.estado" (click)="seleccionar(t.id)">
                       <svg width="23" height="13" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 3h14v7H1z" [attr.fill]="t.c"/><path d="M15 5h6l3 3v2H15z" [attr.fill]="t.c"/><circle cx="6" cy="11.5" r="2" fill="#0c1013" [attr.stroke]="t.c"/><circle cx="19" cy="11.5" r="2" fill="#0c1013" [attr.stroke]="t.c"/></svg>
@@ -45,7 +45,7 @@
                   }
                 </div>
                 <div class="px-2.5 py-2 border-l border-cc-line bg-[#10161a]">
-                  <b class="block text-[13px] font-semibold text-white">{{ p.dest }}</b><span class="text-xs text-cc-mut">{{ p.tons }} t</span>
+                  <b class="block text-[0.8125rem] font-semibold text-white">{{ p.dest }}</b><span class="text-xs text-cc-mut">{{ p.tons }} t</span>
                   <div class="h-1 bg-[#2a343c] rounded-sm mt-1.5"><i class="block h-full bg-cc-cu rounded-sm" [style.width.%]="p.pct"></i></div>
                 </div>
               </div>
@@ -57,7 +57,7 @@
               <h4 class="m-0 text-xs font-bold text-cc-mut uppercase tracking-wider">{{ g.t }} ({{ g.eq.length }})</h4>
               <div class="flex flex-wrap gap-1">
                 @for (e of g.eq; track e.id) {
-                  <button type="button" class="min-w-11 min-h-11 px-1.5 rounded border border-cc-line border-l-4 bg-cc-p2 text-cc-tx text-[11px] font-semibold cursor-pointer"
+                  <button type="button" class="min-w-11 min-h-11 px-1.5 rounded border border-cc-line border-l-4 bg-cc-p2 text-cc-tx text-[0.6875rem] font-semibold cursor-pointer"
                     [style.border-left-color]="stc[e.estado]" [class.outline-2]="sel() === e.id" [class.outline-cc-cu]="sel() === e.id" [title]="e.estado" (click)="seleccionar(e.id)">{{ e.id.slice(3) }}</button>
                 }
               </div>
@@ -69,11 +69,11 @@
         <div class="min-w-0">
           <div [class]="ph"><span>Mapa del rajo</span><span>Toca un equipo</span></div>
           <div class="relative bg-[#0c1013]">
-            <div class="flex flex-wrap gap-x-3.5 gap-y-0.5 bg-[#10161a] border-b border-cc-line px-3 py-0.5 text-[13px]" role="group" aria-label="Capas del mapa">
+            <div class="flex flex-wrap gap-x-3.5 gap-y-0.5 bg-[#10161a] border-b border-cc-line px-3 py-0.5 text-[0.8125rem]" role="group" aria-label="Capas del mapa">
               @for (c of capasLista; track c[0]) {
                 <label class="flex items-center gap-1.5 min-h-11 cursor-pointer"><input type="checkbox" class="size-4" [checked]="capas()[c[0]]" (change)="capa(c[0], $any($event.target).checked)">{{ c[1] }}</label>
               }
-              <button type="button" class="ml-auto min-h-11 px-3 rounded-md border border-cc-line bg-cc-p2 text-white text-[13px] font-semibold cursor-pointer hover:brightness-115"
+              <button type="button" class="ml-auto min-h-11 px-3 rounded-md border border-cc-line bg-cc-p2 text-white text-[0.8125rem] font-semibold cursor-pointer hover:brightness-115"
                 [attr.aria-pressed]="pausado()" (click)="pausado.set(!pausado())">{{ pausado() ? '▶ Reanudar movimiento' : '❚❚ Pausar movimiento' }}</button>
             </div>
             <svg viewBox="0 0 1000 620" class="block w-full h-auto max-h-[640px]" role="img" aria-label="Mapa del rajo con zonas, caminos y equipos en movimiento">
@@ -128,9 +128,9 @@
             </svg>
 
             <!-- Tarjeta del equipo seleccionado -->
-            <div class="md:absolute md:left-2 md:bottom-2 md:w-[min(260px,calc(100%-16px))] md:rounded-lg md:border bg-[rgba(15,20,24,.94)] border-t border-cc-line px-3 py-2.5 text-[13px]">
+            <div class="md:absolute md:left-2 md:bottom-2 md:w-[min(260px,calc(100%-16px))] md:rounded-lg md:border bg-[rgba(15,20,24,.94)] border-t border-cc-line px-3 py-2.5 text-[0.8125rem]">
               @if (seleccion(); as s) {
-                <h5 class="m-0 mb-1 font-titulo font-bold text-[17px] text-white">{{ s.e.id }} <span class="text-cc-mut text-xs font-texto font-normal">{{ s.e.tipo }}</span></h5>
+                <h5 class="m-0 mb-1 font-titulo font-bold text-[1.0625rem] text-white">{{ s.e.id }} <span class="text-cc-mut text-xs font-texto font-normal">{{ s.e.tipo }}</span></h5>
                 <p class="my-0.5 text-cc-mut"><i class="inline-block size-[11px] rounded-full mr-1" [style.background]="stc[s.e.estado]"></i>{{ s.e.estado }} · {{ s.e.zona }}</p>
                 <p class="my-0.5 text-cc-mut">Utilización {{ s.e.util }} % · {{ s.destino }}</p>
                 @if (s.e.det) { <p class="my-0.5"><strong class="text-[#ff9d93]">Detenido · {{ s.e.det.causa === 'Sin clasificar' ? 'sin clasificar' : s.e.det.causa }}</strong></p> }
@@ -139,7 +139,7 @@
                   @if (s.e.estado === 'Detenido' && s.e.det?.causa === 'Sin clasificar') { <button type="button" class="btn" (click)="clasificar = s.e.id">Clasificar causa</button> }
                 </div>
               } @else {
-                <h5 class="m-0 mb-1 font-titulo font-bold text-[17px] text-white">Toca un equipo</h5>
+                <h5 class="m-0 mb-1 font-titulo font-bold text-[1.0625rem] text-white">Toca un equipo</h5>
                 <p class="my-0.5 text-cc-mut">Camión, pala o perforadora: verás su estado, zona y la acción para clasificar la detención.</p>
               }
             </div>

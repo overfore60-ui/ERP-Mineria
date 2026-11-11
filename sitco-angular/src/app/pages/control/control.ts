@@ -37,8 +37,8 @@ export class Control implements OnInit, OnDestroy {
   readonly capasLista = [['roads', 'Caminos'], ['zones', 'Zonas'], ['trucks', 'Camiones'], ['shovels', 'Palas'], ['drills', 'Perforadoras']];
 
   readonly ph = 'flex items-center justify-between gap-2 px-3 py-1.5 bg-cc-p2 border-b border-cc-line text-xs font-bold uppercase tracking-widest text-cc-mut';
-  readonly nota = 'block px-3 py-2 text-[13px] text-cc-mut bg-cc-p border-t border-cc-line';
-  readonly ctl = 'flex flex-wrap gap-3 items-center px-3 py-2 bg-cc-p2 border-t border-cc-line text-[13px]';
+  readonly nota = 'block px-3 py-2 text-[0.8125rem] text-cc-mut bg-cc-p border-t border-cc-line';
+  readonly ctl = 'flex flex-wrap gap-3 items-center px-3 py-2 bg-cc-p2 border-t border-cc-line text-[0.8125rem]';
   readonly ley = 'flex flex-wrap gap-x-3 gap-y-1 px-3 py-2 text-xs text-cc-mut bg-cc-p';
 
   readonly tab = signal('desp');

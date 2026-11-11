@@ -10,8 +10,8 @@
           <div>
             <div class="h-19 rounded-[10px] flex items-end p-2 text-xs font-semibold border border-black/12" [style.background]="x[1]" [style.color]="x[2]">{{ x[1] }}</div>
             <strong class="text-sm">{{ x[0] }}</strong>
-            <div class="text-[13px] muted">{{ x[3] }}</div>
-            <code class="text-[12px] muted">bg-{{ x[4] }} · text-{{ x[4] }}</code>
+            <div class="text-[0.8125rem] muted">{{ x[3] }}</div>
+            <code class="text-[0.75rem] muted">bg-{{ x[4] }} · text-{{ x[4] }}</code>
           </div>
         }
       </div>
@@ -32,17 +32,17 @@
     @case ('t') {
       <div class="grid gap-4 md:grid-cols-2">
         <div class="card-flat"><h3>Títulos · Barlow Semi Condensed</h3>
-          <div class="font-titulo font-bold text-[38px]">Cada tonelada deja huella</div>
+          <div class="font-titulo font-bold text-[2.375rem]">Cada tonelada deja huella</div>
           <div class="font-titulo font-bold text-2xl">Subtítulo de sección</div>
-          <div class="font-titulo font-semibold text-[19px]">Título de tarjeta</div></div>
+          <div class="font-titulo font-semibold text-[1.1875rem]">Título de tarjeta</div></div>
         <div class="card-flat"><h3>Texto · IBM Plex Sans</h3>
           <p class="text-base">Cuerpo 16 px: pensado para lectura continua y para leerse con luz solar fuerte.</p>
           <p class="text-sm">Texto pequeño 14 px para ayudas y metadatos.</p>
-          <p class="text-[13px]">Mínimo 13 px para notas.</p></div>
+          <p class="text-[0.8125rem]">Mínimo 13 px para notas.</p></div>
       </div>
       <h3 class="mt-6">Retícula y espaciado (base 8 px)</h3>
       <div class="flex flex-wrap items-end gap-3">
-        @for (n of espacios; track n) { <div class="text-center"><div class="bg-cobre mx-auto" [style.width.px]="n" [style.height.px]="n"></div><span class="text-[13px]">{{ n }}</span></div> }
+        @for (n of espacios; track n) { <div class="text-center"><div class="bg-cobre mx-auto" [style.width.px]="n" [style.height.px]="n"></div><span class="text-[0.8125rem]">{{ n }}</span></div> }
       </div>
       <p class="text-sm muted mt-2">Puntos de quiebre de Tailwind: <code>md</code> 768 px (dos columnas), <code>lg</code> 1024 px (el menú lateral deja de ser cajón) y <code>xl</code> 1280 px (tres y cuatro columnas). Se verifica en 1920×1080, 1366×768, 768×1024 vertical y horizontal, y 375×812.</p>
     }
@@ -70,7 +70,7 @@
     }
     @case ('i') {
       <div class="grid gap-4 grid-cols-[repeat(auto-fill,minmax(110px,1fr))]">
-        @for (k of iconos; track k) { <div class="card-flat text-center p-3!"><div class="grid place-items-center"><app-icon [name]="k" /></div><div class="text-[13px] mt-2">{{ k }}</div></div> }
+        @for (k of iconos; track k) { <div class="card-flat text-center p-3!"><div class="grid place-items-center"><app-icon [name]="k" /></div><div class="text-[0.8125rem] mt-2">{{ k }}</div></div> }
       </div>
       <p class="text-sm muted mt-2">Íconos de trazo uniforme (1,9 px), siempre acompañados de texto (RT-13.07). En Angular: <code>&lt;app-icon name="truck" /&gt;</code>.</p>
     }

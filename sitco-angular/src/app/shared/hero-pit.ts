@@ -36,7 +36,7 @@ export class HeroPit {
   selector: 'app-brand-lock',
   host: { class: 'flex items-center gap-3.5 mb-4' },
   template: `
-    <span class="grid place-items-center size-14 rounded-[10px] bg-cobre text-white font-titulo font-bold text-[26px] shadow-[0_0_0_3px_rgba(255,255,255,.18)]" aria-hidden="true">AA</span>
-    <div><strong class="block font-titulo font-bold text-[19px] text-white">Compañía Minera Altos de Aranda S.A.</strong><span class="block text-[13px] text-acero-l">Región de Antofagasta · Chile</span></div>`,
+    <span class="grid place-items-center size-14 rounded-[10px] bg-cobre text-white font-titulo font-bold text-[1.625rem] shadow-[0_0_0_3px_rgba(255,255,255,.18)]" aria-hidden="true">AA</span>
+    <div><strong class="block font-titulo font-bold text-[1.1875rem] text-white">Compañía Minera Altos de Aranda S.A.</strong><span class="block text-[0.8125rem] text-acero-l">Región de Antofagasta · Chile</span></div>`,
 })
 export class BrandLock {}

@@ -33,7 +33,7 @@
         <ng-template appCell="eq" let-r>@if (ses.permitidoRuta('/equipos')) { <a [routerLink]="['/equipos', r.eq]">{{ r.eq }}</a> } @else { {{ r.eq }} }</ng-template>
         <ng-template appCell="f" let-r>{{ fdt(r.f) }}</ng-template>
         <ng-template appCell="accion" let-r>
-          @if (r.accion) { <app-estado [v]="'✓ ' + r.accion" tipo="ok" /><div class="text-[13px] muted">{{ r.por }}</div> }
+          @if (r.accion) { <app-estado [v]="'✓ ' + r.accion" tipo="ok" /><div class="text-[0.8125rem] muted">{{ r.por }}</div> }
           @else { <app-estado v="Sin acción" tipo="err" /> }
         </ng-template>
         <ng-template appCell="acc" let-r>@if (!r.accion) { <button type="button" class="btn btn-sm" (click)="abrirAccion(r)">Registrar acción</button> }</ng-template>
@@ -44,9 +44,9 @@
         @for (x of inspecciones; track x.id) {
           <div class="card">
             <h4>{{ x.n }}</h4>
-            <div class="font-titulo font-bold text-[34px] leading-none text-cobre">{{ x.ok }}/{{ x.tot }}</div>
+            <div class="font-titulo font-bold text-[2.125rem] leading-none text-cobre">{{ x.ok }}/{{ x.tot }}</div>
             <div class="bar mt-2" [class.warn]="x.ok < x.tot"><i [style.width.%]="x.ok / x.tot * 100"></i></div>
-            <p class="text-[13px] muted mt-2">{{ x.ok === x.tot ? 'Completa y firmada en terreno.' : (x.tot - x.ok) + ' puntos pendientes.' }}</p>
+            <p class="text-[0.8125rem] muted mt-2">{{ x.ok === x.tot ? 'Completa y firmada en terreno.' : (x.tot - x.ok) + ' puntos pendientes.' }}</p>
             @if (ses.permitidoRuta('/terreno')) { <a class="btn btn-sm btn-sec" routerLink="/terreno">Abrir inspección</a> }
           </div>
         }

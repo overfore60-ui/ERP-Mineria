@@ -5,7 +5,7 @@
         <a class="btn" routerLink="/login">Ir a ingresar</a>
       </app-empty>
     } @else {
-      <h1 id="pgh" tabindex="-1" class="text-[28px]!">Verificación en dos pasos</h1>
+      <h1 id="pgh" tabindex="-1" class="text-[1.75rem]!">Verificación en dos pasos</h1>
       @if (ses.pendiente.kind === 'cred') {
         <p>Acerca tu <strong>credencial de faena</strong> al lector del equipo. No necesitas escribir nada.</p>
         <div class="text-center p-5">
@@ -18,7 +18,7 @@
           <div class="flex gap-2.5 justify-center" role="group" aria-label="Código de 6 dígitos">
             @for (i of digitos; track i) {
               <input #dig type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" [attr.aria-label]="'Dígito ' + (i + 1)"
-                class="w-11! h-14! md:w-[52px]! md:h-15! text-center font-titulo font-bold text-[26px]! p-0!"
+                class="w-11! h-14! md:w-[52px]! md:h-15! text-center font-titulo font-bold text-[1.625rem]! p-0!"
                 (input)="escribir(i)" (keydown)="borrar(i, $event)" (paste)="pegar($event)">
             }
           </div>

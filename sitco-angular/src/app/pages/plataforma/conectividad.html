@@ -14,7 +14,7 @@
     <app-estado [v]="sim.link === 'down' ? 'Sin camino a la nube' : 'Por ' + sim.pathName()" [tipo]="sim.link === 'down' ? 'err' : sim.path() === 'Fibra A' ? 'ok' : 'warn'" />
   </div>
   <div [innerHTML]="diagrama() | html"></div>
-  <div class="flex flex-wrap gap-4 text-[13px] mt-2">
+  <div class="flex flex-wrap gap-4 text-[0.8125rem] mt-2">
     <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px] bg-[#1F7A5C]"></i>Flujo normal</span>
     <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px] bg-[#A32020]"></i>Corte / sin flujo</span>
     <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px] bg-[#C58A10]"></i>Respaldo (fibra B o satélite)</span>
@@ -31,12 +31,12 @@
             <tbody>
               @for (e of cola(); track e.id) {
                 <tr>
-                  <td data-l="Evento"><code class="text-[13px]">{{ e.id }}</code></td><td data-l="Detalle">{{ e.label }}</td><td data-l="Origen">{{ e.src }}</td><td data-l="Hora">{{ ft(e.ts) }}</td>
+                  <td data-l="Evento"><code class="text-[0.8125rem]">{{ e.id }}</code></td><td data-l="Detalle">{{ e.label }}</td><td data-l="Origen">{{ e.src }}</td><td data-l="Hora">{{ ft(e.ts) }}</td>
                   <td data-l="Estado">
                     <span class="inline-flex gap-1 align-middle" role="img" [attr.aria-label]="tiersLargo[e.tier]">
                       @for (k of [0, 1, 2]; track k) { <i class="size-2.5 rounded-full border" [class]="e.tier >= k ? 'bg-senal border-senal' : 'bg-acero-l border-acero'"></i> }
                     </span>
-                    <span class="text-[13px] muted"> {{ tiers[e.tier] }}</span>
+                    <span class="text-[0.8125rem] muted"> {{ tiers[e.tier] }}</span>
                   </td>
                 </tr>
               }

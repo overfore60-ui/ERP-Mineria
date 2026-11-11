@@ -34,7 +34,7 @@ export class Sidebar {
   readonly ses = inject(SessionService);
   readonly page = inject(PageService);
   readonly h6 = 'mt-4 mx-2 mb-1 text-xs font-semibold tracking-wider uppercase text-acero';
-  readonly a = 'flex items-center gap-3 min-h-11 px-3 py-1 leading-tight rounded-lg no-underline text-pizarra font-medium text-[15px] transition-colors hover:bg-acero-xl hover:text-pizarra';
+  readonly a = 'flex items-center gap-3 min-h-11 px-3 py-1 leading-tight rounded-lg no-underline text-pizarra font-medium text-[0.9375rem] transition-colors hover:bg-acero-xl hover:text-pizarra';
   readonly on = ' bg-pizarra text-white! hover:bg-pizarra';
   readonly grupos = computed(() => {
     const items = this.ses.rol()?.items || [];
