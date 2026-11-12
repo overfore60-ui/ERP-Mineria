@@ -155,13 +155,15 @@ export function realceArquitectura(q: PuntoArq | undefined) {
         <span><i class="inline-block w-4 h-[3px] align-middle mr-1 bg-white"></i>Antofagasta → nube en Santiago</span>
       </span>
     </div>
-    <div class="relative bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'"
+    <!-- En pantallas anchas la imagen toma el alto disponible y el detalle va a su derecha; en las angostas, debajo -->
+    <div class="flex flex-col min-[1200px]:flex-row bg-cc-p">
+    <div class="relative shrink-0 w-full min-[1200px]:w-[min(70%,calc((100dvh_-_400px)_*_1.5385))] min-[1200px]:min-w-[560px] aspect-[1200/780] bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'"
       (mouseover)="elegir($event)" (focusin)="elegir($event)" (click)="elegir($event)">
       <div [innerHTML]="svg() | html"></div>
       <div class="absolute inset-0 pointer-events-none" [innerHTML]="realce() | html"></div>
     </div>
     <!-- Detalle del lugar: el texto vive aquí y no sobre el dibujo -->
-    <div class="grid gap-3 px-4 py-3 bg-cc-p border-t border-cc-line min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+    <div class="grid content-start gap-3 px-4 py-3 bg-cc-p border-t min-[1200px]:border-t-0 min-[1200px]:border-l border-cc-line min-w-0 flex-1 min-[900px]:max-[1199px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       @if (detalle(); as d) {
         <div aria-live="polite">
           <div class="flex flex-wrap items-center gap-2">
@@ -185,6 +187,7 @@ export function realceArquitectura(q: PuntoArq | undefined) {
           }
         </div>
       </div>
+    </div>
     </div>
     <div class="px-3 py-2 text-[0.8125rem] text-cc-mut bg-cc-p border-t border-cc-line"><b class="text-white">Cómo se lee:</b> el equipo guarda cada evento y lo manda al Nodo de Faena; el Nodo responde a la faena aunque no haya enlace con la nube (hasta 48 h) y sube todo en orden cuando vuelve un camino: fibra A, fibra B o satélite. Vista ilustrada, no a escala.</div>`,
   imports: [HtmlPipe],

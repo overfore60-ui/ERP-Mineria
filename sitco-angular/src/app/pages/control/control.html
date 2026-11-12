@@ -27,7 +27,7 @@
         <!-- Palas, camiones y lista de equipos -->
         <div class="min-w-0 border-r border-cc-line">
           <div [class]="ph"><span>Palas y camiones</span><span>Cada camión sale de la pala hacia su destino</span></div>
-          <div class="max-h-[430px] overflow-auto">
+          <div class="max-h-[max(260px,calc(100dvh_-_560px))] overflow-auto">
             @for (p of palas(); track p.k) {
               <div class="grid grid-cols-[96px_minmax(0,1fr)_84px] md:grid-cols-[120px_minmax(0,1fr)_112px] min-h-19 border-b border-cc-line bg-cc-p" [class]="sel() === p.k ? 'outline-2 outline-cc-cu -outline-offset-2' : ''">
                 <button type="button" class="px-2.5 py-2 border-r border-cc-line text-left cursor-pointer bg-transparent text-inherit hover:bg-cc-p2" [attr.aria-label]="'Seleccionar pala ' + p.k" (click)="seleccionar(p.k)">
@@ -84,7 +84,7 @@
                 }
               </button>
             </div>
-            <svg viewBox="0 0 1000 620" class="block w-full h-auto max-h-[640px]" role="img" aria-label="Mapa del rajo con zonas, caminos y equipos en movimiento">
+            <svg viewBox="0 0 1000 620" class="block w-full h-auto max-h-[max(300px,calc(100dvh_-_470px))]" role="img" aria-label="Mapa del rajo con zonas, caminos y equipos en movimiento">
               <rect width="1000" height="620" fill="#0f1316" />
               <g [innerHTML]="terreno | html"></g>
               @if (capas()['zones']) {
@@ -193,7 +193,7 @@
       <div class="grid gap-px bg-cc-line grid-cols-[minmax(0,1fr)] min-[1000px]:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         <div class="bg-cc-p min-w-0">
           <div [class]="ph"><span>Mapa de desplazamiento · radar de pared</span><span>Talud este · banco B3015</span></div>
-          <div [innerHTML]="pared() | html"></div>
+          <div class="[&>svg]:mx-auto [&>svg]:max-h-[max(280px,calc(100dvh_-_460px))]" [innerHTML]="pared() | html"></div>
           <div [class]="ctl"><span>Desplazamiento máx.: <b>{{ velocidad() }}</b> mm/día · umbral de alerta 4,0</span>
             <button type="button" class="min-h-11 px-3.5 rounded-md border border-cobre bg-cobre text-white text-sm font-semibold cursor-pointer hover:brightness-115" (click)="reconocer()">Reconocer alerta (registrar acción)</button></div>
         </div>
@@ -209,7 +209,7 @@
     }
 
     @case ('pit') {
-      <div [innerHTML]="pit() | html"></div>
+      <div class="bg-[#a9b7ff] [&>svg]:mx-auto [&>svg]:max-h-[max(300px,calc(100dvh_-_500px))]" [innerHTML]="pit() | html"></div>
       <div [class]="ctl">
         <label class="flex items-center gap-2">Rotar <input type="range" min="0" max="628" [value]="angulo() * 100" (input)="rotar($any($event.target).value)" aria-label="Rotación del modelo" class="min-h-11 min-w-40 accent-cc-cu"></label>
         <label class="flex items-center gap-2">Colorear por
