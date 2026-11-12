@@ -1,0 +1,93 @@
+<app-page-header titulo="Mis embarques" [sub]="empresa + ' · Sigue cada lote de concentrado y el viaje del mineral, desde el rajo hasta la nave.'" />
+
+<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  @for (k of kpis(); track k.l) { <app-kpi [lbl]="k.l" [val]="k.v" [unit]="k.u" [dlt]="k.dl" [cls]="k.c" /> }
+</div>
+
+<app-card class="mt-4" titulo="Lotes de concentrado" sub="Elige un lote para ver su recorrido, su origen y sus documentos.">
+  <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+    <table class="stack">
+      <thead><tr><th>Lote</th><th>Nave</th><th>Fecha</th><th class="text-right">Toneladas</th><th class="text-right">Cu %</th><th class="text-right">As %</th><th>Estado</th></tr></thead>
+      <tbody>
+        @for (e of lotes; track e.id) {
+          <tr [class.bg-cobre-l]="e.id === sel()">
+            <td data-l="Lote"><button type="button" class="link-btn font-semibold" [attr.aria-pressed]="e.id === sel()" (click)="sel.set(e.id)">{{ e.id }}</button></td>
+            <td data-l="Nave">{{ e.nave }}</td>
+            <td data-l="Fecha">{{ fd(e.fecha) }}</td>
+            <td data-l="Toneladas" class="text-right tabular-nums">{{ nf(e.t) }}</td>
+            <td data-l="Cu %" class="text-right tabular-nums">{{ nd(e.cu, 1) }}</td>
+            <td data-l="As %" class="text-right tabular-nums">{{ nd(e.as, 2) }}</td>
+            <td data-l="Estado"><app-estado [v]="estado(e).l" [tipo]="estado(e).tipo" /></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-card>
+
+@if (lote(); as e) {
+  <h2 class="mt-6">Lote {{ e.id }} · {{ e.nave }}</h2>
+
+  @if (estado(e).l === 'En revisión de calidad') {
+    <app-banner tipo="warn">El vendedor está ajustando la mezcla de este lote para cumplir las especificaciones del contrato. Te avisaremos cuando se confirme la fecha de embarque.</app-banner>
+  }
+
+  <div class="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+    <div class="flex flex-col gap-4">
+      <app-card titulo="El viaje del mineral">
+        <app-timeline [items]="viaje()" />
+      </app-card>
+
+      @if (origen(); as o) {
+        <app-card titulo="Origen del concentrado" sub="Polígonos del rajo que componen este lote y cuánto aportó cada uno.">
+          <div class="grid gap-4 md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] items-center">
+            <div [innerHTML]="o.dona | html"></div>
+            <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+              <table class="stack text-sm!">
+                <thead><tr><th>Polígono</th><th>Banco</th><th>Extraído</th><th class="text-right">Aporte</th><th class="text-right">Cu %</th></tr></thead>
+                <tbody>
+                  @for (x of o.c; track x.poli.id) {
+                    <tr>
+                      <td data-l="Polígono"><strong>{{ x.poli.id }}</strong></td><td data-l="Banco">{{ x.poli.banco }}</td><td data-l="Extraído">{{ fd(x.fx) }}</td>
+                      <td data-l="Aporte" class="text-right tabular-nums">{{ nd(x.pct * 100, 1) }} %</td><td data-l="Cu %" class="text-right tabular-nums">{{ nd(x.poli.ley, 2) }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </app-card>
+      }
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <app-card titulo="Calidad del lote">
+        <dl class="text-sm grid grid-cols-[auto_1fr] gap-x-3.5 gap-y-1.5 m-0">
+          <dt class="muted">Toneladas</dt><dd class="m-0">{{ nf(e.t) }} t</dd>
+          <dt class="muted">Cobre</dt><dd class="m-0">{{ nd(e.cu, 1) }} % {{ definitivo() ? '' : '(proyectado)' }}</dd>
+          <dt class="muted">Arsénico</dt><dd class="m-0">{{ nd(e.as, 2) }} % {{ definitivo() ? '' : '(proyectado)' }}</dd>
+          <dt class="muted">Límite del contrato</dt><dd class="m-0">{{ nd(asLim, 2) }} % As</dd>
+          <dt class="muted">Laboratorios</dt><dd class="m-0">Vendedor · Comprador · Árbitro</dd>
+        </dl>
+        @if (e.as <= asLim) {
+          <app-banner tipo="ok" class="mt-3 mb-0!">Dentro de las especificaciones del contrato.</app-banner>
+        }
+      </app-card>
+
+      <app-card titulo="Documentos">
+        <ul class="list-none p-0 m-0">
+          @for (d of documentos(); track d.n) {
+            <li class="flex items-center justify-between gap-3 py-2 border-b border-arena-2 last:border-0">
+              <span class="text-sm">{{ d.n }}</span>
+              @if (d.listo) {
+                <button type="button" class="btn btn-sm btn-sec flex-none" (click)="descargar(d.n)"><app-icon name="dl" /> Descargar</button>
+              } @else {
+                <span class="text-[0.8125rem] muted flex-none">Disponible más adelante</span>
+              }
+            </li>
+          }
+        </ul>
+      </app-card>
+    </div>
+  </div>
+}

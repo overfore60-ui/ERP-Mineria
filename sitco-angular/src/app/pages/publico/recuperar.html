@@ -15,7 +15,6 @@
         @case (1) {
           <h2>Paso 2 de 3 · Revisa tu correo</h2>
           <p class="muted">Si la cuenta existe, enviamos un código de 6 dígitos. Vence en 10 minutos.</p>
-          <app-banner tipo="info">Código de demostración: <strong>482913</strong></app-banner>
           <app-field label="Código recibido" for="cd">
             <input id="cd" name="cd" type="text" inputmode="numeric" appRegla="required|code6" placeholder="000000" [(ngModel)]="d.cd">
           </app-field>

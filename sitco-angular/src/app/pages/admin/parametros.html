@@ -9,9 +9,8 @@
         <div class="flex items-center gap-3">
           <input type="number" class="max-w-[130px]" [id]="'p-' + p.k" [name]="p.k" [min]="p.min" [max]="p.max" [step]="p.step" [(ngModel)]="valores[p.k]">
           <span class="muted">{{ p.u }}</span>
-          @if (p.k === 'as') { <app-tip texto="Valor ilustrativo, igual al del Anexo del Subdocumento 13. Se confirma con el contrato de cada comprador." /> }
         </div>
-        <div class="hint">{{ p.h }} Rango de demostración: {{ p.min }}–{{ p.max }}.</div>
+        <div class="hint">{{ p.h }} Rango permitido: {{ p.min }}–{{ p.max }}.</div>
         @if (err()[p.k]) { <div class="err-m" role="alert">{{ err()[p.k] }}</div> }
       </div>
     </div>

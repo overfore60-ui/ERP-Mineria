@@ -33,7 +33,7 @@ export class Persona {
   readonly qr = computed(() => {
     const t = this.t(); if (!t) return '';
     const celdas = Array.from({ length: 100 }, (_, i) => rng(t.id.length * 7 + i)() > .5 ? `<rect x="${(i % 10) * 10}" y="${Math.floor(i / 10) * 10}" width="10" height="10" fill="#1E2B35"/>` : '').join('');
-    return `<svg viewBox="0 0 100 100" width="120" role="img" aria-label="Código QR de la credencial (ilustrativo)" style="margin:10px auto;display:block">${celdas}</svg>`;
+    return `<svg viewBox="0 0 100 100" width="120" role="img" aria-label="Código QR de la credencial" style="margin:10px auto;display:block">${celdas}</svg>`;
   });
   readonly tabs = [{ id: 'd', label: 'Documentos' }, { id: 'h', label: 'Historial' }];
   readonly tab = signal('d');

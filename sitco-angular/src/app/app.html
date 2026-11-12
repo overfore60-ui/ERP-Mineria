@@ -18,18 +18,17 @@
           <ol class="flex flex-wrap gap-1.5 list-none p-0 m-0">
             @for (m of page.migas(); track $index; let ultimo = $last) {
               @if (!$first) { <li aria-hidden="true">›</li> }
-              @if (ultimo) { <li aria-current="page">{{ m[0] }}</li> } @else { <li><a [routerLink]="m[1]">{{ m[0] }}</a></li> }
+              @if (ultimo) { <li aria-current="page">{{ m[0] }}</li> } @else if (ses.permitidoRuta(m[1])) { <li><a [routerLink]="m[1]">{{ m[0] }}</a></li> } @else { <li>{{ m[0] }}</li> }
             }
           </ol>
         </nav>
       }
       @if (restringido()) {
         <div class="card">
-          <app-empty titulo="Acceso restringido para tu perfil"
-            [mensaje]="'El perfil <strong>' + ses.rol()?.label + '</strong> no tiene permiso para esta sección. Así funciona el control de acceso por roles.'">
+          <app-empty titulo="Esta sección no está disponible"
+            [mensaje]="'Tu perfil <strong>' + ses.rol()?.label + '</strong> no tiene acceso a esta sección.'">
             <div class="flex gap-3 justify-center flex-wrap">
-              <button type="button" class="btn" (click)="ses.cambiarPerfil.set(true)">Cambiar de perfil (demostración)</button>
-              <a class="btn btn-sec" routerLink="/inicio">Volver al inicio</a>
+              <a class="btn" [routerLink]="ses.inicio()">Ir a mi inicio</a>
             </div>
           </app-empty>
         </div>

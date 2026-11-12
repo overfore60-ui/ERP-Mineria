@@ -1,16 +1,28 @@
-<app-page-header titulo="Conectividad y nube" sub="Qué pasa cuando se corta la fibra: la operación sigue en modo local desde el Nodo de Faena y todo se sincroniza solo al volver el enlace. Criterio de aceptación 13: 48 horas.">
-  <app-tip texto="48 horas es lo que la operación debe seguir registrando sin enlace a la nube (criterio de aceptación 13), con sincronización en 4 horas o menos al volver." />
+<app-page-header titulo="Conectividad y nube" sub="Estado de los enlaces entre la faena y la nube. Si se corta la fibra, la operación sigue en modo local desde el Nodo de Faena y se sincroniza sola al volver.">
+  <app-tip texto="La faena sigue registrando hasta 48 horas sin enlace a la nube, y al volver se sincroniza en 4 horas o menos." />
 </app-page-header>
 
-<app-iso-arch class="mt-4" />
+@if (fallas().length) {
+  <app-banner [tipo]="sim.link === 'down' ? 'err' : 'warn'">
+    <strong>{{ fallas().length === 1 ? 'Hay un punto de la red con problemas' : 'Hay ' + fallas().length + ' puntos de la red con problemas' }}</strong>
+    <ul class="list-disc pl-5 mt-1 mb-0 text-sm">
+      @for (n of fallas(); track n.id) { <li><strong>{{ n.n }}:</strong> {{ n.t }}</li> }
+    </ul>
+  </app-banner>
+} @else {
+  <app-banner tipo="ok"><strong>Todo funciona con normalidad.</strong> Equipos en terreno, Nodo de Faena, enlaces y nube operando{{ sim.path() === 'Fibra A' ? ' por la fibra A' : '' }}.</app-banner>
+}
 
 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mt-4">
   @for (k of kpis(); track k.l) { <app-kpi [lbl]="k.l" [val]="k.v" [unit]="k.u" [dlt]="k.dl" [cls]="k.c" /> }
 </div>
 
+@if (fallas().length) {
+<app-iso-arch class="mt-4" />
+
 <div class="card mt-4">
   <div class="flex justify-between items-center flex-wrap gap-3 mb-3">
-    <h3 class="mb-2">Arquitectura y flujo de datos (simulado)</h3>
+    <h3 class="mb-2">Dónde está la falla</h3>
     <app-estado [v]="sim.link === 'down' ? 'Sin camino a la nube' : 'Por ' + sim.pathName()" [tipo]="sim.link === 'down' ? 'err' : sim.path() === 'Fibra A' ? 'ok' : 'warn'" />
   </div>
   <div [innerHTML]="diagrama() | html"></div>
@@ -20,6 +32,7 @@
     <span><i class="inline-block size-3 rounded-sm mr-1.5 align-[-1px] bg-[#C58A10]"></i>Respaldo (fibra B o satélite)</span>
   </div>
 </div>
+}
 
 <div class="grid gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] mt-4">
   <div class="flex flex-col gap-3">
@@ -43,9 +56,9 @@
             </tbody>
           </table>
         </div>
-        @if (lote() > 0) { <p class="text-sm muted mt-2">+ {{ nf(lote()) }} registros adicionales del corte simulado pendientes de sincronizar.</p> }
+        @if (lote() > 0) { <p class="text-sm muted mt-2">+ {{ nf(lote()) }} registros adicionales del corte pendientes de sincronizar.</p> }
       } @else {
-        <app-empty titulo="Sin eventos todavía" mensaje="Registra algo desde la app de terreno o simula un corte de fibra.">@if (ses.permitidoRuta('/terreno')) { <a class="btn" routerLink="/terreno">Abrir terreno</a> }</app-empty>
+        <app-empty titulo="Sin eventos todavía" mensaje="Los registros de terreno aparecen aquí mientras se sincronizan.">@if (ses.permitidoRuta('/terreno')) { <a class="btn" routerLink="/terreno">Abrir terreno</a> }</app-empty>
       }
     </app-card>
     <app-card titulo="Bitácora">
@@ -56,7 +69,7 @@
   </div>
   <div class="flex flex-col gap-3">
     <div class="card"><app-sim-panel [enlace]="false" /></div>
-    <app-card titulo="Qué sigue y qué se detiene sin enlace (Subdocumento 4)">
+    <app-card titulo="Qué sigue y qué se detiene sin enlace">
       <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack text-sm!">
           <thead><tr><th>Función</th><th>Sin enlace</th><th>Cómo se suple</th></tr></thead>

@@ -28,7 +28,7 @@ export class Lote {
   readonly nd = nd;
   readonly fd = fd;
   readonly asLim = LIMITES.as;
-  readonly tipLimite = `El límite de ${nd(LIMITES.as, 2)} % es ilustrativo, igual al del Anexo del Subdocumento 13: el caso no entrega el valor real. Se cambia en Administración, Parametrización.`;
+  readonly tipLimite = `El límite de ${nd(LIMITES.as, 2)} % lo fija el contrato con cada comprador. Se cambia en Administración, Parametrización.`;
   /** Sube con cada cambio del lote para volver a leerlo. */
   private ver = signal(0);
   readonly e = computed(() => { this.ver(); const e = EMB(this.id()); return e ? { ...e } : undefined; });

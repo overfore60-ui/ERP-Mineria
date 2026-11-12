@@ -1,6 +1,7 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { modOf } from '../core/data';
 import { PageService } from '../core/page.service';
+import { SessionService } from '../core/session.service';
 import { HtmlPipe } from './html.pipe';
 import { Tip } from './ui';
 
@@ -16,7 +17,7 @@ import { Tip } from './ui';
           <span class="text-[0.8125rem] muted">Módulo</span> <strong class="text-sm">{{ m.n }}</strong>
           @if (m.nodo) {
             <span class="badge badge-dk">NODO</span>
-            <app-tip class="-ml-1" [inl]="true" texto="NODO: también corre en el Nodo de Faena y sigue funcionando 48 h sin enlace. Fuente: Subdocumento 3." />
+            <app-tip class="-ml-1" [inl]="true" texto="NODO: también corre en el Nodo de Faena y sigue funcionando 48 h sin enlace." />
           }
         </div>
       }
@@ -29,5 +30,7 @@ export class PageHeader {
   private page = inject(PageService);
   readonly titulo = input.required<string>();
   readonly sub = input('');
-  readonly modulo = computed(() => modOf(this.page.item()));
+  private ses = inject(SessionService);
+  /** Las empresas externas no ven la organización interna en módulos. */
+  readonly modulo = computed(() => (this.ses.externo() ? undefined : modOf(this.page.item())));
 }

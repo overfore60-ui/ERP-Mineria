@@ -11,8 +11,8 @@ import { Icon } from '../shared/icon';
   selector: 'app-sim-panel',
   host: { class: 'block' },
   template: `
-    <h3 class="text-lg">Simulador de conectividad</h3>
-    <p class="text-sm muted">Herramienta de demostración para evaluadores. Aquí no hay servicios reales: se simula el comportamiento esperado.</p>
+    <h3 class="text-lg">Prueba de continuidad</h3>
+    <p class="text-sm muted">Corta un enlace y comprueba que la operación sigue en modo local y se sincroniza sola al volver.</p>
     <label class="switch"><input type="checkbox" [checked]="sim.fibA === 'down'" (change)="sim.setPath('A', $any($event.target).checked)"><span class="tr"></span><span>Cortar fibra A (proveedor actual)</span></label>
     <label class="switch"><input type="checkbox" [checked]="sim.fibB === 'down'" (change)="sim.setPath('B', $any($event.target).checked)"><span class="tr"></span><span>Cortar fibra B (otro proveedor y camino)</span></label>
     <label class="switch"><input type="checkbox" [checked]="sim.leo === 'down'" (change)="sim.setPath('L', $any($event.target).checked)"><span class="tr"></span><span>Cortar satélite de órbita baja</span></label>
@@ -32,16 +32,21 @@ import { Icon } from '../shared/icon';
       <div class="card-flat px-2.5! py-2!"><div class="text-[0.8125rem] muted">En el Nodo</div><strong class="tabular-nums">{{ nf(sim.onEdge()) }}</strong></div>
       <div class="card-flat px-2.5! py-2!"><div class="text-[0.8125rem] muted">Sincronizados</div><strong class="tabular-nums">{{ nf(sim.total - sim.pending()) }}</strong></div>
     </div>
-    <ul class="list-none p-0 mt-3 mb-0 text-sm">
-      @for (n of sim.nodes(); track n.id) {
+    @if (sim.fallas().length) {
+    <h4 class="text-sm font-semibold mt-3 mb-0">Qué está fallando</h4>
+    <ul class="list-none p-0 mt-1 mb-0 text-sm">
+      @for (n of sim.fallas(); track n.id) {
         <li class="flex gap-2 py-1">
           <span class="badge px-1.5! self-start" [class]="n.s === 'ok' ? 'badge-ok' : n.s === 'warn' ? 'badge-warn' : 'badge-err'">{{ n.s === 'ok' ? '●' : n.s === 'warn' ? '▲' : '✕' }}</span>
           <span><strong>{{ n.n }}</strong><br><span class="muted text-[0.8125rem]">{{ n.t }}</span></span>
         </li>
       }
     </ul>
+    } @else {
+      <p class="flex items-center gap-2 text-sm mt-3 mb-0"><span class="badge badge-ok px-1.5!">●</span> Todo funciona con normalidad: equipos, Nodo de Faena, enlaces y nube.</p>
+    }
     <div class="flex flex-wrap gap-2 mt-2">
-      @if (enlace() && ses.permitidoRuta('/conectividad')) { <a class="btn btn-sm" routerLink="/conectividad" (click)="ir.emit()">Ver arquitectura animada</a> }
+      @if (enlace() && sim.fallas().length && ses.permitidoRuta('/conectividad')) { <a class="btn btn-sm" routerLink="/conectividad" (click)="ir.emit()">Ver dónde está la falla</a> }
       <button type="button" class="btn btn-sm btn-ter" (click)="restablecer()">Restablecer</button>
     </div>`,
   imports: [RouterLink],
@@ -56,7 +61,7 @@ export class SimPanel {
   readonly nd = nd;
   readonly nf = nf;
   readonly min = Math.min;
-  restablecer() { this.sim.reset(); this.toast.show('Simulación restablecida.', 'info', 2500); }
+  restablecer() { this.sim.reset(); this.toast.show('Enlaces restablecidos.', 'info', 2500); }
 }
 
 /** Botón flotante que abre el simulador de conectividad (demostración para evaluadores). */
@@ -65,9 +70,9 @@ export class SimPanel {
   host: { class: 'no-print fixed left-4 bottom-4 z-70' },
   template: `
     <button type="button" class="btn btn-dark shadow-[0_4px_14px_rgba(0,0,0,.3)]" [attr.aria-expanded]="abierto()" aria-controls="sim-panel"
-      aria-label="Simulador de conectividad (demostración)" (click)="abierto.set(!abierto())"><app-icon name="cloud" /> Simular nube</button>
+      aria-label="Prueba de continuidad" (click)="abierto.set(!abierto())"><app-icon name="cloud" /> Continuidad</button>
     @if (abierto()) {
-      <div id="sim-panel" role="dialog" aria-label="Simulador de conectividad"
+      <div id="sim-panel" role="dialog" aria-label="Prueba de continuidad"
         class="absolute left-0 bottom-14 w-[min(380px,calc(100vw-32px))] max-h-[78vh] overflow-auto bg-white border-2 border-pizarra rounded-xl p-4 shadow-[0_10px_40px_rgba(0,0,0,.3)]">
         <app-sim-panel (ir)="abierto.set(false)" />
       </div>

@@ -9,7 +9,7 @@ import { Firma } from '../../shared/firma';
 import { Field, Regla, validarTodos } from '../../shared/forms';
 import { Icon } from '../../shared/icon';
 import { PageHeader } from '../../shared/page-header';
-import { Banner, Card, Tabs } from '../../shared/ui';
+import { Banner, Tabs } from '../../shared/ui';
 
 /** Estado de la demostración de terreno (se conserva al cambiar de pantalla). */
 const TD = { vista: 'op', tipo: 'tablet', cuenta: 4, credencial: false, rol: '' };
@@ -21,7 +21,7 @@ const vistaDe = (rol: string) => (rol === 'supervisor' ? 'sup' : 'op');
 @Component({
   selector: 'app-terreno',
   templateUrl: './terreno.html',
-  imports: [FormsModule, Firma, Field, Regla, Icon, PageHeader, Banner, Card, Tabs],
+  imports: [FormsModule, Firma, Field, Regla, Icon, PageHeader, Banner, Tabs],
 })
 export class Terreno implements OnDestroy {
   readonly ses = inject(SessionService);

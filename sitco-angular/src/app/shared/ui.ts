@@ -60,7 +60,7 @@ export class Tip {
       @if (dlt()) {
         <span class="text-[0.8125rem] font-semibold flex gap-1.5 items-center" [class]="cls() === 'good' ? 'text-senal' : cls() === 'bad' ? 'text-error' : 'text-acero'">
           {{ dlt() }}
-          @if (!href() && lineaBase()) { <app-tip [inl]="true" texto="Línea base: el valor de 2025, antes de SITCO, tomado de las Bases técnicas del caso. La flecha muestra la mejora que estima el prototipo." /> }
+          @if (!href() && lineaBase()) { <app-tip [inl]="true" texto="Línea base: el valor de 2025, antes de SITCO. La flecha muestra la mejora esperada." /> }
         </span>
       }
       <ng-content />

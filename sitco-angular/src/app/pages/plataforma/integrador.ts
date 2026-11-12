@@ -46,7 +46,7 @@ export class Integrador {
     const st = this.estado(s);
     if (st.k === 'warn' && this.sim.link === 'down') { this.toast.show(`<strong>${s.n}:</strong> sin camino a la nube. Los mensajes esperan en el Nodo de Faena y salen solos al volver el enlace.`, 'warn', 5500); return; }
     const ms = Math.round(s.lat * (this.sim.slow() && s.loc === 'nube' ? 3.2 : 1) * (0.85 + Math.random() * 0.3));
-    this.toast.show(`<strong>${s.n}:</strong> responde en ${nf(ms)} ms (prueba simulada).`, 'ok');
+    this.toast.show(`<strong>${s.n}:</strong> responde en ${nf(ms)} ms.`, 'ok');
   }
   probarTodos() {
     const con = SISTEMAS.filter(s => s.lat), ok = con.filter(s => this.estado(s).k === 'ok').length, w = con.length - ok;

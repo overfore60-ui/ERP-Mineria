@@ -1,17 +1,15 @@
-<app-page-header titulo="Terreno: la vista de quien opera" sub="Dos vistas: la Botonera de Pala, sin pantalla, y la tableta de supervisión. Un toque en el destino correcto registra el cambio de material: no se agregan pasos al ciclo productivo.">
+<app-page-header [titulo]="vista() === 'op' ? 'Botonera de Pala' : 'App SITCO Terreno'" [sub]="vista() === 'op' ? 'Un toque en el destino correcto registra el cambio de material, sin agregar pasos al ciclo productivo.' : 'Registra incidentes, inspecciones y avisos de falla en el lugar, con o sin señal.'">
   <label class="switch"><input type="checkbox" [checked]="ses.sol()" (change)="alternarSol($any($event.target).checked)"><span class="tr"></span><span>Modo sol</span></label>
 </app-page-header>
 
 <div class="grid gap-6 min-[1000px]:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
   <div>
-    <div class="flex flex-wrap gap-3 mb-3" role="group" aria-label="Opciones de demostración">
-      <button type="button" class="btn btn-sm" [class.btn-sec]="vista() !== 'op'" [attr.aria-pressed]="vista() === 'op'" (click)="cambiarVista('op')">Operador de pala (botonera)</button>
-      <button type="button" class="btn btn-sm" [class.btn-sec]="vista() !== 'sup'" [attr.aria-pressed]="vista() === 'sup'" (click)="cambiarVista('sup')">Supervisor (tableta)</button>
-      @if (vista() === 'sup') { <button type="button" class="btn btn-sm btn-sec" (click)="cambiarTipo()">{{ tipo() === 'tablet' ? 'Ver como teléfono' : 'Ver como tableta' }}</button> }
-    </div>
+    @if (vista() === 'sup') {
+      <div class="flex flex-wrap gap-3 mb-3"><button type="button" class="btn btn-sm btn-sec" (click)="cambiarTipo()">{{ tipo() === 'tablet' ? 'Ver como teléfono' : 'Ver como tableta' }}</button></div>
+    }
 
     @if (vista() === 'op') {
-      <!-- Botonera de Pala (Figura 3.10 del Subdocumento 3): dispositivo físico, sin pantalla. Sus colores son los del dispositivo. -->
+      <!-- Botonera de Pala: dispositivo físico, sin pantalla. Sus colores son los del dispositivo. -->
       <div class="w-full max-w-[380px] mx-auto">
         <div class="grid gap-3 p-3.5 bg-[#3A4150] border-[6px] border-[#262A30] rounded-[22px] shadow-suave" role="group" aria-label="Botonera de Pala de PA-03">
           <div class="flex gap-4 px-1 text-white" role="group" aria-label="Luces de la botonera">
@@ -30,7 +28,7 @@
             @if (credencial()) { <app-icon name="check" class="size-6" /><span>Credencial de Eleodoro Painemal · turno día</span> }
             @else {
               <button type="button" class="flex items-center gap-2.5 w-full min-h-14 px-3 bg-transparent border-2 border-dashed border-white/60 rounded-[10px] text-white font-semibold cursor-pointer" (click)="leerCredencial()">
-                <app-icon name="badge" class="size-6" />Toque su credencial<small class="font-normal opacity-85">(simulado)</small></button>
+                <app-icon name="badge" class="size-6" />Toque su credencial</button>
             }
           </div>
         </div>
@@ -114,28 +112,5 @@
       }
       <p class="text-[0.8125rem] muted mt-2">Los tres puntos son: equipo → Nodo de Faena → nube.</p>
     </div>
-    <app-card titulo="Por qué está diseñado así">
-      @if (vista() === 'op') {
-        <ul class="text-sm pl-[18px] m-0 list-disc">
-          <li><strong>Guantes:</strong> cuatro botones grandes, sin teclear ni pantalla táctil.</li>
-          <li><strong>Sol:</strong> botones de colores y luces, sin pantalla que ofusque.</li>
-          <li><strong>Sin señal:</strong> guarda las declaraciones cifradas al menos 48 horas y las envía al volver el enlace (criterio 13).</li>
-          <li><strong>Cero pasos extra:</strong> el destino que aprietas es la razón del cambio, y la credencial se toca una vez por turno.</li>
-          <li><strong>Contexto automático:</strong> pala, polígono, hora y posición se completan solos.</li>
-        </ul>
-      } @else {
-        <ul class="text-sm pl-[18px] m-0 list-disc">
-          <li><strong>Guantes:</strong> objetivos táctiles de al menos 44 × 44 px, sin teclear en las acciones frecuentes.</li>
-          <li><strong>Sol:</strong> modo de alto contraste, texto grande.</li>
-          <li><strong>Sin señal:</strong> guarda en el equipo y envía al volver (criterio 13).</li>
-          <li><strong>Registro en el lugar:</strong> lo que hoy se anota en planillas al final del turno se firma en la tableta.</li>
-          <li><strong>Contexto automático:</strong> pala, polígono, hora y posición se completan solos.</li>
-        </ul>
-      }
-    </app-card>
-    <div class="card-flat"><div class="text-sm"><strong>Prueba:</strong>
-      @if (vista() === 'op') { abre “Simular nube”, activa <em>zona sin cobertura</em> y aprieta un destino. Verás el aviso “Guardado en el equipo” y el registro quedarse en el equipo y subir solo al restablecerse. }
-      @else { registra un incidente con firma, o firma una inspección, y mira cómo queda en el historial de este equipo. }
-    </div></div>
   </div>
 </div>

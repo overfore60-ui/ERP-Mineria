@@ -6,10 +6,10 @@ import { fd, ft, nd, nf } from '../../core/util';
 import { HtmlPipe } from '../../shared/html.pipe';
 import { IsoArch } from '../../shared/iso-arch';
 import { PageHeader } from '../../shared/page-header';
-import { Card, Empty, Estado, Kpi, Timeline, Tip } from '../../shared/ui';
+import { Banner, Card, Empty, Estado, Kpi, Timeline, Tip } from '../../shared/ui';
 import { SimPanel } from '../../layout/sim-widget';
 
-/** Qué sigue y qué se detiene sin enlace (Subdocumento 4). */
+/** Qué sigue y qué se detiene sin enlace. */
 const SIN_ENLACE = [
   ['Registro en terreno (cambios de destino, incidentes, inspecciones, avisos de falla)', 'Sigue', 'ok', 'Los dispositivos guardan registros cifrados y firmados al menos 48 horas.'],
   ['Habilitación en portería', 'Sigue', 'ok', 'Se valida contra la copia local de identidades del Nodo de Faena.'],
@@ -52,7 +52,7 @@ function diagrama(s: SimService) {
 @Component({
   selector: 'app-conectividad',
   templateUrl: './conectividad.html',
-  imports: [RouterLink, HtmlPipe, IsoArch, PageHeader, Card, Empty, Estado, Kpi, Timeline, Tip, SimPanel],
+  imports: [RouterLink, HtmlPipe, IsoArch, PageHeader, Banner, Card, Empty, Estado, Kpi, Timeline, Tip, SimPanel],
 })
 export class Conectividad {
   readonly sim = inject(SimService);
@@ -63,6 +63,7 @@ export class Conectividad {
   readonly tiers = ['En equipo', 'En el Nodo', 'En nube'];
   readonly tiersLargo = ['Solo en el equipo', 'En el Nodo de Faena', 'Sincronizado en la nube'];
   readonly diagrama = computed(() => diagrama(this.sim));
+  readonly fallas = computed(() => this.sim.fallas());
   readonly kpis = computed(() => {
     const s = this.sim, d = s.link === 'down';
     return [

@@ -37,7 +37,7 @@
           <div [innerHTML]="qr() | html"></div>
           <app-estado [v]="t.estado" />
         </div>
-        <p class="text-[0.8125rem] muted mt-2">Identificación por credencial y PIN. La verificación facial no se muestra en este prototipo: la propuesta (Subdocumento 3) la deja sujeta a un acuerdo con el sindicato, que objetó formalmente la biometría en portería.</p>
+        <p class="text-[0.8125rem] muted mt-2">Identificación por credencial y PIN. La verificación facial queda sujeta a un acuerdo con el sindicato.</p>
       </app-card>
     </div>
   </div>
@@ -46,7 +46,7 @@
     @if (renovando !== null) {
       <p class="muted text-sm">Sube el nuevo documento. Se leerá la fecha de vencimiento y se reiniciarán los avisos.</p>
       <app-file-drop #zona [etiqueta]="t.docs[renovando].d" (subido)="archivoListo.set(true)" (quitado)="archivoListo.set(false)" />
-      <button type="button" class="btn btn-sec btn-sm mt-2" (click)="zona.agregar('renovacion.pdf')">Usar archivo de ejemplo</button>
+      <button type="button" class="btn btn-sec btn-sm mt-2" (click)="zona.agregar('renovacion.pdf')">Adjuntar documento</button>
     }
     <div pie><button type="button" class="btn btn-sec" (click)="renovando = null">Cancelar</button><button type="button" class="btn" (click)="guardarRenovacion()">Guardar renovación</button></div>
   </app-modal>

@@ -12,6 +12,8 @@ const ACCIONES: Record<string, [string, string, string][]> = {
   seguridad: [['/acreditacion/nueva', 'plus', 'Nueva acreditación'], ['/seguridad', 'alert', 'Alertas de fatiga']],
   sustentabilidad: [['/ambiental', 'leaf', 'Generar reporte a la autoridad']],
   contratista: [['/acreditacion/nueva', 'plus', 'Solicitar acreditación']],
+  guardia: [['/porteria', 'lock', 'Abrir consola de portería']],
+  comprador: [['/compradores', 'box', 'Ver mis embarques']],
   gerencia: [['/tablero', 'chart', 'Tablero analítico']],
   admin: [['/admin/usuarios', 'users', 'Gestionar usuarios']],
 };

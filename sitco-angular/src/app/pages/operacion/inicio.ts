@@ -80,7 +80,7 @@ export class Inicio {
   });
   readonly sub = computed(() => {
     const h = new Date().getHours();
-    return `${ROLES[this.rol()]?.label} · Turno ${h >= 8 && h < 20 ? 'día (08:00–20:00)' : 'noche (20:00–08:00)'} · ${fd(new Date())} · valores de ejemplo`;
+    return `${ROLES[this.rol()]?.label} · Turno ${h >= 8 && h < 20 ? 'día (08:00–20:00)' : 'noche (20:00–08:00)'} · ${fd(new Date())}`;
   });
   readonly lista = computed<W[]>(() => this.guardados()[this.rol()] || (POR_DEFECTO[this.rol()] || ['kpis']).map(id => ({ id, on: true })));
   readonly ocultos = computed(() => this.lista().filter(w => !w.on));

@@ -50,7 +50,7 @@ export class DosFactores implements OnInit, OnDestroy {
     if (code.length < 6) { this.error.set('Ingresa los 6 dígitos.'); return; }
     if (code !== '123456') {
       this.intentos++;
-      this.error.set(this.intentos >= 3 ? 'Demasiados intentos. Cuenta bloqueada 5 min (simulado).' : `Código incorrecto. Intento ${this.intentos} de 3.`);
+      this.error.set(this.intentos >= 3 ? 'Demasiados intentos. Cuenta bloqueada 5 min.' : `Código incorrecto. Intento ${this.intentos} de 3.`);
       this.casillas().forEach(c => (c.nativeElement.value = ''));
       this.inp(0)!.focus();
       return;

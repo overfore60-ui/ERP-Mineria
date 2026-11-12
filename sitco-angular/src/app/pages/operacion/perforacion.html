@@ -6,7 +6,7 @@
 <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
   <app-kpi lbl="Pozos del turno" [val]="delTurno()" dlt="Turno día · 08:00 a 20:00" cls="neu" />
   <app-kpi lbl="Perforadoras instrumentadas" [val]="2" unit="de 9" dlt="Las otras 7 registran en la App SITCO Terreno" cls="neu" />
-  <app-kpi lbl="Índice de dureza promedio" [val]="promedio()" dlt="Escala 0 a 100 · valores de ejemplo" cls="neu" />
+  <app-kpi lbl="Índice de dureza promedio" [val]="promedio()" dlt="Escala 0 a 100" cls="neu" />
   <app-kpi lbl="Pozos sin registro digital" [val]="0" dlt="Antes: libreta y planilla al final del turno" cls="good" />
 </div>
 
@@ -26,7 +26,7 @@
     @case ('d') {
       <div class="card">
         <div [innerHTML]="durezaPorPoligono() | html"></div>
-        <p class="text-sm muted">La dureza ayuda a planificar la tronadura y a anticipar el rendimiento en la planta. Valores de ejemplo.</p>
+        <p class="text-sm muted">La dureza ayuda a planificar la tronadura y a anticipar el rendimiento en la planta.</p>
       </div>
     }
     @case ('c') {

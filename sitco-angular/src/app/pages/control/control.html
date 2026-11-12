@@ -124,7 +124,7 @@
                   </g>
                 }
               }
-              <text x="14" y="600" fill="#9aa8b2" font-size="11">Plano esquemático ficticio · coordenadas de demostración</text>
+              <text x="14" y="600" fill="#9aa8b2" font-size="11">Plano esquemático del rajo</text>
             </svg>
 
             <!-- Tarjeta del equipo seleccionado -->
@@ -152,7 +152,7 @@
       } @else if (sim.lte === 'shadow') {
         <div [class]="nota + ' text-[#ffd88a]! bg-[#2a2411]!'"><b class="text-white">Zona sin cobertura LTE en el fondo del rajo.</b> Los equipos de esa zona se ven atenuados y guardan cada evento en el propio equipo hasta recuperar señal.</div>
       } @else {
-        <div [class]="nota">Conectado a la nube · datos en tiempo real. Prueba “Simular nube” (abajo a la izquierda) para cortar la fibra o crear una sombra de cobertura.</div>
+        <div [class]="nota">Conectado a la nube · datos en tiempo real.</div>
       }
     }
 
@@ -186,7 +186,7 @@
         <button type="button" class="min-h-11 px-3.5 rounded-md border border-cc-line bg-cc-p2 text-white text-sm font-semibold cursor-pointer hover:brightness-115" [attr.aria-pressed]="girar()" (click)="girar.set(!girar())">Girar automático</button>
       </div>
       <div [class]="ley">@for (l of leyenda(); track l[0]) { <span>@if (l[1]) { <i class="inline-block size-3 rounded-sm mr-1 align-[-2px]" [style.background]="l[1]"></i> }{{ l[0] }}</span> }</div>
-      <div [class]="nota">Modelo de bloques ficticio: de aquí sale la “capa de stock” que la trazabilidad usa para reconstruir el origen de cada lote.</div>
+      <div [class]="nota">Modelo de bloques: de aquí sale la “capa de stock” que la trazabilidad usa para reconstruir el origen de cada lote.</div>
     }
 
     @case ('arq') { <app-iso-arch class="rounded-none! border-0!" /> }

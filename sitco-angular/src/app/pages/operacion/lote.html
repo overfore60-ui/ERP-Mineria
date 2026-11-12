@@ -27,7 +27,7 @@
         <div class="mt-4" aria-live="polite">
           @if (reconstruyendo()) { <app-skeleton /> }
           @if (origen(); as o) {
-            <app-banner tipo="ok">Origen reconstruido con evidencia (ejemplo: <strong>1 min 48 s</strong>). Meta del contrato: menos de 2 horas (hoy: 4 a 6 semanas, con resultado estimado).</app-banner>
+            <app-banner tipo="ok">Origen reconstruido con evidencia en <strong>1 min 48 s</strong>. Meta del contrato: menos de 2 horas.</app-banner>
             <div class="grid gap-4 md:grid-cols-2 items-center">
               <div [innerHTML]="o.dona | html"></div>
               <div [innerHTML]="o.barras | html"></div>
@@ -47,7 +47,7 @@
             </div>
             <details class="mt-2 border border-arena-2 rounded-lg bg-white">
               <summary class="min-h-12 px-4 flex items-center font-semibold cursor-pointer">Supuesto declarado: polígonos de borde y stocks</summary>
-              <div class="px-4 pb-4 text-sm">Mientras el Cliente no decida otra cosa, cuando una pala carga en el borde entre dos polígonos todo el tonelaje del viaje se asigna al polígono donde está la pala (supuesto SUP-11). En los stocks se asume el <strong>promedio ponderado por tonelaje</strong> de lo acopiado (supuesto SUP-03) y se muestra la regla usada y cuánto aportó cada polígono. La innovación 3 refina la ley esperada con la composición por capas del stock. Cada etapa indica si el dato fue medido o es un supuesto.</div>
+              <div class="px-4 pb-4 text-sm">Mientras el Cliente no decida otra cosa, cuando una pala carga en el borde entre dos polígonos todo el tonelaje del viaje se asigna al polígono donde está la pala. En los stocks se asume el <strong>promedio ponderado por tonelaje</strong> de lo acopiado y se muestra la regla usada y cuánto aportó cada polígono. La ley esperada se refina con la composición por capas del stock. Cada etapa indica si el dato fue medido o es un supuesto.</div>
             </details>
           }
         </div>

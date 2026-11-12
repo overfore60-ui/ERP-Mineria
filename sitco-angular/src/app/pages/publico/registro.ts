@@ -36,7 +36,7 @@ export class Registro {
 
   continuar() {
     if (!validarTodos(this.reglas())) { this.toast.show('Revisa los campos marcados antes de continuar.', 'warn'); return; }
-    if (this.paso() === 2 && this.cargados() < 3) { this.toast.show('Sube los tres documentos para continuar (o usa los archivos de ejemplo).', 'warn'); return; }
+    if (this.paso() === 2 && this.cargados() < 3) { this.toast.show('Sube los tres documentos para continuar.', 'warn'); return; }
     if (this.paso() === 3 && !this.personas().length) { this.toast.show('Agrega al menos un trabajador.', 'warn'); return; }
     if (this.paso() === 4) {
       this.enviada.set('SOL-' + (7000 + Math.floor(Math.random() * 999)));

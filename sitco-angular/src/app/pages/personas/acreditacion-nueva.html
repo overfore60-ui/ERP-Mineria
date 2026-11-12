@@ -42,7 +42,7 @@
         <p class="muted">Se leen las fechas de vencimiento y se avisará antes de que caduquen.</p>
         <div class="grid gap-4 md:grid-cols-2">
           @for (x of docs; track x) { <app-file-drop [etiqueta]="x" (subido)="cargados.set(cargados() + 1)" (quitado)="cargados.set(cargados() - 1)" /> }
-          <div><button class="btn btn-sec" type="button" (click)="ejemplos()"><app-icon name="upload" /> Usar archivos de ejemplo</button></div>
+          <div><button class="btn btn-sec" type="button" (click)="ejemplos()"><app-icon name="upload" /> Adjuntar desde la carpeta de la empresa</button></div>
         </div>
       }
       @case (3) {

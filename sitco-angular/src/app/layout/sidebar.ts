@@ -24,10 +24,7 @@ import { Icon } from '../shared/icon';
           @if (i.id === 'acreditacion' && ses.user()?.role !== 'contratista') { <span class="badge-n ml-auto" aria-label="4 pendientes">4</span> }
         </a>
       }
-    }
-    <h6 [class]="h6">Documentación del prototipo</h6>
-    <a routerLink="/arquitectura-informacion" routerLinkActive #d="routerLinkActive" ariaCurrentWhenActive="page" [class]="d.isActive ? a + on : a" (click)="page.navAbierto.set(false)"><app-icon name="map" /><span>Arquitectura de información</span></a>
-    <a routerLink="/sistema-diseno" routerLinkActive #d2="routerLinkActive" ariaCurrentWhenActive="page" [class]="d2.isActive ? a + on : a" (click)="page.navAbierto.set(false)"><app-icon name="grid" /><span>Sistema de diseño</span></a>`,
+    }`,
   imports: [RouterLink, RouterLinkActive, Icon],
 })
 export class Sidebar {

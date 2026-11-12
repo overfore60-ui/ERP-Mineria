@@ -34,7 +34,7 @@ export class AcreditacionNueva {
   guardar() { this.toast.show('Borrador guardado en el equipo y en la nube (cuando haya enlace).', 'ok'); }
   continuar() {
     if (!validarTodos(this.reglas())) { this.toast.show('Revisa los campos marcados antes de continuar.', 'warn'); return; }
-    if (this.paso() === 2 && this.cargados() < 5) { this.toast.show('Sube los cinco documentos (o usa los archivos de ejemplo).', 'warn'); return; }
+    if (this.paso() === 2 && this.cargados() < 5) { this.toast.show('Sube los cinco documentos.', 'warn'); return; }
     if (this.paso() === 3) {
       this.enviada.set('S-0' + (416 + Math.floor(Math.random() * 90)));
       this.toast.show('Solicitud enviada a Seguridad y Salud Ocupacional.', 'ok');

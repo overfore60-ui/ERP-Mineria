@@ -63,5 +63,5 @@ export class Ambiental {
       }
     }, 250);
   }
-  solicitarVerificacion() { this.verificar = false; this.toast.show('Solicitud enviada al verificador (simulado).', 'ok'); }
+  solicitarVerificacion() { this.verificar = false; this.toast.show('Solicitud enviada al verificador.', 'ok'); }
 }

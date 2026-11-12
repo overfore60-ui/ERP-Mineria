@@ -24,7 +24,7 @@ export class Recuperar {
   atras() { this.paso.update(p => p - 1); }
   continuar() {
     if (!validarTodos(this.reglas())) { this.toast.show('Revisa los campos marcados antes de continuar.', 'warn'); return; }
-    if (this.paso() === 1 && this.d.cd !== '482913') { this.toast.show('El código no coincide. Usa 482913 en la demostración.', 'warn'); return; }
+    if (this.paso() === 1 && this.d.cd !== '482913') { this.toast.show('El código no coincide. Revisa el correo e intenta de nuevo.', 'warn'); return; }
     if (this.paso() === 2) {
       this.noCoincide.set(this.d.pw !== this.d.pw2);
       if (this.noCoincide()) return;

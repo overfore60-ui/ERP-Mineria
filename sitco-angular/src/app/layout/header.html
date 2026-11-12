@@ -2,7 +2,7 @@
   <button type="button" class="ibtn lg:hidden! hover:bg-white/15" aria-label="Abrir menú de navegación" [attr.aria-expanded]="page.navAbierto()" aria-controls="nav"
     (click)="page.navAbierto.set(!page.navAbierto())"><app-icon name="menu" /></button>
 }
-<a [routerLink]="auth() ? '/inicio' : '/'" class="flex items-center gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[1.0625rem] md:text-[1.375rem] tracking-wide hover:text-white"
+<a [routerLink]="auth() ? ses.inicio() : '/'" class="flex items-center gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[1.0625rem] md:text-[1.375rem] tracking-wide hover:text-white"
   [attr.aria-label]="brand.product + ', ir al inicio'">
   <span class="grid place-items-center size-[34px] rounded-lg bg-cobre"><app-icon name="layers" /></span>
   <span>{{ brand.product }}<small class="hidden md:block font-texto font-medium text-[0.6875rem] tracking-wider uppercase opacity-75 -mt-0.5">Altos de Aranda · por {{ brand.vendor }}</small></span>
@@ -37,9 +37,9 @@
         <span class="hidden md:inline">{{ r.label }}</span><app-icon name="chD" class="max-md:hidden!" />
       </span>
       <div class="px-3 py-2"><strong>{{ r.person }}</strong>
-        <div class="text-[0.8125rem] muted">{{ r.label }} · {{ ses.user()?.role === 'operador' ? 'toque de credencial, sin sesión' : 'sesión federada con el directorio corporativo' }}</div></div>
+        <div class="text-[0.8125rem] muted">{{ r.label }} · {{ acceso() }}</div></div>
       <hr class="border-0 border-t border-arena-2">
-      <button role="menuitem" type="button" class="menu-item" (click)="ses.cambiarPerfil.set(true)"><app-icon name="users" /> Cambiar de perfil (demostración)</button>
+      <button role="menuitem" type="button" class="menu-item" (click)="ses.cambiarPerfil.set(true)"><app-icon name="users" /> Cambiar de perfil</button>
       <button role="menuitem" type="button" class="menu-item" (click)="ses.alternarSol()"><app-icon name="sun" /> Modo sol (alto contraste)</button>
       <button role="menuitem" type="button" class="menu-item" (click)="ses.alternarGrande()"><app-icon name="eye" /> Texto grande</button>
       <button role="menuitem" type="button" class="menu-item" (click)="repetirTour()"><app-icon name="play" /> Repetir recorrido guiado</button>

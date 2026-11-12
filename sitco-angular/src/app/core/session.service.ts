@@ -9,10 +9,13 @@ export interface Usuario { role: string; name: string; ini: string }
 /** Ids de las secciones con control de acceso (los mismos que usa el menú y `ROLES[...].items`). */
 const SECCIONES = new Set(NAV.flatMap(g => g.items.map(i => i.id)));
 
+/** Perfiles de empresas externas, que entran por su propio portal. */
+const EXTERNOS = ['contratista', 'comprador'];
+
 const leer = <T>(k: string): T | null => { try { return JSON.parse(sessionStorage.getItem('ha.' + k) || 'null'); } catch { return null; } };
 const guardar = (k: string, v: unknown) => { try { sessionStorage.setItem('ha.' + k, JSON.stringify(v)); } catch { /* sin almacenamiento */ } };
 
-/** Sesión de demostración: perfil activo, preferencias de accesibilidad y recorrido guiado. */
+/** Sesión: perfil activo, preferencias de accesibilidad y recorrido guiado. */
 @Injectable({ providedIn: 'root' })
 export class SessionService {
   private router = inject(Router);
@@ -21,8 +24,12 @@ export class SessionService {
 
   readonly user = signal<Usuario | null>(this.inicial());
   readonly rol = computed(() => { const u = this.user(); return u ? ROLES[u.role] : null; });
-  /** Simulador y estado de la faena: el contratista entra por su portal en la nube y no los ve. */
-  readonly veFaena = computed(() => { const u = this.user(); return !!u && u.role !== 'contratista'; });
+  /** Estado de la faena: contratistas y compradores entran por su portal en la nube y no lo ven. */
+  readonly veFaena = computed(() => { const u = this.user(); return !!u && !EXTERNOS.includes(u.role); });
+  /** Empresa externa (contratista o comprador): no ve información interna de la compañía. */
+  readonly externo = computed(() => EXTERNOS.includes(this.user()?.role ?? ''));
+  /** Pantalla de inicio del perfil activo. */
+  readonly inicio = computed(() => this.rol()?.home || '/inicio');
   readonly sol = signal(false);
   readonly grande = signal(false);
   readonly tourVisto = signal<boolean>(leer<boolean>('tour') ?? false);
@@ -40,10 +47,10 @@ export class SessionService {
 
   login(role: string, rapido = false) {
     const r = ROLES[role];
-    if (role === 'contratista') this.sim.reset();
+    if (EXTERNOS.includes(role)) this.sim.reset();
     this.user.set({ role, name: r.person, ini: r.ini });
     guardar('user', this.user());
-    this.toast.show(`Sesión iniciada como <strong>${r.label}</strong>${rapido ? ' (acceso rápido de demostración: omite el segundo factor)' : ''}.`, 'ok', 5000);
+    this.toast.show(`Sesión iniciada como <strong>${r.label}</strong>.`, 'ok', 4000);
     const destino = this.siguiente || r.home;
     this.siguiente = null;
     this.router.navigateByUrl(destino);

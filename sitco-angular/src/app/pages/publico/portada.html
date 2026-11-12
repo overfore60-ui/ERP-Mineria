@@ -1,7 +1,3 @@
-<div class="bg-cobre-l border-b border-[#E3BBA4] px-4 py-2 text-center text-sm">
-  <strong>Prototipo</strong> · datos de ejemplo · Caso 01 Minería · Licitación TFEP-01/2026
-</div>
-
 <!-- Portada -->
 <section class="relative overflow-hidden bg-pizarra text-white px-4 py-8 md:px-6 md:py-12 bg-[repeating-linear-gradient(135deg,rgba(255,255,255,.035)_0_2px,transparent_2px_28px)]" aria-labelledby="pgh">
   <div class="max-w-[1180px] mx-auto grid gap-8 items-center min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
@@ -11,7 +7,7 @@
       <p class="text-[1.1875rem] max-w-[54ch] text-acero-l">Trazabilidad del mineral, productividad de la flota y cumplimiento regulatorio en una sola plataforma, <strong>que sigue funcionando aunque se corte la fibra</strong>. Sin pedirle más pasos a quien opera.</p>
       <div class="flex flex-wrap gap-3 mt-4">
         <a class="btn btn-lg" routerLink="/login"><app-icon name="lock" /> Ingresar</a>
-        <button type="button" class="btn btn-lg btn-sec" (click)="explorar = true"><app-icon name="eye" /> Explorar como evaluador</button>
+        <button type="button" class="btn btn-lg btn-sec" (click)="explorar = true"><app-icon name="users" /> Elegir perfil</button>
       </div>
       <p class="text-sm mt-4 text-[#C7D0D6]">¿Eres empresa contratista? <a routerLink="/registro" class="text-white!">Registra tu empresa y acredita a tu gente</a>.</p>
     </div>
@@ -29,8 +25,8 @@
 <!-- Perfiles -->
 <section class="px-4 py-8 md:px-6 md:py-12" aria-labelledby="h-roles">
   <div class="max-w-[1180px] mx-auto">
-    <h2 id="h-roles">Una plataforma, nueve miradas</h2>
-    <p class="muted max-w-[70ch]">Cada persona entra a lo que necesita. El operador de pala ve un botón; la gerencia, la trazabilidad completa. Elige un perfil para recorrerlo (acceso de demostración).</p>
+    <h2 id="h-roles">Una plataforma, seis interfaces</h2>
+    <p class="muted max-w-[70ch]">Cada persona entra por la interfaz que le corresponde y ve solo lo que necesita: el operador de pala, una botonera; el guardia, la consola de portería; el comprador, sus embarques; la gerencia, la trazabilidad completa.</p>
     <app-role-cards class="mt-4" />
   </div>
 </section>
@@ -70,16 +66,14 @@
 
 <footer class="bg-pizarra text-[#C7D0D6] p-6 text-sm">
   <div class="max-w-[1180px] mx-auto flex flex-wrap justify-between items-center gap-3">
-    <span>{{ brand.product }} · prototipo de {{ brand.vendor }} · datos de ejemplo</span>
-    <nav class="flex flex-wrap gap-3" aria-label="Documentación">
-      <a class="text-white!" routerLink="/arquitectura-informacion">Arquitectura de información</a>
-      <a class="text-white!" routerLink="/sistema-diseno">Sistema de diseño</a>
+    <span>{{ brand.product }} · por {{ brand.vendor }}</span>
+    <nav class="flex flex-wrap gap-3" aria-label="Enlaces">
       <a class="text-white!" routerLink="/ayuda">Accesibilidad</a>
     </nav>
   </div>
 </footer>
 
-<app-modal titulo="Explorar como evaluador" [ancho]="true" [(abierto)]="explorar">
-  <p class="muted">Acceso de demostración: omite el segundo factor para que puedas recorrer cada perfil rápidamente.</p>
+<app-modal titulo="Elegir perfil" [ancho]="true" [(abierto)]="explorar">
+  <p class="muted">Cada perfil entra por su interfaz y ve solo las secciones y los datos que le corresponden.</p>
   <app-role-cards />
 </app-modal>

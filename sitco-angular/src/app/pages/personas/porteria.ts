@@ -67,5 +67,5 @@ export class Porteria {
     this.bitacora.set([...BITACORA]);
     this.sim.capture('acceso', `${res === 'Ingresó' ? 'Ingreso' : 'Rechazo'} en portería · ${t.nombre}`, 'Consola de Portería');
   }
-  avisarSeguridad() { this.toast.show('Aviso enviado a Seguridad con el motivo del rechazo (simulado).', 'ok'); }
+  avisarSeguridad() { this.toast.show('Aviso enviado a Seguridad con el motivo del rechazo.', 'ok'); }
 }

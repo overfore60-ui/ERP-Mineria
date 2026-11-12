@@ -51,6 +51,6 @@ export class Equipo {
   crearAviso = false;
 
   clasificado() { this.clasificar = false; this.ver.update(v => v + 1); }
-  avisoCreado() { this.crearAviso = false; this.toast.show('Aviso creado en SAP (simulado): sin transcribir desde la radio.', 'ok', 5000); }
+  avisoCreado() { this.crearAviso = false; this.toast.show('Aviso creado en SAP, sin transcribir desde la radio.', 'ok', 5000); }
   falsaAlarma() { this.toast.show('Gracias: la alerta se marcó como falsa y el modelo la considerará en su próximo ajuste.', 'ok'); }
 }

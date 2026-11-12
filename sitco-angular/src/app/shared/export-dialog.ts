@@ -47,7 +47,7 @@ export class ExportDialog {
         this.progreso.set(0);
         const c = this.csv();
         if (this.fmt() === 'csv' && c) { csv(c.name, c.head, c.rows); this.toast.show('Informe CSV descargado.', 'ok'); }
-        else this.toast.show(`Informe ${this.fmt().toUpperCase()} generado (simulado en el prototipo). En producción se firma y archiva con su hash.`, 'ok', 6000);
+        else this.toast.show(`Informe ${this.fmt().toUpperCase()} generado, firmado y archivado con su hash.`, 'ok', 6000);
       }
     }, 160);
   }

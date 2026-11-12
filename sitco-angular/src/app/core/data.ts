@@ -9,19 +9,23 @@ import { dOff, fd, hace, nf, pad, rng, rutDv } from './util';
 export const BRAND = { product: 'SITCO Aranda', vendor: 'OVERFORE', client: 'Compañía Minera Altos de Aranda S.A.' };
 
 /* ---------- Perfiles de persona usuaria ---------- */
-export interface Rol { label: string; person: string; ini: string; desc: string; home: string; ico: string; items: string[] }
+export interface Rol { label: string; person: string; ini: string; desc: string; home: string; ico: string; items: string[]; interfaz: string }
 export const ROLES: Record<string, Rol> = {
-  operador: { label: 'Operador de pala', person: 'Eleodoro Painemal', ini: 'EP', desc: 'Opera la pala PA-03 en turno. Guantes, sol, sin señal en el fondo del rajo.', home: '/terreno', ico: 'truck', items: ['inicio', 'terreno', 'ayuda'] },
-  supervisor: { label: 'Supervisor de turno mina', person: 'Camila Rojas Fuentes', ini: 'CR', desc: 'Atiende equipos detenidos, incidentes e inspecciones de su turno.', home: '/inicio', ico: 'wrench', items: ['inicio', 'control', 'terreno', 'equipos', 'plan', 'perforacion', 'seguridad', 'tablero', 'ayuda'] },
-  planificacion: { label: 'Planificación minera', person: 'Francisca Ledermann', ini: 'FL', desc: 'Versiona el plan semanal y revisa el cumplimiento del turno anterior.', home: '/inicio', ico: 'cal', items: ['inicio', 'control', 'plan', 'perforacion', 'trazabilidad', 'equipos', 'tablero', 'ayuda'] },
-  metalurgia: { label: 'Metalurgia y conciliación', person: 'Héctor Sanhueza', ini: 'HS', desc: 'Concilia mina–planta–embarque y explica cada diferencia por punto de la cadena.', home: '/inicio', ico: 'scale', items: ['inicio', 'control', 'trazabilidad', 'conciliacion', 'terceros', 'tablero', 'ayuda'] },
-  seguridad: { label: 'Seguridad y salud ocupacional', person: 'Marcelo Tapia', ini: 'MT', desc: 'Acreditación de personas, incidentes y alertas de fatiga con acción documentada.', home: '/inicio', ico: 'shield', items: ['inicio', 'acreditacion', 'porteria', 'seguridad', 'terceros', 'tablero', 'ayuda'] },
-  sustentabilidad: { label: 'Sustentabilidad y regulatorio', person: 'Paula Guerrero', ini: 'PG', desc: 'Reportes a la autoridad, huella de carbono y convenio con la comunidad.', home: '/inicio', ico: 'leaf', items: ['inicio', 'ambiental', 'trazabilidad', 'tablero', 'ayuda'] },
-  contratista: { label: 'Empresa contratista (externa)', person: 'Daniela Fuentes (Transportes Salar Grande)', ini: 'DF', desc: 'Acredita a sus trabajadores y sube documentos antes de que venzan.', home: '/inicio', ico: 'badge', items: ['inicio', 'acreditacion', 'ayuda'] },
-  gerencia: { label: 'Gerencia general', person: 'Rodrigo Palma', ini: 'RP', desc: 'Vista ejecutiva: trazabilidad, conciliación, cumplimiento y continuidad operacional.', home: '/inicio', ico: 'chart', items: ['inicio', 'control', 'trazabilidad', 'conciliacion', 'plan', 'perforacion', 'equipos', 'porteria', 'ambiental', 'tablero', 'conectividad', 'integrador', 'ayuda'] },
-  admin: { label: 'Administración TI', person: 'Verónica Alcaíno', ini: 'VA', desc: 'Usuarios, roles, parámetros, auditoría y estado de la plataforma.', home: '/inicio', ico: 'gear', items: ['inicio', 'control', 'terceros', 'conectividad', 'integrador', 'admin', 'ayuda'] },
+  operador: { label: 'Operador de pala', person: 'Eleodoro Painemal', ini: 'EP', desc: 'Opera la pala PA-03 en turno. Guantes, sol, sin señal en el fondo del rajo.', home: '/terreno', ico: 'truck', items: ['inicio', 'terreno', 'ayuda'], interfaz: 'Botonera de Pala' },
+  supervisor: { label: 'Supervisor de turno mina', person: 'Camila Rojas Fuentes', ini: 'CR', desc: 'Atiende equipos detenidos, incidentes e inspecciones de su turno.', home: '/inicio', ico: 'wrench', items: ['inicio', 'control', 'terreno', 'equipos', 'plan', 'perforacion', 'seguridad', 'tablero', 'ayuda'], interfaz: 'App SITCO Terreno' },
+  planificacion: { label: 'Planificación minera', person: 'Francisca Ledermann', ini: 'FL', desc: 'Versiona el plan semanal y revisa el cumplimiento del turno anterior.', home: '/inicio', ico: 'cal', items: ['inicio', 'control', 'plan', 'perforacion', 'trazabilidad', 'equipos', 'tablero', 'ayuda'], interfaz: 'Portal Web SITCO' },
+  metalurgia: { label: 'Metalurgia y conciliación', person: 'Héctor Sanhueza', ini: 'HS', desc: 'Concilia mina–planta–embarque y explica cada diferencia por punto de la cadena.', home: '/inicio', ico: 'scale', items: ['inicio', 'control', 'trazabilidad', 'conciliacion', 'terceros', 'tablero', 'ayuda'], interfaz: 'Portal Web SITCO' },
+  seguridad: { label: 'Seguridad y salud ocupacional', person: 'Marcelo Tapia', ini: 'MT', desc: 'Acreditación de personas, incidentes y alertas de fatiga con acción documentada.', home: '/inicio', ico: 'shield', items: ['inicio', 'acreditacion', 'porteria', 'seguridad', 'terceros', 'tablero', 'ayuda'], interfaz: 'Portal Web SITCO' },
+  sustentabilidad: { label: 'Sustentabilidad y regulatorio', person: 'Paula Guerrero', ini: 'PG', desc: 'Reportes a la autoridad, huella de carbono y convenio con la comunidad.', home: '/inicio', ico: 'leaf', items: ['inicio', 'ambiental', 'trazabilidad', 'tablero', 'ayuda'], interfaz: 'Portal Web SITCO' },
+  contratista: { label: 'Empresa contratista (externa)', person: 'Daniela Fuentes (Transportes Salar Grande)', ini: 'DF', desc: 'Acredita a sus trabajadores y sube documentos antes de que venzan.', home: '/inicio', ico: 'badge', items: ['inicio', 'acreditacion', 'ayuda'], interfaz: 'Portal de Contratistas' },
+  gerencia: { label: 'Gerencia general', person: 'Rodrigo Palma', ini: 'RP', desc: 'Vista ejecutiva: trazabilidad, conciliación, cumplimiento y continuidad operacional.', home: '/inicio', ico: 'chart', items: ['inicio', 'control', 'trazabilidad', 'conciliacion', 'plan', 'perforacion', 'equipos', 'porteria', 'ambiental', 'tablero', 'conectividad', 'integrador', 'ayuda'], interfaz: 'Portal Web SITCO' },
+  guardia: { label: 'Guardia de portería', person: 'Luis Araya Godoy', ini: 'LA', desc: 'Controla el ingreso a la faena con la credencial y la habilitación vigente de cada persona.', home: '/porteria', ico: 'lock', items: ['porteria', 'ayuda'], interfaz: 'Consola de Portería' },
+  comprador: { label: 'Comprador de concentrado', person: 'Kenji Watanabe (Pacific Smelting Co.)', ini: 'KW', desc: 'Sigue sus embarques y el viaje del mineral desde el rajo hasta la nave.', home: '/compradores', ico: 'box', items: ['compradores', 'ayuda'], interfaz: 'Portal para Compradores' },
+  admin: { label: 'Administración TI', person: 'Verónica Alcaíno', ini: 'VA', desc: 'Usuarios, roles, parámetros, auditoría y estado de la plataforma.', home: '/inicio', ico: 'gear', items: ['inicio', 'control', 'terceros', 'conectividad', 'integrador', 'admin', 'ayuda'], interfaz: 'Portal Web SITCO' },
 };
 export const ROLKEYS = Object.keys(ROLES);
+/** Las seis interfaces de la capa de presentación, en el orden de la arquitectura lógica. */
+export const INTERFACES = ['App SITCO Terreno', 'Botonera de Pala', 'Consola de Portería', 'Portal Web SITCO', 'Portal de Contratistas', 'Portal para Compradores'];
 
 export interface NavItem { id: string; l: string; h: string; i: string }
 export const NAV: { g: string; items: NavItem[] }[] = [
@@ -40,6 +44,7 @@ export const NAV: { g: string; items: NavItem[] }[] = [
     { id: 'seguridad', l: 'Seguridad y fatiga', h: '/seguridad', i: 'shield' },
     { id: 'ambiental', l: 'Ambiental y huella', h: '/ambiental', i: 'leaf' },
     { id: 'terceros', l: 'Terceros', h: '/terceros', i: 'bld' }] },
+  { g: 'Comercial', items: [{ id: 'compradores', l: 'Mis embarques', h: '/compradores', i: 'box' }] },
   { g: 'Análisis', items: [{ id: 'tablero', l: 'Tablero analítico', h: '/tablero', i: 'chart' }] },
   { g: 'Plataforma', items: [
     { id: 'conectividad', l: 'Conectividad y nube', h: '/conectividad', i: 'cloud' },
@@ -54,7 +59,7 @@ export const NAV: { g: string; items: NavItem[] }[] = [
 export interface Modulo { id: string; n: string; g: string; d: string; nodo: boolean; items: string[] }
 export const MODULOS: Modulo[] = [
   { id: 'opmina', n: 'Operación Mina', g: 'Problema 1 · Trazabilidad comercial', d: 'Plan, declaración y perforación', nodo: true, items: ['plan', 'perforacion', 'terreno'] },
-  { id: 'traz', n: 'Trazabilidad y Embarque', g: 'Problema 1 · Trazabilidad comercial', d: 'Stock, recepción y embarque', nodo: true, items: ['trazabilidad'] },
+  { id: 'traz', n: 'Trazabilidad y Embarque', g: 'Problema 1 · Trazabilidad comercial', d: 'Stock, recepción y embarque', nodo: true, items: ['trazabilidad', 'compradores'] },
   { id: 'conc', n: 'Conciliación Metalúrgica', g: 'Problema 1 · Trazabilidad comercial', d: 'Pesaje y balance', nodo: true, items: ['conciliacion'] },
   { id: 'equ', n: 'Equipos y Mantenimiento', g: 'Problema 2 · Productividad operacional', d: 'Avisos de falla, alarmas y mantención', nodo: false, items: ['equipos'] },
   { id: 'acr', n: 'Acreditación y Acceso', g: 'Problema 3 · Cumplimiento regulatorio y personas', d: 'Habilitación, credencial y portería', nodo: true, items: ['acreditacion', 'porteria'] },
@@ -177,9 +182,9 @@ export function reverse(pid: string) {
 }
 export const CHAIN_STEPS = [
   { t: 'Plan y polígono', s: 'Versión vigente del plan al momento de cada carga', sys: 'Software de planificación → plataforma', ico: 'cal', dato: 'Medido', regla: '' },
-  { t: 'Extracción y carguío', s: 'Cambios de destino declarados por el operador en la botonera (1 toque).', sys: 'Despacho de flota + terreno', ico: 'truck', dato: 'Supuesto', regla: 'el viaje se asigna al polígono donde está la pala (SUP-11), versión 1.' },
-  { t: 'Descarga y stock intermedio', s: 'Pesaje a bordo, báscula de control y trazabilidad por stock', sys: 'Despacho + báscula', ico: 'layers', dato: 'Supuesto', regla: 'promedio ponderado por tonelaje de lo acopiado (SUP-03), versión 1.' },
-  { t: 'Retoma y planta', s: 'Mezcla retomada y balanza de alimentación (solo lectura)', sys: 'Historiador OT (solo lectura)', ico: 'zap', dato: 'Supuesto', regla: 'ley del material retomado con el promedio ponderado del stock (SUP-03), versión 1.' },
+  { t: 'Extracción y carguío', s: 'Cambios de destino declarados por el operador en la botonera (1 toque).', sys: 'Despacho de flota + terreno', ico: 'truck', dato: 'Supuesto', regla: 'el viaje se asigna al polígono donde está la pala, versión 1.' },
+  { t: 'Descarga y stock intermedio', s: 'Pesaje a bordo, báscula de control y trazabilidad por stock', sys: 'Despacho + báscula', ico: 'layers', dato: 'Supuesto', regla: 'promedio ponderado por tonelaje de lo acopiado, versión 1.' },
+  { t: 'Retoma y planta', s: 'Mezcla retomada y balanza de alimentación (solo lectura)', sys: 'Historiador OT (solo lectura)', ico: 'zap', dato: 'Supuesto', regla: 'ley del material retomado con el promedio ponderado del stock, versión 1.' },
   { t: 'Muestreo y laboratorio', s: 'Resultados sin transcripción, en ambos sentidos', sys: 'Sistema de gestión de laboratorio', ico: 'db', dato: 'Medido', regla: '' },
   { t: 'Concentrado y despacho a puerto', s: 'Guías de despacho y pesaje por camión', sys: 'Báscula + SAP (emite la guía con código QR)', ico: 'truck', dato: 'Medido', regla: '' },
   { t: 'Conformación del lote comercial', s: 'Mezcla en acopio portuario y muestreo del protocolo comercial', sys: 'Terminal de terceros', ico: 'box', dato: 'Medido', regla: '' },
@@ -300,17 +305,18 @@ export const USUARIOS: Usuario[] = Array.from({ length: 28 }, (_, i) => {
 export const PERMISOS = ['Ver trazabilidad', 'Aprobar lotes', 'Editar plan', 'Clasificar detenciones', 'Aprobar acreditaciones', 'Registrar incidentes', 'Ver datos sensibles (fatiga, salud)', 'Generar reportes a la autoridad', 'Administrar usuarios', 'Cambiar parámetros', 'Ver auditoría'];
 export const MATRIZ: Record<string, number[]> = {
   operador: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0], supervisor: [1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0], planificacion: [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], metalurgia: [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  seguridad: [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1], sustentabilidad: [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], contratista: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], gerencia: [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1], admin: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+  seguridad: [0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1], sustentabilidad: [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], contratista: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], gerencia: [1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+  guardia: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], comprador: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], admin: [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
 };
 export interface Parametro { k: string; l: string; v: number; u: string; min: number; max: number; step: number; h: string }
 export const PARAMS: Parametro[] = [
-  { k: 'as', l: 'Límite contractual de arsénico en concentrado', v: 0.40, u: '%', min: 0.05, max: 1, step: 0.01, h: 'Supuesto ilustrativo, igual al del Anexo del Subdocumento 13 (el caso no entrega este valor). Se confirma con el contrato de cada comprador.' },
+  { k: 'as', l: 'Límite contractual de arsénico en concentrado', v: 0.40, u: '%', min: 0.05, max: 1, step: 0.01, h: 'Se confirma con el contrato de cada comprador.' },
   { k: 'conc', l: 'Umbral de diferencia de conciliación', v: 2.0, u: '%', min: 0.5, max: 5, step: 0.1, h: 'Referencia de industria: bajo 2 %.' },
   { k: 'v1', l: 'Aviso de vencimiento · primer recordatorio', v: 30, u: 'días', min: 7, max: 60, step: 1, h: 'Se notifica a la vez a la persona, su empleador y Seguridad.' },
   { k: 'v15', l: 'Aviso de vencimiento · segundo recordatorio', v: 15, u: 'días', min: 7, max: 30, step: 1, h: 'Se notifica a la vez a la persona, su empleador y Seguridad.' },
   { k: 'v2', l: 'Aviso de vencimiento · tercer recordatorio', v: 7, u: 'días', min: 1, max: 15, step: 1, h: 'Se notifica a la vez a la persona, su empleador y Seguridad.' },
   { k: 'alerta', l: 'Máximo de alertas de mantenimiento por semana', v: 15, u: 'alertas', min: 5, max: 60, step: 1, h: 'Controla el ruido: sobre el máximo se agrupan y priorizan.' },
-  { k: 'aut', l: 'Autonomía local garantizada sin enlace', v: 48, u: 'horas', min: 48, max: 96, step: 4, h: 'Compromiso mínimo de 48 h (criterio de aceptación 13), con sincronización en 4 horas o menos. Se puede ampliar, no reducir.' },
+  { k: 'aut', l: 'Autonomía local garantizada sin enlace', v: 48, u: 'horas', min: 48, max: 96, step: 4, h: 'Compromiso mínimo de 48 h, con sincronización en 4 horas o menos. Se puede ampliar, no reducir.' },
   { k: 'ses', l: 'Cierre de sesión por inactividad', v: 15, u: 'minutos', min: 5, max: 60, step: 5, h: 'No aplica a dispositivos de cabina durante el turno.' },
 ];
 const ACC = ['Inició sesión', 'Aprobó acreditación', 'Rechazó acreditación', 'Modificó rol', 'Exportó informe', 'Cambió parámetro', 'Aprobó lote de embarque', 'Registró incidente', 'Clasificó detención', 'Generó reporte ambiental', 'Elevó privilegio (temporal)'];
@@ -325,4 +331,6 @@ export const NOTIFS: { t: string; d: string; h: string; k: string; solo?: string
   { t: 'Detención de CF-07 sin clasificar (34 min)', d: 'Clasifica la causa para que cuente en el análisis de disponibilidad.', h: '/equipos/CF-07', k: 'warn', solo: ['supervisor'] },
   { t: 'Embarque E-2026-26: arsénico proyectado sobre el límite', d: 'Requiere revisar la mezcla antes de aprobar.', h: '/trazabilidad/lote/E-2026-26', k: 'err' },
   { t: 'Sincronización completa con la nube', d: 'Sin conflictos manuales.', h: '/conectividad', k: 'ok' },
+  { t: 'Embarque E-2026-25 zarpó desde Antofagasta', d: 'Ya puedes revisar el origen del mineral y los análisis del lote.', h: '/compradores', k: 'ok', solo: ['comprador'] },
+  { t: 'Embarque E-2026-26 en revisión de calidad', d: 'El vendedor ajusta la mezcla antes del embarque. Te avisaremos al confirmar la fecha.', h: '/compradores', k: 'warn', solo: ['comprador'] },
 ];

@@ -48,7 +48,7 @@ export class App {
           this.page.cargando.set(false);
           window.scrollTo(0, 0);
           setTimeout(() => (document.getElementById('pgh') || document.querySelector('main h1') as HTMLElement | null)?.focus({ preventScroll: true }));
-          if (this.auth() && !this.ses.tourVisto() && e.urlAfterRedirects === '/inicio') setTimeout(() => this.ses.tourActivo.set(true), 600);
+          if (this.auth() && !this.ses.tourVisto() && e.urlAfterRedirects === this.ses.inicio()) setTimeout(() => this.ses.tourActivo.set(true), 600);
         }, d.rapido ? 40 : 260);
       }
     });

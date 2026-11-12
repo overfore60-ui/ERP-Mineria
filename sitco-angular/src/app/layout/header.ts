@@ -29,6 +29,12 @@ export class Header {
     return NOTIFS.filter(n => (!n.solo || n.solo.includes(rol)) && !n.no?.includes(rol) && this.ses.permitidoRuta(n.h));
   });
   confirmarSalida = false;
+  /** Cómo se identificó la persona según su perfil. */
+  readonly acceso = computed(() => {
+    const rol = this.ses.user()?.role;
+    return rol === 'operador' ? 'toque de credencial, sin sesión' : rol === 'guardia' ? 'credencial de faena y PIN'
+      : this.ses.externo() ? 'cuenta de empresa externa con segundo factor' : 'sesión federada con el directorio corporativo';
+  });
 
   readonly conexion = computed(() => {
     const m = this.sim.mode();

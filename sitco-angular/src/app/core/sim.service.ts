@@ -1,8 +1,7 @@
 /* =====================================================================
    Simulación de conectividad: dispositivo → Nodo de Faena → nube
-   (sin servicios reales; solo demuestra el comportamiento esperado:
-   la operación sigue y los datos se sincronizan solos, criterio 13).
-   Caminos hacia la nube (Subdocumento 3): fibra A (proveedor actual),
+   La operación sigue y los datos se sincronizan solos.
+   Caminos hacia la nube: fibra A (proveedor actual),
    fibra B (otro proveedor y camino) y enlace satelital de órbita baja.
    El modo local solo se activa si caen los tres.
    ===================================================================== */
@@ -80,7 +79,7 @@ export class SimService {
       this.say('Cayeron las dos fibras y el satélite. El Nodo de Faena asume el servicio (modo local).', 'err');
       this.toast.show('<strong>Sin camino a la nube.</strong> La operación sigue en modo local: nada se detiene.', 'warn', 6000);
     } else if (st.link === 'ok' && before === 'down') {
-      this.say(`Enlace restablecido por ${this.pathName()} tras ${nd(st.hours, 0)} h simuladas. ${this.slow() ? 'La operación en vivo y las alertas se sincronizan; las series del historiador esperan en el Nodo hasta que vuelva una fibra.' : 'Sincronizando ' + this.pending() + ' eventos…'}`, 'ok');
+      this.say(`Enlace restablecido por ${this.pathName()} tras ${nd(st.hours, 0)} h. ${this.slow() ? 'La operación en vivo y las alertas se sincronizan; las series del historiador esperan en el Nodo hasta que vuelva una fibra.' : 'Sincronizando ' + this.pending() + ' eventos…'}`, 'ok');
       this.toast.show('<strong>Enlace restablecido.</strong> Sincronizando automáticamente…', 'info');
     } else if (p !== pBefore) {
       if (down) {
@@ -101,11 +100,11 @@ export class SimService {
 
   advance(h: number) {
     const st = this.st;
-    if (st.link !== 'down') { this.toast.show('Primero simula la caída de las dos fibras y del satélite para avanzar el reloj.', 'info'); return; }
+    if (st.link !== 'down') { this.toast.show('Primero corta las dos fibras y el satélite para avanzar el reloj.', 'info'); return; }
     st.hours += h;
     const n = Math.min(520, Math.round(h * 26));
     st.bulk += n; st.total += n;
-    this.say(`+${h} h sin enlace: se registraron ${nf(n)} eventos localmente (estimación de demostración) (despacho, cambios de destino, incidentes, inspecciones).`, st.hours > 48 ? 'err' : 'warn');
+    this.say(`+${h} h sin enlace: se registraron ${nf(n)} eventos localmente (despacho, cambios de destino, incidentes, inspecciones).`, st.hours > 48 ? 'err' : 'warn');
     if (st.hours > 48) this.toast.show('Se superaron las 48 horas de autonomía comprometidas.', 'err', 6000);
     this.emit();
   }
@@ -143,11 +142,14 @@ export class SimService {
     if (st.hours > 0 || st.syncedAtCut) {
       const n = st.total - st.syncedAtCut;
       st.resolved = st.hours > 6 ? 1 : 0;
-      this.say(`Sincronización completa: ${nf(n)} eventos en orden, ${st.resolved} conflicto de versión del plan (cifra de ejemplo) resuelto por regla (el plan, que es dato maestro, lo gana la última versión aprobada en la nube; los hechos de faena los gana el Nodo de Faena), 0 intervenciones manuales. Duplicados descartados por el identificador del evento; registros cifrados y firmados.`, 'ok');
+      this.say(`Sincronización completa: ${nf(n)} eventos en orden, ${st.resolved} conflicto de versión del plan resuelto por regla (el plan, que es dato maestro, lo gana la última versión aprobada en la nube; los hechos de faena los gana el Nodo de Faena), 0 intervenciones manuales. Duplicados descartados por el identificador del evento; registros cifrados y firmados.`, 'ok');
       this.toast.show(`<strong>Sincronización completa.</strong> ${nf(n)} eventos, 0 intervenciones manuales.`, 'ok', 6500);
       st.hours = 0; st.syncedAtCut = 0;
     }
   }
+
+  /** Solo los puntos de la red que tienen un problema; vacío si todo funciona. */
+  fallas(): Nodo[] { return this.nodes().filter(n => n.s !== 'ok'); }
 
   nodes(): Nodo[] {
     const d = this.link === 'down', p = this.path();

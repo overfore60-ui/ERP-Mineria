@@ -30,7 +30,7 @@ export const routes: Routes = [
     path: 'conectividad-demo', redirectTo: () => {
       const ses = inject(SessionService);
       if (ses.user()) return ses.permitidoRuta('/conectividad') ? '/conectividad' : '/inicio';
-      inject(ToastService).show('Inicia sesión para ver la arquitectura de conectividad en vivo (o usa “Explorar como evaluador”).', 'info');
+      inject(ToastService).show('Inicia sesión para ver el estado de la conectividad.', 'info');
       return '/login';
     },
   },
@@ -61,6 +61,9 @@ export const routes: Routes = [
       { path: 'ambiental', title: 'Ambiental y huella de carbono', data: d('ambiental', () => [ini, ['Ambiental y huella', '']]), loadComponent: () => import('./pages/personas/ambiental').then(m => m.Ambiental) },
       { path: 'terceros', title: 'Gestión de terceros', data: d('terceros', () => [ini, ['Terceros', '']]), loadComponent: () => import('./pages/personas/terceros').then(m => m.Terceros) },
       { path: 'terceros/:id', title: 'Ficha de tercero', data: d('terceros', p => [ini, ['Terceros', '/terceros'], [p['id'], '']]), loadComponent: () => import('./pages/personas/tercero').then(m => m.TerceroFicha) },
+
+      /* Portal para Compradores */
+      { path: 'compradores', title: 'Mis embarques', data: d('compradores', () => [['Mis embarques', '']]), loadComponent: () => import('./pages/comercial/compradores').then(m => m.Compradores) },
 
       /* Análisis */
       { path: 'tablero', title: 'Tablero analítico', data: d('tablero', () => [ini, ['Tablero analítico', '']]), loadComponent: () => import('./pages/analisis/tablero').then(m => m.Tablero) },

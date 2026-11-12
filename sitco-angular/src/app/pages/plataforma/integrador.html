@@ -13,11 +13,11 @@
   @if (sim.link === 'down') {
     <app-banner tipo="warn"><strong>Sin camino a la nube.</strong> Los conectores que corren en el Nodo de Faena (despacho, laboratorio, báscula, fatiga, historiador y portería) siguen trabajando. Los que van a la nube (SAP, telemetría y planificación) dejan sus mensajes en la bandeja de salida y los envían solos, en orden, al volver el enlace.</app-banner>
   } @else {
-    <app-banner tipo="info">Ninguno de los diez sistemas existentes queda fuera: <strong>cinco se integran</strong>, <strong>tres se leen sin modificarse</strong>, el <strong>acceso de portería se amplía</strong> y las <strong>planillas dejan de ser el sistema de registro</strong>. Prueba cortar las fibras en «Simular nube» y mira cómo cambia el estado de cada conector.</app-banner>
+    <app-banner tipo="info">Ninguno de los diez sistemas existentes queda fuera: <strong>cinco se integran</strong>, <strong>tres se leen sin modificarse</strong>, el <strong>acceso de portería se amplía</strong> y las <strong>planillas dejan de ser el sistema de registro</strong>.</app-banner>
   }
 </div>
 
-<app-card titulo="Conectores" sub="Estado simulado. En producción cada conector registra sus mensajes con un identificador único, así que un reintento nunca duplica un dato.">
+<app-card titulo="Conectores" sub="Cada conector registra sus mensajes con un identificador único, así que un reintento nunca duplica un dato.">
   <app-data-table [rows]="sistemas()" [cols]="cols" [tam]="10" caption="Conectores con los sistemas existentes" buscarPh="Buscar sistema o módulo…" [buscarEn]="['n', 't', 'mod', 'q']"
     [filtros]="[{ key: 't', label: 'Tratamiento', options: ['Se integra', 'Solo lectura', 'Se amplía', 'Se reemplaza'] }]">
     <ng-template appCell="n" let-r><strong>{{ r.n }}</strong><div class="text-[0.8125rem] muted">{{ r.q }}</div></ng-template>
@@ -32,6 +32,5 @@
   <app-card titulo="Cómo trabaja un conector"><app-timeline [items]="pasos" /></app-card>
   <app-card titulo="Mensajes de las últimas 24 horas">
     <div [innerHTML]="mensajes | html"></div>
-    <p class="text-[0.8125rem] muted">Cifras de ejemplo.</p>
   </app-card>
 </div>

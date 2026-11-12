@@ -11,9 +11,9 @@
         <div class="text-center p-5">
           <div class="size-30 rounded-full border-[5px] border-dashed border-cobre mx-auto grid place-items-center text-cobre"><app-icon name="badge" class="size-14" /></div>
         </div>
-        <button type="button" class="btn btn-lg w-full" (click)="leerCredencial()"><app-icon name="zap" /> Simular lectura de credencial</button>
+        <button type="button" class="btn btn-lg w-full" (click)="leerCredencial()"><app-icon name="badge" /> Leer credencial</button>
       } @else {
-        <p>Ingresa el código de 6 dígitos de tu aplicación autenticadora. <span class="muted text-sm">(Demostración: <strong>123456</strong>)</span></p>
+        <p>Ingresa el código de 6 dígitos de tu aplicación autenticadora.</p>
         <form novalidate (submit)="$event.preventDefault(); verificar()">
           <div class="flex gap-2.5 justify-center" role="group" aria-label="Código de 6 dígitos">
             @for (i of digitos; track i) {

@@ -28,7 +28,7 @@
           <app-field label="Correo corporativo" for="em" hint="Te redirigiremos al directorio corporativo del grupo.">
             <input id="em" name="em" type="email" appRegla="required|email" placeholder="nombre@aranda.example" autocomplete="username" [(ngModel)]="correo">
           </app-field>
-          <app-field label="Perfil de demostración" for="rl" hint="Solo en el prototipo: en producción el perfil lo define el directorio.">
+          <app-field label="Perfil" for="rl">
             <select id="rl" name="rl" [(ngModel)]="perfil">
               @for (p of perfiles; track p[0]) { <option [value]="p[0]">{{ p[1].label }}</option> }
             </select>
@@ -42,7 +42,7 @@
           <app-field label="RUT de la credencial" for="rutc">
             <input id="rutc" name="rutc" type="text" appRegla="required|rut" placeholder="12.345.678-5" [(ngModel)]="rut">
           </app-field>
-          <div class="lbl-t" id="pin-l">PIN de 4 dígitos <span class="muted text-[0.8125rem]">(demostración: 1234)</span></div>
+          <div class="lbl-t" id="pin-l">PIN de 4 dígitos</div>
           <div class="flex gap-3 justify-center my-3" aria-live="polite" [attr.aria-label]="'Dígitos ingresados: ' + pin().length + ' de 4'">
             @for (k of [0, 1, 2, 3]; track k) { <i class="size-[18px] rounded-full border-2 border-pizarra" [class.bg-pizarra]="k < pin().length"></i> }
           </div>
