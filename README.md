@@ -45,7 +45,7 @@ Una aplicación web de una sola página, hecha en Angular 22 con Tailwind CSS 4,
 - **Trazabilidad de lotes** de la mina al embarque, con reconstrucción del origen de cada lote, ciclo completo y una excepción por arsénico.
 - **Conciliación metalúrgica**, plan minero con versiones, y flota de equipos con detenciones.
 - **Perforación y pozos** (Operación Mina): pozos con profundidad e índice de dureza, registro desde la App SITCO Terreno para las siete perforadoras sin instrumentación y descarga en CSV para Geología.
-- **Centro de control**: despacho de palas y camiones en movimiento, mapa del rajo, geotecnia, modelo 3D por bloques y arquitectura isométrica equipo → Nodo de Faena → nube.
+- **Centro de control**: despacho de palas y camiones en movimiento, mapa del rajo, geotecnia, modelo 3D por bloques y una arquitectura sobre una vista aérea ilustrada de la faena (rajo, botaderos, planta, relaves, campamento y Nodo de Faena con red LTE) hasta Antofagasta, el puerto y la nube en Santiago, con la fibra A, la fibra B y el satélite reaccionando al simulador de corte. El paisaje es una imagen generada con código (`sitco-angular/herramientas/fondo-arquitectura.mjs`). En el despacho, los camiones suben y bajan por dos rampas con curvas de retorno (oeste al chancador; sur al botadero y, por el borde este, al Stock A), cada uno mira hacia donde avanza, y la ficha del equipo seleccionado va bajo el mapa para no tapar la flota.
 - **Acreditación de personas**, seguridad y fatiga, ambiental y huella de carbono, y gestión de terceros.
 - **Consola de portería** (Acreditación y Acceso): lo que ve el guardia al leer una credencial. Muestra si la persona puede ingresar y, si tiene un documento vencido, los tres avisos previos que envió el sistema (criterio de aceptación 7). Funciona sin enlace y deja bitácora de ingresos y rechazos.
 - **Integrador de sistemas**: los diez sistemas existentes con su tratamiento (se integra, solo lectura, se amplía o se reemplaza), qué intercambia cada conector, dónde corre y su estado. Reacciona al simulador de corte: los conectores que van a la nube pasan a "En bandeja de salida".
@@ -170,7 +170,7 @@ No está comprobado: el uso con un lector de pantalla real y el modo de alto con
 Acordados el 5 de noviembre de 2026 y hechos en Angular:
 
 - **Objetivos táctiles de 44 × 44 px** en todos los controles, incluidos los encabezados de columna de las tablas, las casillas de fila, las fichas de camión del mapa y el cierre de notificaciones.
-- **Pausa del movimiento** del mapa de despacho (WCAG 2.2.2, nivel A): un botón "Pausar movimiento", y el mapa parte pausado si el sistema pide reducir animaciones.
+- **Pausa del movimiento** del mapa de despacho (WCAG 2.2.2, nivel A): un botón "En vivo" que cambia a "En pausa" al detenerlo, y el mapa parte pausado si el sistema pide reducir animaciones.
 
 Hechos el 5 y 6 de noviembre de 2026.
 

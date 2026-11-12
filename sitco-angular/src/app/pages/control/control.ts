@@ -10,8 +10,8 @@ import { IsoArch } from '../../shared/iso-arch';
 import { PageHeader } from '../../shared/page-header';
 import { ClasificarDetencion } from '../operacion/clasificar';
 import {
-  CAMINOS, CAMIONES, DEST, MAPA_RIESGO, PALAS, PALA_IDS, PERFORADORAS, PITC, SERIES_PRISMAS, STC, TERRENO, ZONAS,
-  avanzar, desplazamiento, enSombra, leyendaPit, paredGeotecnia, pit3d, posicion, turno,
+  CAMINOS, CAMIONES, DEST, MAPA_RIESGO, PALAS, PALA_IDS, PERFORADORAS, PITC, RAMPAS_ROTULO, RED_CAMINOS, SERIES_PRISMAS, STC, TERRENO, ZONAS,
+  avanzar, desplazamiento, enSombra, leyendaPit, paredGeotecnia, pit3d, posicion, rumbo, turno,
 } from './control-dibujo';
 
 /** Centro Integrado de Operaciones: despacho con mapa animado, geotecnia, pit 3D y arquitectura. Todo simulado. */
@@ -30,6 +30,8 @@ export class Control implements OnInit, OnDestroy {
   readonly terreno = TERRENO;
   readonly zonas = ZONAS;
   readonly caminos = CAMINOS;
+  readonly red = RED_CAMINOS;
+  readonly rampas = RAMPAS_ROTULO;
   readonly pitc = PITC;
   readonly seriesPrismas = SERIES_PRISMAS;
   readonly mapaRiesgo = MAPA_RIESGO;
@@ -68,7 +70,7 @@ export class Control implements OnInit, OnDestroy {
 
   readonly camiones = computed(() => {
     this.tick(); this.ver();
-    return CAMIONES.map(t => { const p = posicion(t); return { id: t.id, sh: t.sh, t: t.t, x: p[0], y: p[1], estado: t.ref.estado, c: STC[t.ref.estado], stale: this.sombra(p, t.ref.estado) }; });
+    return CAMIONES.map(t => { const p = posicion(t); return { id: t.id, sh: t.sh, t: t.t, dir: t.dir, ang: rumbo(t).toFixed(0), x: p[0], y: p[1], estado: t.ref.estado, c: STC[t.ref.estado], stale: this.sombra(p, t.ref.estado) }; });
   });
   readonly palas = computed(() => {
     this.ver();
@@ -96,7 +98,7 @@ export class Control implements OnInit, OnDestroy {
     this.ver();
     const id = this.sel(); if (!id) return null;
     const e = EQ(id)!, t = CAMIONES.find(x => x.id === id);
-    return { e, destino: t ? 'va a ' + DEST[PALAS[t.sh].d].n : 'Fabricante: ' + e.fab };
+    return { e, etiqueta: t ? 'Destino' : 'Fabricante', valor: t ? DEST[PALAS[t.sh].d].n : e.fab };
   });
   readonly pared = computed(() => { this.tick(); return paredGeotecnia(); });
   readonly velocidad = computed(() => { this.tick(); return nd(desplazamiento(), 1); });

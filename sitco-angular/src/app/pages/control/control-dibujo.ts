@@ -8,27 +8,62 @@ import { nd, rng } from '../../core/util';
 type Pt = [number, number];
 export const STC: Record<string, string> = { Operando: '#3fbf8f', Detenido: '#ff6b5e', Mantención: '#f2b84b', 'Sin señal': '#7b8791' };
 
-/* ---------- Geometría del rajo (viewBox 1000×620) ---------- */
+/* ---------- Geometría del rajo (viewBox 1000×620) ----------
+   Los bancos son anillos alrededor de PITC. Cada camión sale de su pala por
+   un camino corto hasta el pie de una rampa, sube la rampa (tramos que siguen
+   la pared con curvas de retorno), sale por el borde y toma el camino de
+   superficie a su destino. Hay dos rampas: la oeste sale al chancador y la
+   sur al botadero sur y, por el camino del borde este, al Stock A. */
 export const PITC: Pt = [500, 340];
+const KX = 1.38, KY = .98;
+/** Punto de la pared del rajo: ángulo (radianes, 0 = este, negativo = norte) y radio del banco. */
+const pared = (a: number, R: number): Pt => [PITC[0] + Math.cos(a) * R * KX, PITC[1] + Math.sin(a) * R * KY];
+/** Rampa desde el borde hasta el fondo: tramos [ángulo inicial, ángulo final, radio inicial, radio final] unidos por curvas en U. */
+function rampa(tramos: [number, number, number, number][]): Pt[] {
+  const r: Pt[] = [];
+  tramos.forEach(([a0, a1, R0, R1], j) => {
+    if (j) {
+      const [p0, p1, , pR1] = tramos[j - 1], sg = Math.sign(p1 - p0);
+      for (let u = 1; u < 6; u++) { const th = u / 6 * Math.PI; r.push(pared(p1 + sg * Math.sin(th) * .06, pR1 - (pR1 - R0) * (1 - Math.cos(th)) / 2)); }
+    }
+    const n = Math.max(8, Math.round(Math.abs(a1 - a0) * 9));
+    for (let i = 0; i <= n; i++) { const t = i / n; r.push(pared(a0 + (a1 - a0) * t, R0 + (R1 - R0) * t)); }
+  });
+  return r;
+}
+export const RAMPA_O = rampa([[-2.35, -.55, 300, 226], [-.55, -2.4, 214, 148], [-2.4, -1.1, 136, 90]]);
+export const RAMPA_S = rampa([[.5, 2.4, 300, 226], [2.4, .9, 214, 152], [.9, 2.0, 140, 96]]);
+const subir = (r: Pt[]) => [...r].reverse();
+/** Caminos de superficie desde la salida de cada rampa. */
+const SUP_CH: Pt[] = [[200, 140], [170, 150]];
+const SUP_SA: Pt[] = [[905, 440], [935, 372], [940, 300], [905, 214], [855, 186], [800, 170]];
+const SUP_BS: Pt[] = [[835, 515], [790, 545]];
+
 export const DEST: Record<string, { n: string; p: Pt }> = { CH: { n: 'Chancador primario', p: [170, 150] }, SA: { n: 'Stock A (lixiviación)', p: [800, 170] }, BS: { n: 'Botadero sur', p: [790, 545] } };
+const ruta = (local: Pt[], r: Pt[], sup: Pt[]): Pt[] => [...local, ...subir(r), ...sup];
 export const PALAS: Record<string, { p: Pt; d: string; mat: string; path: Pt[] }> = {
-  'PA-01': { p: [430, 300], d: 'CH', mat: 'Mineral sulfuro', path: [[430, 300], [380, 250], [300, 205], [220, 165], [170, 150]] },
-  'PA-02': { p: [560, 362], d: 'BS', mat: 'Estéril', path: [[560, 362], [625, 435], [700, 500], [790, 545]] },
-  'PA-03': { p: [500, 412], d: 'CH', mat: 'Mineral sulfuro', path: [[500, 412], [452, 345], [380, 275], [290, 212], [170, 150]] },
-  'PA-04': { p: [392, 382], d: 'SA', mat: 'Mineral óxido', path: [[392, 382], [470, 332], [560, 282], [680, 222], [800, 170]] },
-  'PA-05': { p: [612, 302], d: 'SA', mat: 'Mineral óxido', path: [[612, 302], [680, 252], [742, 205], [800, 170]] },
+  'PA-01': { p: [430, 300], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[430, 300], [480, 284], [528, 272]], RAMPA_O, SUP_CH) },
+  'PA-02': { p: [560, 362], d: 'BS', mat: 'Estéril', path: ruta([[560, 362], [530, 400], [470, 424]], RAMPA_S, SUP_BS) },
+  'PA-03': { p: [500, 412], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[500, 412], [520, 360], [540, 300], [552, 274]], RAMPA_O, SUP_CH) },
+  'PA-04': { p: [392, 382], d: 'SA', mat: 'Mineral óxido', path: ruta([[392, 382], [420, 410], [445, 425]], RAMPA_S, SUP_SA) },
+  'PA-05': { p: [612, 302], d: 'SA', mat: 'Mineral óxido', path: ruta([[612, 302], [604, 352], [560, 400], [470, 424]], RAMPA_S, SUP_SA) },
 };
 export const PALA_IDS = Object.keys(PALAS);
 export const ZONAS = [
   { n: 'Botadero norte', c: '#2f9e6a', p: [[60, 40], [250, 30], [300, 90], [210, 120], [70, 110]] as Pt[] },
-  { n: 'Chancador', c: '#3a6fb5', p: [[130, 125], [215, 125], [215, 180], [130, 180]] as Pt[] },
+  { n: 'Chancador', c: '#3a6fb5', p: [[110, 120], [205, 120], [205, 180], [110, 180]] as Pt[] },
   { n: 'Stock A', c: '#3a6fb5', p: [[745, 135], [850, 135], [850, 205], [745, 205]] as Pt[] },
   { n: 'Botadero sur', c: '#b54a3a', p: [[735, 505], [920, 495], [940, 590], [740, 590]] as Pt[] },
   { n: 'Taller', c: '#8a949c', p: [[880, 60], [980, 60], [980, 160], [880, 160]] as Pt[] },
 ].map(z => ({ ...z, pts: z.p.map(p => p.join(',')).join(' '), cx: z.p.reduce((a, p) => a + p[0], 0) / z.p.length, cy: z.p.reduce((a, p) => a + p[1], 0) / z.p.length }));
-export const CAMINOS = PALA_IDS.map(k => ({ k, pts: PALAS[k].path.map(p => p.join(',')).join(' ') }));
+const pts = (P: Pt[]) => P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
+export const CAMINOS = PALA_IDS.map(k => ({ k, pts: pts(PALAS[k].path) }));
+/** Red de caminos para dibujar una sola vez: rampas, accesos de las palas y caminos de superficie. */
+export const RED_CAMINOS = [RAMPA_O, RAMPA_S, [RAMPA_O[0], ...SUP_CH], [RAMPA_S[0], ...SUP_SA], [RAMPA_S[0], ...SUP_BS]].map(pts);
+export const RAMPAS_ROTULO = [{ t: 'Rampa oeste', p: pared(-2.05, 286) }, { t: 'Rampa sur', p: pared(2.05, 262) }];
 
 const largo = (P: Pt[]) => { let L = 0; for (let i = 1; i < P.length; i++) L += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]); return L; };
+const LARGO: Record<string, number> = Object.fromEntries(PALA_IDS.map(k => [k, largo(PALAS[k].path)]));
 const en = (P: Pt[], t: number): Pt => {
   let d = Math.max(0, Math.min(1, t)) * largo(P);
   for (let i = 1; i < P.length; i++) {
@@ -49,6 +84,12 @@ export const turno = { tons: 18420 };
 export const posicion = (t: Camion): Pt => t.ref.estado === 'Mantención'
   ? [905 + (CAMIONES.indexOf(t) % 4) * 18, 95 + (CAMIONES.indexOf(t) % 3) * 16]
   : en(PALAS[t.sh].path, t.t);
+/** Rumbo del camión en grados: mira hacia donde avanza (de vuelta a la pala, al revés). */
+export function rumbo(t: Camion): number {
+  if (t.ref.estado === 'Mantención') return 0;
+  const P = PALAS[t.sh].path, a = en(P, Math.max(0, t.t - .004)), b = en(P, Math.min(1, t.t + .004));
+  return Math.atan2(b[1] - a[1], b[0] - a[0]) * 180 / Math.PI + (t.dir < 0 ? 180 : 0);
+}
 export const enSombra = (p: Pt) => Math.hypot(p[0] - PITC[0], (p[1] - PITC[1]) * 1.2) < 125;
 
 /** Avanza cada camión por su camino; los que esperan una pala detenida hacen cola. */
@@ -57,21 +98,28 @@ export function avanzar() {
     if (t.ref.estado !== 'Operando') return;
     const pala = EQ(t.sh);
     if (pala && pala.estado === 'Detenido' && t.t < .06 && t.dir === -1) return;
-    t.t += t.dir * t.v * .55;
+    t.t += t.dir * t.v * .55 * (900 / LARGO[t.sh]);
     if (t.t >= 1) { t.t = 1; t.dir = -1; turno.tons += 240; }
     if (t.t <= 0) { t.t = 0; t.dir = 1; }
   });
 }
 
-/* ---------- Terreno (curvas de nivel del rajo) ---------- */
+/* ---------- Terreno: bancos del rajo con su berma clara y sombra hacia el noroeste ---------- */
 function terreno() {
   const r = rng(11);
-  let out = '';
+  let out = `<defs><linearGradient id="pit-luz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".07"/></linearGradient></defs>`;
+  let borde = '';
   for (let k = 0; k < 15; k++) {
-    const R = 310 - k * 19, pts: Pt[] = [];
-    for (let a = 0; a < 40; a++) { const th = a / 40 * Math.PI * 2, j = 1 + (r() - .5) * .11; pts.push([PITC[0] + Math.cos(th) * R * 1.38 * j, PITC[1] + Math.sin(th) * R * .98 * j]); }
-    out += `<polygon points="${pts.map(p => p.map(Math.round).join(',')).join(' ')}" fill="hsl(${k < 3 ? 70 : 38} ${k < 3 ? 8 : 10}% ${Math.max(7, 30 - k * 1.7)}%)" stroke="hsl(40 8% ${40 + k * 2.2}%)" stroke-width=".7" stroke-opacity=".5"/>`;
+    const R = 310 - k * 19, ps: Pt[] = [];
+    for (let a = 0; a < 48; a++) { const th = a / 48 * Math.PI * 2, j = 1 + (r() - .5) * .06; ps.push([PITC[0] + Math.cos(th) * R * KX * j, PITC[1] + Math.sin(th) * R * KY * j]); }
+    const p = ps.map(q => q.map(Math.round).join(',')).join(' ');
+    if (!k) borde = p;
+    out += `<polygon points="${p}" fill="hsl(${k < 2 ? 34 : 28} ${k < 2 ? 12 : 9}% ${Math.max(8, 27 - k * 1.3)}%)"/>`
+      + `<polygon points="${p}" fill="none" stroke="hsl(36 16% ${50 - k * 1.2}%)" stroke-width="${k ? 1.1 : 1.8}" stroke-opacity="${k ? .55 : .8}" transform="translate(0 1.5)"/>`
+      + `<polygon points="${p}" fill="none" stroke="#000" stroke-width="1.6" stroke-opacity=".35" transform="translate(0 -1.2)"/>`;
   }
+  out += `<polygon points="${borde}" fill="url(#pit-luz)"/>`;
+  out += `<ellipse cx="${PITC[0] + 6}" cy="${PITC[1] + 10}" rx="38" ry="20" fill="#24342f" opacity=".8"/>`;
   return out;
 }
 export const TERRENO = terreno();
