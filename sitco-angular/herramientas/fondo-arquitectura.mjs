@@ -190,7 +190,7 @@ s += `<g filter="url(#f-borde2)">`
   + `</g>`;
 // c) rampa de acarreo: tramos que bajan por la pared norte con curvas de retorno (switchbacks)
 const enAnillo = (a, k) => { const f = 1 - (k + .5) / (N + .8); return [RC[0] + k * 1.6 + Math.cos(a) * RX * f, RC[1] + k * BAJA + Math.sin(a) * RY * f]; };
-const tramos = [[-.25, -2.55, 0, 4.4], [-2.55, -.7, 5, 9], [-.7, -2.3, 9.6, 13.2], [-2.3, -1.25, 13.8, 15.8]];
+const tramos = [[-.15, -2.75, 0, 3.4], [-2.75, -.45, 4, 7], [-.45, -2.6, 7.6, 10.2], [-2.6, -.75, 10.8, 13.2], [-.75, -1.95, 13.8, 15.9]];
 /** Une tramos con curvas en U: el tramo siguiente parte medio banco más abajo. */
 function trazar(lista, pasos = 40) {
   const r = [];
@@ -208,13 +208,15 @@ function trazar(lista, pasos = 40) {
   return r;
 }
 const rampa = trazar(tramos.map(([a0, a1, k0, k1], j) => [a0, a1, k0 + (j ? .0 : 0), k1]));
-s += `<polyline points="${P(rampa)}" fill="none" stroke="#4e3e31" stroke-width="7.4" stroke-opacity=".5" stroke-linejoin="round" transform="translate(1 2)"/>`
-  + `<polyline points="${P(rampa)}" fill="none" stroke="#cbb699" stroke-width="5.2" stroke-linejoin="round"/>`
-  + `<polyline points="${P(rampa)}" fill="none" stroke="#7a6654" stroke-width="1" stroke-linejoin="round" transform="translate(0 2.2)" stroke-opacity=".8"/>`
-  + `<polyline points="${P(rampa)}" fill="none" stroke="#efe2cc" stroke-width=".8" stroke-dasharray="2 6" stroke-opacity=".7"/>`;
-// rampa sur, más corta, hacia los botaderos
-const rampaSur = trazar([[.35, 2.2, 0, 4], [2.2, .9, 4.6, 7.5]], 36);
-s += `<polyline points="${P(rampaSur)}" fill="none" stroke="#4e3e31" stroke-width="6.6" stroke-opacity=".45" transform="translate(1 2)"/><polyline points="${P(rampaSur)}" fill="none" stroke="#c7b295" stroke-width="4.6"/>`;
+const via = (r, w) => `<polyline points="${P(r)}" fill="none" stroke="#3e3026" stroke-width="${w + 3.4}" stroke-opacity=".55" stroke-linejoin="round" transform="translate(1.2 2.4)"/>`
+  + `<polyline points="${P(r)}" fill="none" stroke="#7d6a57" stroke-width="${w + 1.6}" stroke-linejoin="round"/>`
+  + `<polyline points="${P(r)}" fill="none" stroke="#cdb99c" stroke-width="${w}" stroke-linejoin="round"/>`
+  + `<polyline points="${P(r)}" fill="none" stroke="#e2d2b9" stroke-width="${w * .45}" stroke-linejoin="round" transform="translate(-.6 -.8)"/>`
+  + `<polyline points="${P(r)}" fill="none" stroke="#f6ecdb" stroke-width=".9" stroke-dasharray="3 6" stroke-opacity=".8"/>`;
+s += via(rampa, 6.4);
+// rampa sur hacia los botaderos
+const rampaSur = trazar([[.4, 2.75, 0, 3.4], [2.75, .7, 4, 6.8], [.7, 2.35, 7.4, 9.8]], 36);
+s += via(rampaSur, 5.4);
 // acceso desde el borde hacia el chancador y los botaderos
 s += `<path d="M${rampa[0][0]} ${rampa[0][1]} C 880 610, 850 570, 800 545" fill="none" stroke="#cbb699" stroke-width="5"/><path d="M${rampaSur[0][0]} ${rampaSur[0][1]} C 900 740, 950 720, 990 700" fill="none" stroke="#c7b295" stroke-width="4.4"/>`;
 // d) equipos: camiones en la rampa (con sombra), palas y perforadoras en los bancos

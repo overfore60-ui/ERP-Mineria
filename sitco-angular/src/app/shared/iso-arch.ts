@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { SimService } from '../core/sim.service';
 import { HtmlPipe } from './html.pipe';
 
@@ -38,22 +38,6 @@ const ICO: Record<string, string> = {
 /** Marcador redondo sobre el mapa, como en la vista aérea del caso. */
 const pin = (p: Pt, ico: string, tono = '#3a2f25', r = 15) =>
   `<g transform="translate(${p[0]} ${p[1]})"><circle r="${r + 3}" fill="#000" fill-opacity=".25" cy="2"/><circle r="${r + 2}" fill="#fff"/><circle r="${r}" fill="${tono}"/><g transform="scale(${(r / 13).toFixed(2)})">${ICO[ico]}</g></g>`;
-
-/** Tarjeta blanca con título y viñetas; con línea guía opcional hacia un punto. */
-function tarjeta(c: Pt, tit: string, lineas: string[], op: { a?: Pt; ico?: string; tono?: string; borde?: string } = {}) {
-  const conIco = !!op.ico, x0 = c[0] + (conIco ? 44 : 12);
-  const w = Math.max(tit.length * 7.5, ...lineas.map(l => (l.length + 2) * 6.2)) + (conIco ? 56 : 24), h = 26 + lineas.length * 15;
-  let s = '';
-  if (op.a) {
-    const ex = Math.min(Math.max(op.a[0], c[0] + 10), c[0] + w - 10), ey = op.a[1] < c[1] ? c[1] : c[1] + h;
-    s += `<path d="M${op.a[0]} ${op.a[1]} L${ex} ${ey}" stroke="#fff" stroke-width="1.6"/><circle cx="${op.a[0]}" cy="${op.a[1]}" r="3.5" fill="#fff" stroke="#3a2f25" stroke-width="1.4"/>`;
-  }
-  s += `<rect x="${c[0]}" y="${c[1]}" width="${w}" height="${h}" rx="6" fill="#fff" fill-opacity=".95" stroke="${op.borde || '#000'}" stroke-opacity="${op.borde ? 1 : .12}" stroke-width="${op.borde ? 2.5 : 1}" filter="url(#arq-sombra)"/>`;
-  if (conIco) s += `<g transform="translate(${c[0] + 22} ${c[1] + h / 2})"><circle r="15" fill="${op.tono || '#3a2f25'}"/><g transform="scale(1.1)">${ICO[op.ico!]}</g></g>`;
-  s += `<text x="${x0}" y="${c[1] + 18}" font-size="14" font-weight="700" fill="#1f1a15" ${F_TIT}>${tit}</text>`;
-  lineas.forEach((l, i) => s += `<text x="${x0}" y="${c[1] + 34 + i * 15}" font-size="11.5" fill="#4a4038" ${F_TIT}>• ${l}</text>`);
-  return `<g>${s}</g>`;
-}
 
 /** Enlace de datos: trazo con guiones que avanzan y paquetes que viajan por el camino. */
 function enlace(id: string, d: string, color: string, vivo: boolean, ancho = 3.5, paquetes = 2, dur = 4) {
@@ -96,31 +80,63 @@ export function dibujoArquitectura(e: EstadoArq) {
   // arco punteado de Antofagasta a Santiago (oficina corporativa y nube Azure)
   s += enlace('arq-nube', `M${CIO[0] - 8} ${CIO[1] - 8} C 700 -20, 420 -16, ${SAN[0] + 30} ${SAN[1] - 4}`, '#ffffff', camino, 2.6, 2, 5);
 
-  /* --- Nodo de Faena: sala técnica con servidores locales --- */
+  /* --- Nodo de Faena y marcadores: solo íconos; la información sale al pasar el cursor o al tocar --- */
   s += `<ellipse cx="${NO[0]}" cy="${NO[1] + 6}" rx="40" ry="16" fill="${camino ? AZ : CU}" fill-opacity=".35" class="arq-pulso"/>`;
-  s += pin(NO, 'nodo', camino ? '#2f7aa8' : '#a95725', 17);
+  puntosArquitectura(e).forEach(q => {
+    s += `<g class="arq-pin" data-id="${q.id}" tabindex="0" role="button" aria-label="${q.tit}: ${q.sub}" style="cursor:pointer;outline:none">`
+      + `<circle cx="${q.p[0]}" cy="${q.p[1]}" r="26" fill="transparent"/>`
+      + (q.id === 'sat' || q.id === 'lte' ? `<circle cx="${q.p[0]}" cy="${q.p[1]}" r="11" fill="${q.tono}" stroke="#fff" stroke-width="2"/><g transform="translate(${q.p[0]} ${q.p[1]}) scale(.72)">${ICO[q.ico]}</g>` : pin(q.p, q.ico, q.tono, q.id === 'nodo' ? 17 : 15))
+      + (q.alerta ? `<circle cx="${q.p[0] + 13}" cy="${q.p[1] - 13}" r="6" fill="${MAL}" stroke="#fff" stroke-width="1.6"/>` : '')
+      + `</g>`;
+  });
 
-  /* --- Marcadores y etiquetas, como en la vista aérea del caso --- */
-  s += pin(CIO, 'edificio') + pin([1062, 178], 'barco') + pin([790, 500], 'planta') + pin([1040, 440], 'relave') + pin([268, 470], 'casa') + pin(SAN, 'nube', camino ? '#2f7aa8' : '#5b6770', 15);
-  s += tarjeta([22, 74], 'Santiago', ['Oficina corporativa (Las Condes)', 'Nube Azure Chile Central, respaldo en Brazil South', camino ? (e.pendientes > 2 ? `Sincronizando ${e.pendientes} eventos` : 'Recibe los datos de la faena') : 'Sin camino: espera la sincronización'], { a: [SAN[0] - 6, SAN[1] + 18] });
-  s += tarjeta([878, 6], 'Centro Integrado de Operaciones', ['En Antofagasta, a 145 km de la faena', 'Sala de control de mina y planta'], { a: [CIO[0] + 14, CIO[1] - 8] });
-  s += tarjeta([926, 214], 'Acopio y embarque en Antofagasta', ['Recinto portuario de terceros', 'Acopio de 25.000 t de concentrado'], { a: [1062, 194] });
-  s += tarjeta([728, 318], '145 km a Antofagasta', ['Ruta 25 y camino privado', e.fibA ? 'Fibra A junto al camino' : 'Fibra A cortada'], { ico: 'camion', a: [700, 372] });
-  s += tarjeta([964, 300], 'Fibra B', [e.fibB ? 'Otro proveedor y otra ruta' : 'Fibra B cortada']);
-  s += tarjeta([300, 172], 'Satélite de órbita baja', [e.leo ? 'Respaldo si caen las dos fibras' : 'Satélite sin servicio'], { a: [SA[0] - 6, SA[1] + 4] });
-  s += tarjeta([28, 366], 'Área de servicios, portería y campamento', ['1.900 camas, a 9 km de la faena'], { ico: 'casa', a: [262, 452] });
-  s += tarjeta([960, 488], 'Depósito de relaves', ['A 6 km de la planta'], { a: [1040, 458] });
-  s += tarjeta([838, 590], 'Planta concentradora', ['Chancado, molienda y flotación'], { a: [800, 516] });
-  s += tarjeta([26, 604], 'Rajo Aranda', ['Palas y camiones con equipo a bordo', e.sombra ? 'Sombra LTE: el equipo guarda cada evento' : 'Cada evento viaja por la red LTE privada'], { ico: 'camion', a: [372, 668] });
-  s += tarjeta([690, 408], 'Nodo de Faena · sala técnica', [camino ? 'Responde a la faena y guarda 48 h sin nube' : 'Modo local: sostiene la operación hasta 48 h'],
-    { ico: 'nodo', tono: camino ? '#2f7aa8' : '#a95725', borde: camino ? AZ : CU, a: [NO[0] + 14, NO[1] - 12] });
-
-  const estilo = `<style>.arq-flujo{animation:arq-guion 1s linear infinite}@keyframes arq-guion{to{stroke-dashoffset:-17}}.arq-onda{animation:arq-onda 2s ease-in-out infinite}.arq-onda2{animation-delay:.5s}@keyframes arq-onda{0%,100%{opacity:.25}50%{opacity:1}}.arq-pulso{animation:arq-pulso 2.4s ease-in-out infinite}@keyframes arq-pulso{0%,100%{opacity:.45}50%{opacity:1}}@media (prefers-reduced-motion:reduce){.arq-flujo,.arq-onda,.arq-pulso{animation:none}.arq-mov{display:none}}</style>`;
-  const defs = `<defs><filter id="arq-sombra" x="-10%" y="-20%" width="120%" height="150%"><feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#000" flood-opacity=".3"/></filter></defs>`;
+  const estilo = `<style>.arq-flujo{animation:arq-guion 1s linear infinite}@keyframes arq-guion{to{stroke-dashoffset:-17}}.arq-onda{animation:arq-onda 2s ease-in-out infinite}.arq-onda2{animation-delay:.5s}@keyframes arq-onda{0%,100%{opacity:.25}50%{opacity:1}}.arq-pulso{animation:arq-pulso 2.4s ease-in-out infinite}@keyframes arq-pulso{0%,100%{opacity:.45}50%{opacity:1}}.arq-pin{transition:transform .15s}.arq-pin:hover,.arq-pin:focus-visible{filter:drop-shadow(0 0 6px #fff)}@media (prefers-reduced-motion:reduce){.arq-flujo,.arq-onda,.arq-pulso{animation:none}.arq-mov{display:none}}</style>`;
   const resumen = camino
     ? 'Los equipos de la faena envían sus eventos por la red LTE privada al Nodo de Faena, que los sube al Centro Integrado de Operaciones en Antofagasta y a la nube Azure por la fibra A, la fibra B o el satélite.'
     : 'Sin ningún camino a la nube: el Nodo de Faena sostiene la operación hasta 48 horas y sincroniza al volver un enlace.';
-  return `<svg viewBox="0 0 1200 780" style="display:block;width:100%;height:auto" role="img" aria-label="Vista aérea ilustrada de la faena Aranda hasta Antofagasta. ${resumen}">${estilo}${defs}${s}</svg>`;
+  return `<svg viewBox="0 0 1200 780" style="display:block;width:100%;height:auto" role="group" aria-label="Vista aérea ilustrada de la faena Aranda hasta Antofagasta. ${resumen} Pasa el cursor o toca un marcador para ver su detalle.">${estilo}${s}</svg>`;
+}
+
+/** Lugares de la vista: posición, ícono y el texto que se muestra en el recuadro de detalle. */
+export interface PuntoArq { id: string; p: Pt; ico: string; tono: string; tit: string; sub: string; lineas: string[]; alerta?: boolean }
+export function puntosArquitectura(e: EstadoArq): PuntoArq[] {
+  const camino = e.fibA || e.fibB || e.leo, D = '#3a2f25';
+  return [
+    { id: 'nodo', p: [655, 512], ico: 'nodo', tono: camino ? '#2f7aa8' : '#a95725', tit: 'Nodo de Faena · sala técnica', sub: camino ? 'Conectado a la nube' : 'Modo local',
+      lineas: [camino ? 'Responde a la faena y sube los eventos en orden a la nube' : 'Sin camino a la nube: sostiene la operación hasta 48 h', 'Recibe los eventos de equipos y personas por la red LTE privada', 'Guarda copia local de los datos del turno y del balance', 'Al volver un enlace sincroniza sin perder ni duplicar eventos'], alerta: !camino },
+    { id: 'rajo', p: [372, 668], ico: 'camion', tono: D, tit: 'Rajo Aranda', sub: e.sombra ? 'Sombra LTE en el fondo del rajo' : 'Operación de mina',
+      lineas: ['Palas, camiones y perforadoras con equipo a bordo', e.sombra ? 'Sin cobertura en el fondo: cada equipo guarda sus eventos' : 'Cada evento viaja por la red LTE privada al Nodo', 'Rampas de acarreo hacia el chancador y los botaderos'], alerta: e.sombra },
+    { id: 'lte', p: [440, 578], ico: 'antena', tono: e.sombra ? '#a9781f' : '#2f8a66', tit: 'Red LTE privada', sub: e.sombra ? 'Sombra de cobertura' : 'Cobertura en rajo, planta y campamento',
+      lineas: ['Torres en el borde del rajo, la planta y el campamento', 'Une equipos, tabletas y sensores con el Nodo de Faena', e.sombra ? 'En la sombra el equipo guarda cada evento y lo envía al recuperar señal' : 'Si un equipo pierde señal, guarda los eventos y los envía al volver'], alerta: e.sombra },
+    { id: 'planta', p: [790, 500], ico: 'planta', tono: D, tit: 'Planta concentradora', sub: 'Proceso del mineral',
+      lineas: ['Chancado, molienda y flotación', 'Espesadores, filtrado y acopio de concentrado', 'Sus mediciones alimentan el balance metalúrgico'] },
+    { id: 'relaves', p: [1040, 440], ico: 'relave', tono: D, tit: 'Depósito de relaves', sub: 'A 6 km de la planta',
+      lineas: ['Recibe los relaves de la planta concentradora', 'Monitoreo del muro y del agua recuperada'] },
+    { id: 'campamento', p: [268, 470], ico: 'casa', tono: D, tit: 'Área de servicios, portería y campamento', sub: '1.900 camas',
+      lineas: ['A 9 km de la faena', 'Portería con control de acceso y acreditación', 'Casino, policlínico y pabellones de dormitorios'] },
+    { id: 'ruta', p: [690, 352], ico: 'ruta', tono: e.fibA ? D : '#a8322a', tit: '145 km a Antofagasta · fibra A', sub: e.fibA ? 'Enlace principal' : 'Fibra A cortada',
+      lineas: ['Ruta 25 y 26 km de camino privado', 'La fibra A va junto al camino', e.fibA ? 'Lleva los datos del Nodo de Faena a Antofagasta' : 'Corte simulado: el tráfico pasa a la fibra B o al satélite'], alerta: !e.fibA },
+    { id: 'fibraB', p: [867, 393], ico: 'ruta', tono: e.fibB ? D : '#a8322a', tit: 'Fibra B', sub: e.fibB ? 'Enlace de respaldo' : 'Fibra B cortada',
+      lineas: ['Otro proveedor y otra ruta hasta Antofagasta', e.fibB ? 'Toma el tráfico si se corta la fibra A' : 'Corte simulado: queda el satélite como camino'], alerta: !e.fibB },
+    { id: 'sat', p: [430, 150], ico: 'sat', tono: e.leo ? '#4a3fa8' : '#a8322a', tit: 'Satélite de órbita baja', sub: e.leo ? 'Tercer camino' : 'Sin servicio',
+      lineas: ['Respaldo si caen las dos fibras', 'Menor capacidad: sube primero lo crítico', e.leo ? 'Listo para usarse' : 'Corte simulado: si no queda camino, el Nodo opera en modo local'], alerta: !e.leo },
+    { id: 'cio', p: [842, 66], ico: 'edificio', tono: D, tit: 'Centro Integrado de Operaciones', sub: 'Antofagasta',
+      lineas: ['A 145 km de la faena', 'Sala de control de mina y planta, con despacho y análisis', camino ? 'Ve la faena en tiempo real' : 'Sin datos nuevos hasta que vuelva un camino'] },
+    { id: 'puerto', p: [1062, 178], ico: 'barco', tono: D, tit: 'Acopio y embarque en Antofagasta', sub: 'Recinto portuario de terceros',
+      lineas: ['Acopio de 25.000 t de concentrado', 'Trazabilidad de cada lote hasta el embarque'] },
+    { id: 'santiago', p: [245, 46], ico: 'nube', tono: camino ? '#2f7aa8' : '#5b6770', tit: 'Santiago · oficina corporativa y nube', sub: 'Azure Chile Central',
+      lineas: ['Oficina corporativa en Las Condes', 'Nube Azure Chile Central, con respaldo en Brazil South', camino ? (e.pendientes > 2 ? `Sincronizando ${e.pendientes} eventos` : 'Recibe los datos de la faena') : 'Sin camino: espera la sincronización'] },
+  ];
+}
+
+/** Capa de realce: anillo y nombre del lugar activo, sobre el dibujo (no recibe clics). */
+export function realceArquitectura(q: PuntoArq | undefined) {
+  if (!q) return '';
+  const w = q.tit.length * 7.6 + 24, x = Math.min(Math.max(q.p[0] - w / 2, 8), 1192 - w), arriba = q.p[1] > 70, y = arriba ? q.p[1] - 58 : q.p[1] + 30;
+  return `<svg viewBox="0 0 1200 780" style="display:block;width:100%;height:auto" aria-hidden="true">`
+    + `<circle cx="${q.p[0]}" cy="${q.p[1]}" r="24" fill="none" stroke="#fff" stroke-width="3"/><circle cx="${q.p[0]}" cy="${q.p[1]}" r="29" fill="none" stroke="${CU}" stroke-width="2.5" stroke-dasharray="5 4"/>`
+    + `<rect x="${x}" y="${y}" width="${w}" height="26" rx="13" fill="#14191d" fill-opacity=".92" stroke="${CU}" stroke-width="1.5"/>`
+    + `<text x="${x + w / 2}" y="${y + 17.5}" text-anchor="middle" font-size="13.5" font-weight="700" fill="#fff" ${F_TIT}>${q.tit}</text></svg>`;
 }
 
 /** Diagrama de arquitectura que reacciona al simulador (lo usan Conectividad y el Centro de control). */
@@ -139,17 +155,58 @@ export function dibujoArquitectura(e: EstadoArq) {
         <span><i class="inline-block w-4 h-[3px] align-middle mr-1 bg-white"></i>Antofagasta → nube en Santiago</span>
       </span>
     </div>
-    <div class="bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'" [innerHTML]="svg() | html"></div>
+    <div class="relative bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'"
+      (mouseover)="elegir($event)" (focusin)="elegir($event)" (click)="elegir($event)">
+      <div [innerHTML]="svg() | html"></div>
+      <div class="absolute inset-0 pointer-events-none" [innerHTML]="realce() | html"></div>
+    </div>
+    <!-- Detalle del lugar: el texto vive aquí y no sobre el dibujo -->
+    <div class="grid gap-3 px-4 py-3 bg-cc-p border-t border-cc-line min-[900px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
+      @if (detalle(); as d) {
+        <div aria-live="polite">
+          <div class="flex flex-wrap items-center gap-2">
+            <h4 class="m-0 font-titulo font-bold text-[1.125rem] text-white">{{ d.tit }}</h4>
+            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-semibold border"
+              [class]="d.alerta ? 'border-cc-bad text-[#ff9d93] bg-[#2a1614]' : 'border-cc-line text-cc-mut bg-cc-p2'">
+              <i class="size-2 rounded-full" [class]="d.alerta ? 'bg-cc-bad' : 'bg-cc-ok'"></i>{{ d.sub }}</span>
+          </div>
+          <ul class="mt-2 mb-0 pl-5 text-[0.875rem] text-cc-tx space-y-1 list-disc marker:text-cc-cu">
+            @for (l of d.lineas; track l) { <li>{{ l }}</li> }
+          </ul>
+        </div>
+      }
+      <div>
+        <p class="m-0 mb-1.5 text-xs font-bold uppercase tracking-widest text-cc-mut">Lugares · pasa el cursor o toca</p>
+        <div class="flex flex-wrap gap-1.5" role="group" aria-label="Lugares de la arquitectura">
+          @for (q of puntos(); track q.id) {
+            <button type="button" class="min-h-9 px-2.5 rounded-md border text-[0.8125rem] font-semibold cursor-pointer hover:brightness-125"
+              [class]="activo() === q.id ? 'border-cc-cu bg-[#3a2416] text-white' : q.alerta ? 'border-cc-bad text-[#ff9d93] bg-cc-p2' : 'border-cc-line text-cc-tx bg-cc-p2'"
+              [attr.aria-pressed]="activo() === q.id" (click)="activo.set(q.id)" (mouseenter)="activo.set(q.id)">{{ q.tit }}</button>
+          }
+        </div>
+      </div>
+    </div>
     <div class="px-3 py-2 text-[0.8125rem] text-cc-mut bg-cc-p border-t border-cc-line"><b class="text-white">Cómo se lee:</b> el equipo guarda cada evento y lo manda al Nodo de Faena; el Nodo responde a la faena aunque no haya enlace con la nube (hasta 48 h) y sube todo en orden cuando vuelve un camino: fibra A, fibra B o satélite. Vista ilustrada, no a escala.</div>`,
   imports: [HtmlPipe],
 })
 export class IsoArch {
   private sim = inject(SimService);
   readonly fondo = FONDO_ARQUITECTURA;
+  readonly activo = signal('nodo');
   readonly down = computed(() => this.sim.link === 'down');
   readonly pendientes = computed(() => this.sim.pending());
   readonly estado = computed(() => this.down() ? 'Sin camino a la nube · el Nodo de Faena sostiene la operación' : this.pendientes() > 2 ? `Sincronizando ${this.pendientes()} eventos` : 'Todo sincronizado');
-  readonly svg = computed(() => dibujoArquitectura({
+  private readonly estadoArq = computed<EstadoArq>(() => ({
     fibA: this.sim.fibA === 'ok', fibB: this.sim.fibB === 'ok', leo: this.sim.leo === 'ok', sombra: this.sim.lte === 'shadow', pendientes: this.pendientes(),
   }));
+  readonly svg = computed(() => dibujoArquitectura(this.estadoArq()));
+  readonly puntos = computed(() => puntosArquitectura(this.estadoArq()));
+  readonly detalle = computed(() => this.puntos().find(q => q.id === this.activo()));
+  readonly realce = computed(() => realceArquitectura(this.detalle()));
+
+  /** Marca como activo el lugar bajo el cursor, el que recibe el foco o el que se toca. */
+  elegir(ev: Event) {
+    const id = (ev.target as Element | null)?.closest?.('[data-id]')?.getAttribute('data-id');
+    if (id) this.activo.set(id);
+  }
 }

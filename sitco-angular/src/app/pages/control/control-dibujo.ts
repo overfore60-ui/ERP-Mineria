@@ -31,8 +31,8 @@ function rampa(tramos: [number, number, number, number][]): Pt[] {
   });
   return r;
 }
-export const RAMPA_O = rampa([[-2.35, -.55, 300, 226], [-.55, -2.4, 214, 148], [-2.4, -1.1, 136, 90]]);
-export const RAMPA_S = rampa([[.5, 2.4, 300, 226], [2.4, .9, 214, 152], [.9, 2.0, 140, 96]]);
+export const RAMPA_O = rampa([[-2.35, -.35, 300, 264], [-.35, -2.85, 254, 214], [-2.85, -.45, 204, 166], [-.45, -2.7, 156, 124], [-2.7, -1.2, 114, 90]]);
+export const RAMPA_S = rampa([[.5, 2.85, 300, 264], [2.85, .35, 254, 214], [.35, 2.75, 204, 166], [2.75, .5, 156, 124], [.5, 1.9, 114, 96]]);
 const subir = (r: Pt[]) => [...r].reverse();
 /** Caminos de superficie desde la salida de cada rampa. */
 const SUP_CH: Pt[] = [[200, 140], [170, 150]];
@@ -42,11 +42,11 @@ const SUP_BS: Pt[] = [[835, 515], [790, 545]];
 export const DEST: Record<string, { n: string; p: Pt }> = { CH: { n: 'Chancador primario', p: [170, 150] }, SA: { n: 'Stock A (lixiviación)', p: [800, 170] }, BS: { n: 'Botadero sur', p: [790, 545] } };
 const ruta = (local: Pt[], r: Pt[], sup: Pt[]): Pt[] => [...local, ...subir(r), ...sup];
 export const PALAS: Record<string, { p: Pt; d: string; mat: string; path: Pt[] }> = {
-  'PA-01': { p: [430, 300], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[430, 300], [480, 284], [528, 272]], RAMPA_O, SUP_CH) },
-  'PA-02': { p: [560, 362], d: 'BS', mat: 'Estéril', path: ruta([[560, 362], [530, 400], [470, 424]], RAMPA_S, SUP_BS) },
-  'PA-03': { p: [500, 412], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[500, 412], [520, 360], [540, 300], [552, 274]], RAMPA_O, SUP_CH) },
-  'PA-04': { p: [392, 382], d: 'SA', mat: 'Mineral óxido', path: ruta([[392, 382], [420, 410], [445, 425]], RAMPA_S, SUP_SA) },
-  'PA-05': { p: [612, 302], d: 'SA', mat: 'Mineral óxido', path: ruta([[612, 302], [604, 352], [560, 400], [470, 424]], RAMPA_S, SUP_SA) },
+  'PA-01': { p: [430, 300], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[430, 300], [482, 282], [545, 260]], RAMPA_O, SUP_CH) },
+  'PA-02': { p: [560, 362], d: 'BS', mat: 'Estéril', path: ruta([[560, 362], [530, 400], [460, 428]], RAMPA_S, SUP_BS) },
+  'PA-03': { p: [500, 412], d: 'CH', mat: 'Mineral sulfuro', path: ruta([[500, 412], [520, 360], [538, 300], [545, 262]], RAMPA_O, SUP_CH) },
+  'PA-04': { p: [392, 382], d: 'SA', mat: 'Mineral óxido', path: ruta([[392, 382], [420, 410], [455, 428]], RAMPA_S, SUP_SA) },
+  'PA-05': { p: [612, 302], d: 'SA', mat: 'Mineral óxido', path: ruta([[612, 302], [604, 352], [560, 400], [460, 428]], RAMPA_S, SUP_SA) },
 };
 export const PALA_IDS = Object.keys(PALAS);
 export const ZONAS = [
@@ -60,7 +60,7 @@ const pts = (P: Pt[]) => P.map(p => p.map(v => v.toFixed(1)).join(',')).join(' '
 export const CAMINOS = PALA_IDS.map(k => ({ k, pts: pts(PALAS[k].path) }));
 /** Red de caminos para dibujar una sola vez: rampas, accesos de las palas y caminos de superficie. */
 export const RED_CAMINOS = [RAMPA_O, RAMPA_S, [RAMPA_O[0], ...SUP_CH], [RAMPA_S[0], ...SUP_SA], [RAMPA_S[0], ...SUP_BS]].map(pts);
-export const RAMPAS_ROTULO = [{ t: 'Rampa oeste', p: pared(-2.05, 286) }, { t: 'Rampa sur', p: pared(2.05, 262) }];
+export const RAMPAS_ROTULO = [{ t: 'Rampa oeste', p: pared(-2.0, 290) }, { t: 'Rampa sur', p: pared(1.95, 236) }];
 
 const largo = (P: Pt[]) => { let L = 0; for (let i = 1; i < P.length; i++) L += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]); return L; };
 const LARGO: Record<string, number> = Object.fromEntries(PALA_IDS.map(k => [k, largo(PALAS[k].path)]));
