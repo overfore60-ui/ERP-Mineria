@@ -175,7 +175,7 @@ Acordados el 5 de noviembre de 2026 y hechos en Angular:
 Hechos el 5 y 6 de noviembre de 2026.
 
 - **Botonera de Pala** como en la Figura 3.10 del Subdocumento 3: cuatro botones de destino, luz del plan, luz de registrado y toque de credencial simulado, sin PIN ni pantalla. Se quitaron "Detención" y "Aviso de falla" de la vista del operador (RNF-USA-008 y RNF-USA-009). Sin toque de credencial, el registro queda como "operador no identificado" (RF-ACR-011).
-- **Login:** el flujo de credencial más PIN entra como supervisor. El operador no inicia sesión.
+- **Login:** en la pestaña Credencial de faena primero se simula acercar la credencial al lector (sin escribir nada), el sistema muestra a quién reconoció y luego pide el PIN; con los dos factores entra directo, como supervisor de turno o como guardia de portería. El operador no inicia sesión.
 - **Nombre del producto:** SITCO Aranda.
 - **Límite de arsénico:** 0,40 %, con lotes y mezclas de demostración coherentes.
 - **Información contextual emergente** (numeral 25.4).

@@ -38,11 +38,29 @@
         </form>
       } @else {
         <form novalidate (submit)="$event.preventDefault()">
-          <p class="text-sm muted">Para supervisión y portería: credencial más PIN. El operador de pala no inicia sesión: usa la botonera.</p>
-          <app-field label="RUT de la credencial" for="rutc">
-            <input id="rutc" name="rutc" type="text" appRegla="required|rut" placeholder="12.345.678-5" [(ngModel)]="rut">
-          </app-field>
-          <div class="lbl-t" id="pin-l">PIN de 4 dígitos</div>
+          <p class="text-sm muted">Para supervisión y portería, en tabletas y consolas compartidas entre turnos. El operador de pala no inicia sesión aquí: usa la botonera de su pala.</p>
+          <p class="text-sm rounded-lg border border-acero-l bg-arena px-3 py-2"><strong>Doble factor:</strong> tu credencial (lo que tienes) y tu PIN (lo que sabes). Funciona aunque no haya enlace, porque el Nodo de Faena valida ambos.</p>
+
+          @if (!leida()) {
+            <!-- Paso 1: acercar la credencial al lector, sin escribir nada -->
+            <div class="lbl-t">Paso 1 · Credencial</div>
+            <div class="grid place-items-center gap-3 rounded-xl border-2 border-dashed border-pizarra/40 px-4 py-6 text-center" aria-live="polite">
+              <svg width="76" height="56" viewBox="0 0 76 56" aria-hidden="true"><rect x="4" y="10" width="46" height="32" rx="5" fill="#fff" stroke="currentColor" stroke-width="2.5"/><rect x="10" y="17" width="12" height="14" rx="2" fill="currentColor" opacity=".25"/><path d="M27 20h17M27 26h13M27 32h15" stroke="currentColor" stroke-width="2.2"/><path d="M58 18a12 12 0 0 1 0 20M64 12a20 20 0 0 1 0 32" stroke="var(--color-cobre)" stroke-width="2.6" fill="none" [class.animate-pulse]="leyendo()"/></svg>
+              <p class="m-0 font-semibold">{{ leyendo() ? 'Leyendo la credencial…' : 'Acerca tu credencial de faena al lector' }}</p>
+              <button type="button" class="btn btn-lg w-full" [disabled]="leyendo()" (click)="leerCredencial(0)">Simular lectura de credencial</button>
+              <button type="button" class="text-sm underline bg-transparent border-0 cursor-pointer" [disabled]="leyendo()" (click)="leerCredencial(1)">Probar con la credencial del guardia de portería</button>
+            </div>
+          } @else {
+            <!-- Paso 2: el sistema muestra a quién reconoció y pide el PIN -->
+            @if (leida(); as c) {
+              <div class="lbl-t">Paso 1 · Credencial leída</div>
+              <div class="flex items-center gap-3 rounded-xl border border-acero-l bg-white px-3 py-2.5">
+                <span class="grid place-items-center size-11 rounded-full bg-pizarra text-white font-titulo font-bold">{{ c.ini }}</span>
+                <div class="min-w-0 flex-1"><b class="block">{{ c.nombre }}</b><span class="text-sm muted">{{ c.cargo }}</span></div>
+                <button type="button" class="text-sm underline bg-transparent border-0 cursor-pointer" (click)="otraCredencial()">No soy yo</button>
+              </div>
+            }
+          <div class="lbl-t mt-3" id="pin-l">Paso 2 · PIN de 4 dígitos</div>
           <div class="flex gap-3 justify-center my-3" aria-live="polite" [attr.aria-label]="'Dígitos ingresados: ' + pin().length + ' de 4'">
             @for (k of [0, 1, 2, 3]; track k) { <i class="size-[18px] rounded-full border-2 border-pizarra" [class.bg-pizarra]="k < pin().length"></i> }
           </div>
@@ -55,6 +73,7 @@
             <button type="button" [class]="claseTecla" aria-label="0" (click)="tecla('0')">0</button>
             <button type="button" [class]="claseTecla + ' bg-cobre! text-white border-cobre-d!'" aria-label="Ingresar" (click)="tecla('ok')">✓</button>
           </div>
+          }
         </form>
       }
     </div>

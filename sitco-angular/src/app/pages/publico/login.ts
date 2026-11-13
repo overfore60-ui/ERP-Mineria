@@ -3,14 +3,15 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ROLES } from '../../core/data';
 import { SessionService } from '../../core/session.service';
-import { rutOk } from '../../core/util';
 import { Field, Regla, validarTodos } from '../../shared/forms';
 import { BrandLock, HeroPit } from '../../shared/hero-pit';
 import { Icon } from '../../shared/icon';
 import { Modal } from '../../shared/modal';
 import { Tabs } from '../../shared/ui';
 
-/** Ingreso unificado: cuenta corporativa con segundo factor, o credencial de faena con PIN. */
+interface Credencial { rol: string; nombre: string; cargo: string; ini: string }
+
+/** Ingreso unificado: cuenta corporativa con segundo factor, o credencial de faena (lo que tienes) más PIN (lo que sabes). */
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
@@ -26,7 +27,10 @@ export class Login {
   readonly perfiles = Object.entries(ROLES).filter(([k]) => k !== 'operador');
   correo = '';
   perfil = 'supervisor';
-  rut = '12.345.678-5';
+  /** Credenciales de demostración que se pueden «acercar al lector». */
+  readonly credenciales: Credencial[] = ['supervisor', 'guardia'].map(k => ({ rol: k, nombre: ROLES[k].person, cargo: ROLES[k].label, ini: ROLES[k].ini }));
+  readonly leida = signal<Credencial | null>(null);
+  readonly leyendo = signal(false);
   readonly redirigiendo = signal(false);
 
   readonly pin = signal('');
@@ -41,7 +45,16 @@ export class Login {
     setTimeout(() => { this.redirigiendo.set(false); this.router.navigateByUrl('/2fa'); }, 1300);
   }
 
+  /** Simula que la persona acerca su credencial al lector: no escribe nada. */
+  leerCredencial(i = 0) {
+    this.leyendo.set(true);
+    this.pinError.set('');
+    setTimeout(() => { this.leyendo.set(false); this.leida.set(this.credenciales[i]); this.pin.set(''); this.intentos = 0; }, 700);
+  }
+  otraCredencial() { this.leida.set(null); this.pin.set(''); this.pinError.set(''); }
+
   tecla(k: string) {
+    if (!this.leida() || this.intentos >= 3) return;
     if (k === 'del') this.pin.update(p => p.slice(0, -1));
     else if (k === 'ok') return this.revisarPin();
     else if (this.pin().length < 4) this.pin.update(p => p + k);
@@ -49,7 +62,8 @@ export class Login {
   }
 
   private revisarPin() {
-    if (!rutOk(this.rut)) { this.pinError.set('Revisa el RUT de la credencial.'); return; }
+    const c = this.leida();
+    if (!c) { this.pinError.set('Primero acerca tu credencial al lector.'); return; }
     if (this.pin().length < 4) { this.pinError.set('Ingresa los 4 dígitos.'); return; }
     if (this.pin() !== '1234') {
       this.intentos++;
@@ -58,7 +72,7 @@ export class Login {
       this.pinError.set(this.intentos >= 3 ? 'Credencial bloqueada. Avisa a tu supervisor.' : `PIN incorrecto. Te quedan ${q} intento${q > 1 ? 's' : ''}.`);
       return;
     }
-    this.ses.pendiente = { role: 'supervisor', kind: 'cred' };
-    this.router.navigateByUrl('/2fa');
+    // Los dos factores ya están: la credencial leída y el PIN correcto.
+    this.ses.login(c.rol);
   }
 }
