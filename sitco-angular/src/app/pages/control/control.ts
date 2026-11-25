@@ -37,6 +37,9 @@ export class Control implements OnInit, OnDestroy {
   readonly mapaRiesgo = MAPA_RIESGO;
   readonly tabs = [['desp', 'Despacho y mapa'], ['geo', 'Geotecnia'], ['pit', 'Pit 3D'], ['arq', 'Arquitectura']];
   readonly capasLista = [['roads', 'Caminos'], ['zones', 'Zonas'], ['trucks', 'Camiones'], ['shovels', 'Palas'], ['drills', 'Perforadoras']];
+  /** Marca visible del estado en la Lista de equipos (WCAG 1.4.1: no depender solo del color). */
+  readonly marca: Record<string, string> = { Detenido: '✕', Mantención: 'M', 'Sin señal': 'S' };
+  readonly leyendaMarcas = Object.entries(this.marca);
 
   readonly ph = 'flex items-center justify-between gap-2 px-3 py-1.5 bg-cc-p2 border-b border-cc-line text-xs font-bold uppercase tracking-widest text-cc-mut';
   readonly nota = 'block px-3 py-2 text-[0.8125rem] text-cc-mut bg-cc-p border-t border-cc-line';
@@ -107,6 +110,22 @@ export class Control implements OnInit, OnDestroy {
 
   cambiarTab(k: string) { this.tab.set(k); this.girar.set(false); }
   seleccionar(id: string) { this.sel.set(id); }
+  /**
+   * Los equipos dibujados no son controles separados (se superponen y miden menos de 44 px):
+   * el toque lo recibe el carril o el mapa completo y elige el equipo más cercano.
+   * Con teclado y lector de pantalla se eligen en la Lista de equipos.
+   */
+  elegirCercano(ev: MouseEvent, radio: number) {
+    let id: string | null = null, menor = radio;
+    (ev.currentTarget as Element).querySelectorAll('[data-eq]').forEach(el => {
+      let x: number, y: number;
+      const m = el instanceof SVGGraphicsElement ? el.getScreenCTM() : null;
+      if (m) { x = m.e; y = m.f; } else { const r = el.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top + r.height / 2; }
+      const d = Math.hypot(ev.clientX - x, ev.clientY - y);
+      if (d <= menor) { menor = d; id = el.getAttribute('data-eq'); }
+    });
+    if (id) this.seleccionar(id);
+  }
   capa(k: string, on: boolean) { this.capas.update(c => ({ ...c, [k]: on })); }
   rotar(v: string) { this.angulo.set(+v / 100); this.girar.set(false); }
   reconocer() {

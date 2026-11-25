@@ -5,7 +5,7 @@
 </div>
 
 <app-card class="mt-4" titulo="Lotes de concentrado" sub="Elige un lote para ver su recorrido, su origen y sus documentos.">
-  <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+  <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
     <table class="stack">
       <thead><tr><th>Lote</th><th>Nave</th><th>Fecha</th><th class="text-right">Toneladas</th><th class="text-right">Cu %</th><th class="text-right">As %</th><th>Estado</th></tr></thead>
       <tbody>
@@ -42,7 +42,7 @@
         <app-card titulo="Origen del concentrado" sub="Polígonos del rajo que componen este lote y cuánto aportó cada uno.">
           <div class="grid gap-4 md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] items-center">
             <div [innerHTML]="o.dona | html"></div>
-            <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+            <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
               <table class="stack text-sm!">
                 <thead><tr><th>Polígono</th><th>Banco</th><th>Extraído</th><th class="text-right">Aporte</th><th class="text-right">Cu %</th></tr></thead>
                 <tbody>

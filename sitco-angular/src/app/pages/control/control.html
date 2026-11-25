@@ -30,18 +30,19 @@
           <div class="max-h-[max(260px,calc(100dvh_-_560px))] overflow-auto">
             @for (p of palas(); track p.k) {
               <div class="grid grid-cols-[96px_minmax(0,1fr)_84px] md:grid-cols-[120px_minmax(0,1fr)_112px] min-h-19 border-b border-cc-line bg-cc-p" [class]="sel() === p.k ? 'outline-2 outline-cc-cu -outline-offset-2' : ''">
-                <button type="button" class="px-2.5 py-2 border-r border-cc-line text-left cursor-pointer bg-transparent text-inherit hover:bg-cc-p2" [attr.aria-label]="'Seleccionar pala ' + p.k" (click)="seleccionar(p.k)">
+                <button type="button" class="px-2.5 py-2 border-r border-cc-line text-left cursor-pointer bg-transparent text-inherit hover:bg-cc-p2" (click)="seleccionar(p.k)">
+                  <span class="sr">Seleccionar pala </span>
                   <b class="flex items-center gap-1.5 font-titulo font-bold text-[1.0625rem] text-white"><i class="size-[11px] rounded-full flex-none" [style.background]="p.c"></i>{{ p.k }}</b>
                   <span class="block text-xs text-cc-mut leading-tight">{{ p.mat }}</span><span class="block text-xs text-cc-mut leading-tight">{{ p.op }} camiones en ciclo</span>
                 </button>
-                <div class="relative mx-2 before:content-[''] before:absolute before:inset-x-0 before:top-1/2 before:h-0.5 before:bg-[repeating-linear-gradient(90deg,#4a5a66_0_8px,transparent_8px_14px)]">
+                <div (click)="elegirCercano($event, 30)" class="cursor-pointer relative mx-2 before:content-[''] before:absolute before:inset-x-0 before:top-1/2 before:h-0.5 before:bg-[repeating-linear-gradient(90deg,#4a5a66_0_8px,transparent_8px_14px)]">
                   @for (t of p.ts; track t.id) {
-                    <button type="button" class="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 motion-safe:transition-[left] duration-[450ms] ease-linear flex flex-col items-center text-[0.625rem] font-semibold bg-transparent border-0 px-1 py-1.5 min-w-11 min-h-11 cursor-pointer"
+                    <span aria-hidden="true" [attr.data-eq]="t.id" class="pointer-events-none absolute top-1/2 -translate-x-1/2 -translate-y-1/2 motion-safe:transition-[left] duration-[450ms] ease-linear flex flex-col items-center text-[0.625rem] font-semibold px-1 py-1.5"
                       [class]="(sel() === t.id ? 'text-white drop-shadow-[0_0_4px_#e0793a] ' : 'text-cc-mut ') + (t.stale ? 'opacity-45' : '')"
-                      [style.left.%]="t.t * 100" [attr.aria-label]="'Camión ' + t.id + ', ' + t.estado" (click)="seleccionar(t.id)">
+                      [style.left.%]="t.t * 100">
                       <svg width="23" height="13" viewBox="0 0 26 14" aria-hidden="true" [style.transform]="t.dir < 0 ? 'scaleX(-1)' : null"><path d="M1 3h14v7H1z" [attr.fill]="t.c"/><path d="M15 5h6l3 3v2H15z" [attr.fill]="t.c"/><circle cx="6" cy="11.5" r="2" fill="#0c1013" [attr.stroke]="t.c"/><circle cx="19" cy="11.5" r="2" fill="#0c1013" [attr.stroke]="t.c"/></svg>
                       @if (sel() === t.id || t.estado === 'Detenido') { <span>{{ t.id.slice(3) }}</span> }
-                    </button>
+                    </span>
                   }
                 </div>
                 <div class="px-2.5 py-2 border-l border-cc-line bg-[#10161a]">
@@ -52,13 +53,14 @@
             }
           </div>
           <div [class]="ph"><span>Lista de equipos</span></div>
+          <p class="m-0 px-3 pt-2 bg-cc-p text-xs text-cc-mut">@for (m of leyendaMarcas; track m[0]) { <span class="mr-3 inline-block"><b class="text-white">{{ m[1] }}</b> {{ m[0] }}</span> }<span>Sin letra: operando.</span></p>
           <div class="grid gap-2 px-3 py-2 bg-cc-p">
             @for (g of grupos(); track g.t) {
               <h4 class="m-0 text-xs font-bold text-cc-mut uppercase tracking-wider">{{ g.t }} ({{ g.eq.length }})</h4>
               <div class="flex flex-wrap gap-1">
                 @for (e of g.eq; track e.id) {
-                  <button type="button" class="min-w-11 min-h-11 px-1.5 rounded border border-cc-line border-l-4 bg-cc-p2 text-cc-tx text-[0.6875rem] font-semibold cursor-pointer"
-                    [style.border-left-color]="stc[e.estado]" [class.outline-2]="sel() === e.id" [class.outline-cc-cu]="sel() === e.id" [title]="e.estado" (click)="seleccionar(e.id)">{{ e.id.slice(3) }}</button>
+                  <button type="button" class="after:content-[attr(data-m)] after:block after:text-[0.625rem] after:leading-none min-w-11 min-h-11 px-1.5 rounded border border-cc-line border-l-4 bg-cc-p2 text-cc-tx text-[0.6875rem] font-semibold cursor-pointer"
+                    [style.border-left-color]="stc[e.estado]" [class.outline-2]="sel() === e.id" [class.outline-cc-cu]="sel() === e.id" [title]="e.estado" [attr.aria-label]="e.id + ', ' + e.tipo + ', ' + e.estado" [attr.aria-pressed]="sel() === e.id" [attr.data-m]="marca[e.estado] || null" (click)="seleccionar(e.id)">{{ e.id.slice(3) }}</button>
                 }
               </div>
             }
@@ -84,7 +86,7 @@
                 }
               </button>
             </div>
-            <svg viewBox="0 0 1000 620" class="block w-full h-auto max-h-[max(300px,calc(100dvh_-_470px))]" role="img" aria-label="Mapa del rajo con zonas, caminos y equipos en movimiento">
+            <svg viewBox="0 0 1000 620" class="block w-full h-auto max-h-[max(300px,calc(100dvh_-_470px))]" role="img" aria-label="Mapa del rajo con zonas, caminos y equipos en movimiento. Con teclado o lector de pantalla, elige los equipos en la Lista de equipos." (click)="elegirCercano($event, 24)">
               <rect width="1000" height="620" fill="#0f1316" />
               <g [innerHTML]="terreno | html"></g>
               @if (capas()['zones']) {
@@ -118,7 +120,7 @@
               }
               @if (capas()['drills']) {
                 @for (d of perforadoras(); track d.id) {
-                  <g [attr.transform]="'translate(' + d.x + ' ' + d.y + ')'" class="cursor-pointer" role="button" tabindex="0" [attr.aria-label]="'Perforadora ' + d.id" (click)="seleccionar(d.id)" (keydown.enter)="seleccionar(d.id)">
+                  <g [attr.transform]="'translate(' + d.x + ' ' + d.y + ')'" class="cursor-pointer" [attr.data-eq]="d.id">
                     <rect x="-7" y="-7" width="14" height="14" fill="#10161a" [attr.stroke]="d.c" stroke-width="2" />
                     <text x="0" y="-11" text-anchor="middle" font-size="10" fill="#fff" style="paint-order:stroke;stroke:#000;stroke-width:3px">{{ d.id }}</text>
                   </g>
@@ -126,7 +128,7 @@
               }
               @if (capas()['shovels']) {
                 @for (p of palas(); track p.k) {
-                  <g [attr.transform]="'translate(' + p.x + ' ' + p.y + ')'" class="cursor-pointer" role="button" tabindex="0" [attr.aria-label]="'Pala ' + p.k + ', ' + p.estado" (click)="seleccionar(p.k)" (keydown.enter)="seleccionar(p.k)">
+                  <g [attr.transform]="'translate(' + p.x + ' ' + p.y + ')'" class="cursor-pointer" [attr.data-eq]="p.k">
                     <circle r="15" fill="#10161a" [attr.stroke]="p.c" stroke-width="3" />
                     <path d="M-7 3h10l5-6h4v9h-19z" [attr.fill]="p.c" />
                     <text y="-20" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" style="paint-order:stroke;stroke:#000;stroke-width:3px">{{ p.k }}</text>
@@ -137,7 +139,7 @@
               @if (capas()['trucks']) {
                 @for (t of camiones(); track t.id) {
                   <g class="cursor-pointer motion-safe:transition-transform duration-[450ms] ease-linear" [class.opacity-40]="t.stale" [style.transform]="'translate(' + t.x.toFixed(1) + 'px,' + t.y.toFixed(1) + 'px)'"
-                    role="button" tabindex="0" [attr.aria-label]="'Camión ' + t.id + ', ' + t.estado" (click)="seleccionar(t.id)" (keydown.enter)="seleccionar(t.id)">
+                    [attr.data-eq]="t.id">
                     <circle r="22" fill="transparent" />
                     @if (sel() === t.id) { <circle r="14" fill="none" stroke="#e0793a" stroke-width="2.5" /> }
                     <!-- camión de extracción visto desde arriba, orientado hacia donde avanza -->

@@ -157,7 +157,7 @@
   .chart .ax { stroke: var(--color-arena-3); stroke-width: 1; }
   .chart .gl { stroke: var(--color-acero-l); stroke-width: 1; stroke-dasharray: 3 4; }
   .chart .hit { cursor: pointer; }
-  .chart .hit:hover { opacity: .8; }
+  .chart .hit:hover { fill: rgba(30, 43, 53, .08); }
 
   /* Tabla que se apila en el celular: cada celda muestra su encabezado */
   @media (max-width: 767px) {
@@ -168,6 +168,8 @@
   }
 
   .sr { @apply sr-only; }
+  /* Enlaces sueltos y enlaces de tabla: objetivo táctil de 44 × 44 px (RT-13.07) */
+  .a44, td a:not([class*='btn']) { @apply inline-flex items-center justify-center min-h-11 min-w-11; }
   .muted { @apply text-acero; }
 }
 

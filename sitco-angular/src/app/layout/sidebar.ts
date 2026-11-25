@@ -21,7 +21,7 @@ import { Icon } from '../shared/icon';
           [attr.aria-current]="activo(i.id, rla.isActive) ? 'page' : null" [class]="activo(i.id, rla.isActive) ? a + on : a"
           [attr.data-tour]="i.id === 'trazabilidad' ? 'nav' : null" (click)="page.navAbierto.set(false)">
           <app-icon [name]="i.i" /><span>{{ i.l }}</span>
-          @if (i.id === 'acreditacion' && ses.user()?.role !== 'contratista') { <span class="badge-n ml-auto" aria-label="4 pendientes">4</span> }
+          @if (i.id === 'acreditacion' && ses.user()?.role !== 'contratista') { <span class="badge-n ml-auto" aria-hidden="true">4</span><span class="sr">4 pendientes</span> }
         </a>
       }
     }`,

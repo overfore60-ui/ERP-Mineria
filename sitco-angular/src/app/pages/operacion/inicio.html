@@ -53,7 +53,7 @@
             <ul class="list-none p-0 m-0">
               @for (e of detenidos; track e.id) {
                 <li class="flex justify-between items-center flex-wrap gap-3 border-b border-arena-2 py-2">
-                  @if (ses.permitidoRuta('/equipos')) { <a [routerLink]="['/equipos', e.id]"><strong>{{ e.id }}</strong></a> } @else { <strong>{{ e.id }}</strong> }
+                  @if (ses.permitidoRuta('/equipos')) { <a class="a44" [routerLink]="['/equipos', e.id]"><strong>{{ e.id }}</strong></a> } @else { <strong>{{ e.id }}</strong> }
                   <span class="text-sm muted">{{ e.tipo }} · {{ desde(e.det!.desde) }}</span>
                   <app-estado [v]="e.det!.causa" [tipo]="e.det!.causa === 'Sin clasificar' ? 'err' : 'warn'" />
                 </li>
@@ -86,7 +86,7 @@
             <ul class="list-none p-0 m-0">
               @for (e of embarques; track e.id) {
                 <li class="flex justify-between items-center flex-wrap gap-3 border-b border-arena-2 py-2">
-                  <a [routerLink]="['/trazabilidad/lote', e.id]"><strong>{{ e.id }}</strong></a><span class="text-sm muted">{{ e.nave }}</span><app-estado [v]="e.estado" />
+                  <a class="a44" [routerLink]="['/trazabilidad/lote', e.id]"><strong>{{ e.id }}</strong></a><span class="text-sm muted">{{ e.nave }}</span><app-estado [v]="e.estado" />
                 </li>
               }
             </ul>

@@ -9,7 +9,7 @@
           <div class="card-flat">
             <h3 [style.color]="g.c">{{ g.g }}</h3>
             <ul class="list-none pl-5 border-l-2 border-arena-3 my-1">
-              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="font-medium" [routerLink]="i[1]">{{ i[0] }}</a>@if (!ses.permitidoRuta(i[1])) { <span class="text-[0.8125rem] muted"> · otro perfil</span> }</li> }
+              @for (i of g.items; track i[0]) { <li class="py-0.5"><a class="a44 font-medium" [routerLink]="i[1]">{{ i[0] }}</a>@if (!ses.permitidoRuta(i[1])) { <span class="text-[0.8125rem] muted"> · otro perfil</span> }</li> }
             </ul>
           </div>
         }
@@ -18,7 +18,7 @@
     }
     @case ('o') {
       <p class="text-sm muted">Los nueve módulos y el Integrador del Subdocumento 3, con las pantallas del prototipo que muestran cada uno. NODO: también corre en el Nodo de Faena, 48 h sin enlace.</p>
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack">
           <caption class="sr">Módulos de la solución y pantallas del prototipo</caption>
           <thead><tr><th>Módulo</th><th>Grupo</th><th>NODO</th><th>Pantallas del prototipo</th></tr></thead>
@@ -43,7 +43,7 @@
       </div>
     }
     @case ('t') {
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack">
           <thead><tr><th>Término del prototipo</th><th>Qué significa</th><th>Evitar</th></tr></thead>
           <tbody>@for (r of taxonomia; track r[0]) { <tr><td data-l="Término"><strong>{{ r[0] }}</strong></td><td data-l="Significado">{{ r[1] }}</td><td data-l="Evitar" class="muted">{{ r[2] }}</td></tr> }</tbody>
@@ -52,7 +52,7 @@
       <p class="text-sm muted mt-2">El vocabulario es el de la industria del cobre y el de las entrevistas de levantamiento: no se inventan nombres propios para cosas que la gente ya llama de otra forma.</p>
     }
     @case ('e') {
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table>
           <caption class="sr">Opciones de menú por perfil</caption>
           <thead><tr><th>Sección</th>@for (r of roles; track r.label) { <th class="whitespace-normal! min-w-20 text-center">{{ r.label }}</th> }</tr></thead>
@@ -60,7 +60,7 @@
             @for (i of secciones; track i.id) {
               <tr><th scope="row" class="bg-transparent!">{{ i.l }}</th>
                 @for (r of roles; track r.label) {
-                  <td class="text-center">@if (r.items.includes(i.id)) { <span aria-label="Disponible" class="text-senal font-bold">✓</span> } @else { <span aria-label="No disponible" class="muted">—</span> }</td>
+                  <td class="text-center">@if (r.items.includes(i.id)) { <span role="img" aria-label="Disponible" class="text-senal font-bold">✓</span> } @else { <span role="img" aria-label="No disponible" class="muted">—</span> }</td>
                 }
               </tr>
             }

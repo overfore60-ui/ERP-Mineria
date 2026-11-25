@@ -14,7 +14,7 @@ export const SITEMAP = [
   { g: 'Personas y cumplimiento', c: '#1F7A5C', items: [['Acreditación', '/acreditacion'], ['↳ Ficha de persona', '/acreditacion/W-2100'], ['↳ Nueva acreditación', '/acreditacion/nueva'], ['Consola de portería', '/porteria'], ['Seguridad y fatiga', '/seguridad'], ['Ambiental y huella', '/ambiental'], ['Terceros', '/terceros'], ['↳ Ficha de tercero', '/terceros/T-1000']] },
   { g: 'Análisis', c: '#1E2B35', items: [['Tablero analítico', '/tablero'], ['↳ Detalle de indicador', '/tablero/detalle/utilizacion']] },
   { g: 'Plataforma', c: '#7E3A16', items: [['Conectividad y nube', '/conectividad'], ['Integrador de sistemas', '/integrador'], ['Administración · Usuarios', '/admin/usuarios'], ['↳ Roles y permisos', '/admin/roles'], ['↳ Parametrización', '/admin/parametros'], ['↳ Auditoría', '/admin/auditoria'], ['Ayuda y accesibilidad', '/ayuda']] },
-  { g: 'Documentación', c: '#6C8294', items: [['Arquitectura de información', '/arquitectura-informacion'], ['Sistema de diseño', '/sistema-diseno']] },
+  { g: 'Documentación', c: '#4A5A66', items: [['Arquitectura de información', '/arquitectura-informacion'], ['Sistema de diseño', '/sistema-diseno']] },
 ];
 
 /** Diagrama de navegación: portal → seis áreas → pantallas. */

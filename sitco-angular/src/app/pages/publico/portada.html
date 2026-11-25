@@ -9,7 +9,7 @@
         <a class="btn btn-lg" routerLink="/login"><app-icon name="lock" /> Ingresar</a>
         <button type="button" class="btn btn-lg btn-sec" (click)="explorar = true"><app-icon name="users" /> Elegir perfil</button>
       </div>
-      <p class="text-sm mt-4 text-[#C7D0D6]">¿Eres empresa contratista? <a routerLink="/registro" class="text-white!">Registra tu empresa y acredita a tu gente</a>.</p>
+      <p class="text-sm mt-4 text-[#C7D0D6]">¿Eres empresa contratista? <a routerLink="/registro" class="a44 text-white!">Registra tu empresa y acredita a tu gente</a>.</p>
     </div>
     <div class="grid gap-3 sm:grid-cols-2" role="list" aria-label="Resultados comprometidos">
       @for (x of resultados; track x[0]) {
@@ -68,7 +68,7 @@
   <div class="max-w-[1180px] mx-auto flex flex-wrap justify-between items-center gap-3">
     <span>{{ brand.product }} · por {{ brand.vendor }}</span>
     <nav class="flex flex-wrap gap-3" aria-label="Enlaces">
-      <a class="text-white!" routerLink="/ayuda">Accesibilidad</a>
+      <a class="a44 text-white!" routerLink="/ayuda">Accesibilidad</a>
     </nav>
   </div>
 </footer>

@@ -45,7 +45,7 @@ Una aplicación web de una sola página, hecha en Angular 22 con Tailwind CSS 4,
 - **Trazabilidad de lotes** de la mina al embarque, con reconstrucción del origen de cada lote, ciclo completo y una excepción por arsénico.
 - **Conciliación metalúrgica**, plan minero con versiones, y flota de equipos con detenciones.
 - **Perforación y pozos** (Operación Mina): pozos con profundidad e índice de dureza, registro desde la App SITCO Terreno para las siete perforadoras sin instrumentación y descarga en CSV para Geología.
-- **Centro de control**: despacho de palas y camiones en movimiento, mapa del rajo, geotecnia, modelo 3D por bloques y una arquitectura sobre una vista aérea ilustrada de la faena (rajo, botaderos, planta, relaves, campamento y Nodo de Faena con red LTE) hasta Antofagasta, el puerto y la nube en Santiago, con la fibra A, la fibra B y el satélite reaccionando al simulador de corte. El paisaje es una imagen generada con código (`sitco-angular/herramientas/fondo-arquitectura.mjs`). En el despacho, los camiones suben y bajan por dos rampas con curvas de retorno (oeste al chancador; sur al botadero y, por el borde este, al Stock A), cada uno mira hacia donde avanza, y la ficha del equipo seleccionado va bajo el mapa para no tapar la flota.
+- **Centro de control**: despacho de palas y camiones en movimiento, mapa del rajo, geotecnia, modelo 3D por bloques y una arquitectura sobre una vista aérea ilustrada de la faena (rajo, botaderos, planta, relaves, campamento y Nodo de Faena con red LTE) hasta Antofagasta, el puerto y la nube en Santiago, con la fibra A, la fibra B y el satélite reaccionando al simulador de corte. El paisaje es una imagen generada con código (`sitco-angular/herramientas/fondo-arquitectura.mjs`). En el despacho, los camiones suben y bajan por dos rampas con curvas de retorno (oeste al chancador; sur al botadero y, por el borde este, al Stock A), cada uno mira hacia donde avanza, y la ficha del equipo seleccionado va bajo el mapa para no tapar la flota. Un toque en el mapa o en una fila de pala selecciona el equipo más cercano; también se elige desde la Lista de equipos.
 - **Acreditación de personas**, seguridad y fatiga, ambiental y huella de carbono, y gestión de terceros.
 - **Consola de portería** (Acreditación y Acceso): lo que ve el guardia al leer una credencial. Muestra si la persona puede ingresar y, si tiene un documento vencido, los tres avisos previos que envió el sistema (criterio de aceptación 7). Funciona sin enlace y deja bitácora de ingresos y rechazos.
 - **Integrador de sistemas**: los diez sistemas existentes con su tratamiento (se integra, solo lectura, se amplía o se reemplaza), qué intercambia cada conector, dónde corre y su estado. Reacciona al simulador de corte: los conectores que van a la nube pasan a "En bandeja de salida".
@@ -156,20 +156,20 @@ antecedentes/       Documentos de referencia: correo, documentos de la solución
 
 Se apunta a WCAG 2.2 nivel AA para el trabajo en faena: objetivos táctiles de 44 px, modo de alto contraste para el sol, texto ampliable, navegación por teclado y mensajes anunciados para lector de pantalla.
 
-Comprobado hasta ahora:
+Revisión del 25 de noviembre de 2026, sobre la versión local:
 
-- **Teclado:** el orden de tabulación es lógico, el foco es visible y no hay elementos clicables fuera del alcance del teclado en las 11 pantallas revisadas.
-- **Contraste:** una revisión automática de esas pantallas no encontró textos bajo el mínimo. Los contrastes de la paleta coinciden con los que declara la página de sistema de diseño.
-- **Objetivos táctiles:** en 1366 px se cumplen en la mayoría de las pantallas.
-- **Texto grande:** los tamaños de texto están en `rem`, así que el botón los amplía todos juntos (71 de 71 textos del Inicio del supervisor). Con el texto grande encendido, 25 pantallas revisadas no se desbordan a 375 px ni a 683 px de ancho. Los textos dentro de los gráficos SVG no se amplían.
+- **Automática:** axe-core 4.14.1 con las reglas WCAG 2.0, 2.1 y 2.2 niveles A y AA, incluida la regla experimental `label-content-name-mismatch`, más una comprobación propia de que cada control mida al menos 44 × 44 px. Se corrigió lo encontrado y las vistas afectadas se volvieron a medir sin hallazgos. Se probó con distintos perfiles a 320, 375, 1024 y 1366 px, en modo sol, con texto grande y con varios diálogos abiertos. No todas las vistas se midieron en todas las combinaciones.
+- **Equipos en los dibujos:** los camiones de "Palas y camiones", los equipos del mapa y los marcadores de la vista de arquitectura no son controles separados, porque se superponen o miden menos de 44 px. El toque lo recibe la fila o el dibujo completo y elige el elemento más cercano. Con teclado y lector de pantalla se usan "Lista de equipos" y los botones de "Lugares".
+- **Gráfico de detenciones:** la columna completa se puede pulsar con puntero y bajo el gráfico hay un enlace "Ver detalle de detenciones".
+- **Teclado y contraste:** la revisión anterior de 11 pantallas no encontró elementos fuera del alcance del teclado. No se repitió después de estos cambios.
 
-No está comprobado: el uso con un lector de pantalla real y el modo de alto contraste en pantalla.
+No está comprobado: recorrido completo con teclado y foco no tapado, uso con lector de pantalla real, teléfono real, espaciado de texto, zoom, contraste de gráficos y componentes, y los demás criterios que requieren revisión manual. Por eso todavía no se declara cumplimiento total de WCAG 2.2 AA.
 
 ## Cambios acordados ya implementados
 
 Acordados el 5 de noviembre de 2026 y hechos en Angular:
 
-- **Objetivos táctiles de 44 × 44 px** en todos los controles, incluidos los encabezados de columna de las tablas, las casillas de fila, las fichas de camión del mapa y el cierre de notificaciones.
+- **Objetivos táctiles de 44 × 44 px** en todos los controles, incluidos los encabezados de columna de las tablas, las casillas de fila y el cierre de notificaciones. Las fichas de camión del mapa se cambiaron el 25 de noviembre (ver [Accesibilidad](#accesibilidad)).
 - **Pausa del movimiento** del mapa de despacho (WCAG 2.2.2, nivel A): un botón "En vivo" que cambia a "En pausa" al detenerlo, y el mapa parte pausado si el sistema pide reducir animaciones.
 
 Hechos el 5 y 6 de noviembre de 2026.

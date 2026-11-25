@@ -1,17 +1,16 @@
 @if (auth()) {
-  <button type="button" class="ibtn lg:hidden! hover:bg-white/15" aria-label="Abrir menú de navegación" [attr.aria-expanded]="page.navAbierto()" aria-controls="nav"
+  <button type="button" class="ibtn flex-none lg:hidden! hover:bg-white/15" aria-label="Abrir menú de navegación" [attr.aria-expanded]="page.navAbierto()" aria-controls="nav"
     (click)="page.navAbierto.set(!page.navAbierto())"><app-icon name="menu" /></button>
 }
-<a [routerLink]="auth() ? ses.inicio() : '/'" class="flex items-center gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[1.0625rem] md:text-[1.375rem] tracking-wide hover:text-white"
-  [attr.aria-label]="brand.product + ', ir al inicio'">
+<a [routerLink]="auth() ? ses.inicio() : '/'" class="flex items-center min-h-11 gap-1.5 md:gap-2.5 text-white no-underline font-titulo font-bold text-[1.0625rem] md:text-[1.375rem] tracking-wide hover:text-white">
   <span class="grid place-items-center size-[34px] rounded-lg bg-cobre"><app-icon name="layers" /></span>
-  <span>{{ brand.product }}<small class="hidden md:block font-texto font-medium text-[0.6875rem] tracking-wider uppercase opacity-75 -mt-0.5">Altos de Aranda · por {{ brand.vendor }}</small></span>
+  <span>{{ brand.product }}<small class="hidden md:block font-texto font-medium text-[0.6875rem] tracking-wider uppercase opacity-75 -mt-0.5">Altos de Aranda · por {{ brand.vendor }}</small></span><span class="sr">, ir al inicio</span>
 </a>
 <span class="flex-1"></span>
 
 @if (auth()) {
   @if (ses.veFaena()) {
-  <a id="conn" [routerLink]="ses.permitidoRuta('/conectividad') ? '/conectividad' : null" class="inline-flex items-center gap-2 min-h-11 px-3 rounded-full border text-white text-[0.8125rem] font-semibold no-underline hover:text-white"
+  <a id="conn" [routerLink]="ses.permitidoRuta('/conectividad') ? '/conectividad' : null" [attr.role]="ses.permitidoRuta('/conectividad') ? null : 'status'" class="inline-flex items-center justify-center gap-2 min-h-11 min-w-11 px-3 rounded-full border text-white text-[0.8125rem] font-semibold no-underline hover:text-white"
     [class]="sim.mode() === 'down' ? 'border-[#FFC24A]' : 'border-white/35'" [attr.aria-label]="'Estado de conectividad: ' + conexion() + (ses.permitidoRuta('/conectividad') ? '. Abrir detalle' : '')">
     <span class="size-2.5 rounded-full" [class]="punto()"></span><span class="hidden md:inline">{{ conexion() }}</span>
   </a>
@@ -31,10 +30,10 @@
   <a routerLink="/ayuda" class="ibtn hidden! md:inline-grid! hover:bg-white/15" aria-label="Ayuda y accesibilidad"><app-icon name="help" /></a>
 
   @if (ses.rol(); as r) {
-    <app-menu claseBoton="flex items-center gap-1 md:gap-2.5 min-h-11 px-1 md:px-2 rounded-lg bg-transparent border-0 text-white text-sm font-medium cursor-pointer hover:bg-white/15" ancho="w-[min(320px,92vw)]">
+    <app-menu claseBoton="flex items-center justify-center gap-1 md:gap-2.5 min-h-11 min-w-11 px-1 md:px-2 rounded-lg bg-transparent border-0 text-white text-sm font-medium cursor-pointer hover:bg-white/15" ancho="w-[min(320px,92vw)]">
       <span boton class="contents">
         <span class="grid place-items-center size-[34px] rounded-full bg-arena text-pizarra font-titulo font-bold text-sm" aria-hidden="true">{{ ses.user()?.ini }}</span>
-        <span class="hidden md:inline">{{ r.label }}</span><app-icon name="chD" class="max-md:hidden!" />
+        <span class="max-md:sr">{{ r.label }}</span><span class="sr">, menú de usuario</span><app-icon name="chD" class="max-md:hidden!" />
       </span>
       <div class="px-3 py-2"><strong>{{ r.person }}</strong>
         <div class="text-[0.8125rem] muted">{{ r.label }} · {{ acceso() }}</div></div>

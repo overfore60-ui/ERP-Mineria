@@ -83,7 +83,7 @@
             </div>
             <div aria-live="polite" class="mt-4">
               @if (personas().length) {
-                <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+                <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
                   <table class="stack">
                     <thead><tr><th>Nombre</th><th>RUT</th><th>Cargo</th><th><span class="sr">Acciones</span></th></tr></thead>
                     <tbody>

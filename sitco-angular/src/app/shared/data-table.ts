@@ -50,7 +50,7 @@ export class Cell {
           <button type="button" class="btn btn-sec" (click)="reiniciar()">Limpiar filtros</button>
         </app-empty>
       } @else {
-        <div class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
+        <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
           <table [class.stack]="apilar()">
             <caption class="sr">{{ caption() }}</caption>
             <thead><tr>

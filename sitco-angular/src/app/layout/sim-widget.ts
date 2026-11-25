@@ -20,7 +20,7 @@ import { Icon } from '../shared/icon';
     <label class="switch"><input type="checkbox" [checked]="sim.lte === 'shadow'" (change)="sim.setLte($any($event.target).checked)"><span class="tr"></span><span>Equipo en zona sin cobertura (fondo del rajo)</span></label>
     <div class="mt-2">
       <div class="flex justify-between text-sm"><strong>Autonomía local usada</strong><span>{{ nd(sim.hours, 0) }} h de 48 h</span></div>
-      <div class="bar" [class.err]="sim.hours > 48" [class.warn]="sim.hours > 36 && sim.hours <= 48" role="progressbar" aria-valuemin="0" aria-valuemax="48" [attr.aria-valuenow]="sim.hours"><i [style.width.%]="min(100, sim.hours / 48 * 100)"></i></div>
+      <div class="bar" [class.err]="sim.hours > 48" [class.warn]="sim.hours > 36 && sim.hours <= 48" role="progressbar" aria-label="Autonomía local usada" aria-valuemin="0" aria-valuemax="48" [attr.aria-valuenow]="sim.hours"><i [style.width.%]="min(100, sim.hours / 48 * 100)"></i></div>
     </div>
     <div class="flex flex-wrap gap-2 mt-2">
       @for (h of [6, 20, 48]; track h) {

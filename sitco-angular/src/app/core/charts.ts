@@ -29,7 +29,9 @@ export function bar(o: { values: number[]; labels: string[]; w?: number; h?: num
   let s = axes(w, h, m, max, fmt) + `<line class="ax" x1="${m.l}" x2="${w - m.r}" y1="${y0}" y2="${y0}"/>`;
   o.values.forEach((v, i) => {
     const bh = (h - m.t - m.b) * v / max, x = m.l + i * bw + bw * .18, col = (o.colors && o.colors[i]) || o.color || PAL[1];
-    s += `<rect class="${o.drill ? 'hit' : ''}" x="${x}" y="${y0 - bh}" width="${bw * .64}" height="${bh}" rx="3" fill="${col}" ${o.drill ? `${o.drill(i)} tabindex="0" role="link" aria-label="${esc(o.labels[i])}: ${fmt(v)}. Ver detalle"` : ''}><title>${esc(o.labels[i])}: ${fmt(v)}</title></rect><text x="${x + bw * .32}" y="${y0 - bh - 4}" text-anchor="middle" style="fill:var(--color-pizarra);font-weight:600">${fmt(v)}</text><text x="${x + bw * .32}" y="${h - 18}" text-anchor="middle">${esc(o.labels[i])}</text>`;
+    s += `<rect x="${x}" y="${y0 - bh}" width="${bw * .64}" height="${bh}" rx="3" fill="${col}"><title>${esc(o.labels[i])}: ${fmt(v)}</title></rect><text x="${x + bw * .32}" y="${y0 - bh - 4}" text-anchor="middle" style="fill:var(--color-pizarra);font-weight:600">${fmt(v)}</text><text x="${x + bw * .32}" y="${h - 18}" text-anchor="middle">${esc(o.labels[i])}</text>`;
+    // Zona de clic: toda la columna. Es solo para puntero; con teclado se usa el enlace bajo el gráfico.
+    if (o.drill) s += `<rect class="hit" x="${m.l + i * bw}" y="${m.t}" width="${bw}" height="${y0 - m.t + 22}" fill="transparent" ${o.drill(i)}><title>${esc(o.labels[i])}: ${fmt(v)}</title></rect>`;
   });
   if (o.target != null) {
     const ty = y0 - (h - m.t - m.b) * o.target / max;

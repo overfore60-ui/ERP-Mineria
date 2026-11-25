@@ -66,7 +66,7 @@ export class Tip {
       <ng-content />
     </ng-template>
     @if (href()) {
-      <a [routerLink]="href()" [attr.aria-label]="lbl() + ': ' + val() + ' ' + unit() + '. Ver detalle'" [class]="caja"><ng-container *ngTemplateOutlet="cuerpo" /></a>
+      <a [routerLink]="href()" [class]="caja"><ng-container *ngTemplateOutlet="cuerpo" /><span class="sr">. Ver detalle</span></a>
     } @else {
       <div [class]="caja"><ng-container *ngTemplateOutlet="cuerpo" /></div>
     }`,
@@ -150,7 +150,7 @@ export class Timeline {
 @Component({
   selector: 'app-stepper',
   template: `
-    <ol class="flex p-0 m-0 mb-6 overflow-x-auto pb-1" [attr.aria-label]="'Progreso: paso ' + (actual() + 1) + ' de ' + pasos().length">
+    <ol tabindex="0" class="flex p-0 m-0 mb-6 overflow-x-auto pb-1" [attr.aria-label]="'Progreso: paso ' + (actual() + 1) + ' de ' + pasos().length">
       @for (p of pasos(); track $index; let k = $index, ultimo = $last) {
         <li class="relative list-none flex-1 min-w-[78px] md:min-w-24 flex flex-col items-center text-center gap-1.5 text-xs md:text-[0.8125rem] font-semibold"
           [class]="k === actual() ? 'text-pizarra' : 'text-acero'" [attr.aria-current]="k === actual() ? 'step' : null">
@@ -171,7 +171,7 @@ export class Stepper {
 @Component({
   selector: 'app-skeleton',
   template: `
-    <div class="flex flex-col gap-3" aria-busy="true" aria-label="Cargando contenido">
+    <div class="flex flex-col gap-3" role="status" aria-busy="true" aria-label="Cargando contenido">
       <div class="skel h-[34px] w-2/5"></div>
       <div class="grid gap-4 md:grid-cols-3">@for (x of [1, 2, 3]; track x) { <div class="skel h-24"></div> }</div>
       @for (x of filas(); track x) { <div class="skel h-14"></div> }

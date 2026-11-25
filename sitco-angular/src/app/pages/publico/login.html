@@ -34,7 +34,7 @@
             </select>
           </app-field>
           <button class="btn btn-lg w-full" type="submit">Continuar con el directorio corporativo <app-icon name="chR" /></button>
-          <div class="flex justify-between flex-wrap gap-2 mt-2"><a routerLink="/recuperar">¿Olvidaste tu acceso?</a><a routerLink="/registro">Soy empresa contratista</a></div>
+          <div class="flex justify-between flex-wrap gap-2 mt-2"><a class="a44" routerLink="/recuperar">¿Olvidaste tu acceso?</a><a class="a44" routerLink="/registro">Soy empresa contratista</a></div>
         </form>
       } @else {
         <form novalidate (submit)="$event.preventDefault()">
@@ -61,7 +61,7 @@
               </div>
             }
           <div class="lbl-t mt-3" id="pin-l">Paso 2 · PIN de 4 dígitos</div>
-          <div class="flex gap-3 justify-center my-3" aria-live="polite" [attr.aria-label]="'Dígitos ingresados: ' + pin().length + ' de 4'">
+          <div class="flex gap-3 justify-center my-3" role="status" aria-live="polite" [attr.aria-label]="'Dígitos ingresados: ' + pin().length + ' de 4'">
             @for (k of [0, 1, 2, 3]; track k) { <i class="size-[18px] rounded-full border-2 border-pizarra" [class.bg-pizarra]="k < pin().length"></i> }
           </div>
           <div class="text-error text-center font-semibold min-h-[22px]" role="alert">{{ pinError() }}</div>

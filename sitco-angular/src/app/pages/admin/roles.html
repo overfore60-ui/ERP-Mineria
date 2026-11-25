@@ -9,7 +9,7 @@
   <app-banner tipo="ok">Permisos guardados.</app-banner>
 }
 
-<div class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
+<div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
   <table class="stack">
     <caption class="sr">Matriz de permisos por rol</caption>
     <thead><tr><th>Permiso</th>@for (r of roles; track r[0]) { <th class="text-center whitespace-normal! min-w-21">{{ r[1].label }}</th> }</tr></thead>
@@ -19,8 +19,8 @@
           <th scope="row" class="bg-transparent! whitespace-normal!">{{ p }}</th>
           @for (r of roles; track r[0]) {
             <td [attr.data-l]="r[1].label" class="text-center">
-              <label class="sr" [for]="'mx-' + r[0] + '-' + i">{{ p }} para {{ r[1].label }}</label>
-              <input type="checkbox" [id]="'mx-' + r[0] + '-' + i" class="size-6 accent-cobre" [checked]="!!mtx()[r[0]][i]" (change)="marcar(r[0], i, $any($event.target).checked)">
+              <label class="inline-grid place-items-center size-11 cursor-pointer"><span class="sr">{{ p }} para {{ r[1].label }}</span>
+              <input type="checkbox" [id]="'mx-' + r[0] + '-' + i" class="size-6 accent-cobre" [checked]="!!mtx()[r[0]][i]" (change)="marcar(r[0], i, $any($event.target).checked)"></label>
             </td>
           }
         </tr>

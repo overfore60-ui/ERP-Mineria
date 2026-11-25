@@ -83,18 +83,18 @@ export function dibujoArquitectura(e: EstadoArq) {
   /* --- Nodo de Faena y marcadores: solo íconos; la información sale al pasar el cursor o al tocar --- */
   s += `<ellipse cx="${NO[0]}" cy="${NO[1] + 6}" rx="40" ry="16" fill="${camino ? AZ : CU}" fill-opacity=".35" class="arq-pulso"/>`;
   puntosArquitectura(e).forEach(q => {
-    s += `<g class="arq-pin" data-id="${q.id}" tabindex="0" role="button" aria-label="${q.tit}: ${q.sub}" style="cursor:pointer;outline:none">`
+    s += `<g class="arq-pin" data-id="${q.id}">`
       + `<circle cx="${q.p[0]}" cy="${q.p[1]}" r="26" fill="transparent"/>`
       + (q.id === 'sat' || q.id === 'lte' ? `<circle cx="${q.p[0]}" cy="${q.p[1]}" r="11" fill="${q.tono}" stroke="#fff" stroke-width="2"/><g transform="translate(${q.p[0]} ${q.p[1]}) scale(.72)">${ICO[q.ico]}</g>` : pin(q.p, q.ico, q.tono, q.id === 'nodo' ? 17 : 15))
       + (q.alerta ? `<circle cx="${q.p[0] + 13}" cy="${q.p[1] - 13}" r="6" fill="${MAL}" stroke="#fff" stroke-width="1.6"/>` : '')
       + `</g>`;
   });
 
-  const estilo = `<style>.arq-flujo{animation:arq-guion 1s linear infinite}@keyframes arq-guion{to{stroke-dashoffset:-17}}.arq-onda{animation:arq-onda 2s ease-in-out infinite}.arq-onda2{animation-delay:.5s}@keyframes arq-onda{0%,100%{opacity:.25}50%{opacity:1}}.arq-pulso{animation:arq-pulso 2.4s ease-in-out infinite}@keyframes arq-pulso{0%,100%{opacity:.45}50%{opacity:1}}.arq-pin{transition:transform .15s}.arq-pin:hover,.arq-pin:focus-visible{filter:drop-shadow(0 0 6px #fff)}@media (prefers-reduced-motion:reduce){.arq-flujo,.arq-onda,.arq-pulso{animation:none}.arq-mov{display:none}}</style>`;
+  const estilo = `<style>.arq-flujo{animation:arq-guion 1s linear infinite}@keyframes arq-guion{to{stroke-dashoffset:-17}}.arq-onda{animation:arq-onda 2s ease-in-out infinite}.arq-onda2{animation-delay:.5s}@keyframes arq-onda{0%,100%{opacity:.25}50%{opacity:1}}.arq-pulso{animation:arq-pulso 2.4s ease-in-out infinite}@keyframes arq-pulso{0%,100%{opacity:.45}50%{opacity:1}}.arq-pin{transition:transform .15s}.arq-pin:hover{filter:drop-shadow(0 0 6px #fff)}@media (prefers-reduced-motion:reduce){.arq-flujo,.arq-onda,.arq-pulso{animation:none}.arq-mov{display:none}}</style>`;
   const resumen = camino
     ? 'Los equipos de la faena envían sus eventos por la red LTE privada al Nodo de Faena, que los sube al Centro Integrado de Operaciones en Antofagasta y a la nube Azure por la fibra A, la fibra B o el satélite.'
     : 'Sin ningún camino a la nube: el Nodo de Faena sostiene la operación hasta 48 horas y sincroniza al volver un enlace.';
-  return `<svg viewBox="0 0 1200 780" style="display:block;width:100%;height:auto" role="group" aria-label="Vista aérea ilustrada de la faena Aranda hasta Antofagasta. ${resumen} Pasa el cursor o toca un marcador para ver su detalle.">${estilo}${s}</svg>`;
+  return `<svg viewBox="0 0 1200 780" style="display:block;width:100%;height:auto" role="img" aria-label="Vista aérea ilustrada de la faena Aranda hasta Antofagasta. ${resumen} El detalle de cada lugar se elige con los botones de la lista Lugares.">${estilo}${s}</svg>`;
 }
 
 /** Lugares de la vista: posición, ícono y el texto que se muestra en el recuadro de detalle. */
@@ -157,8 +157,8 @@ export function realceArquitectura(q: PuntoArq | undefined) {
     </div>
     <!-- En pantallas anchas la imagen toma el alto disponible y el detalle va a su derecha; en las angostas, debajo -->
     <div class="flex flex-col min-[1200px]:flex-row bg-cc-p">
-    <div class="relative shrink-0 w-full min-[1200px]:w-[min(70%,calc((100dvh_-_400px)_*_1.5385))] min-[1200px]:min-w-[560px] aspect-[1200/780] bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'"
-      (mouseover)="elegir($event)" (focusin)="elegir($event)" (click)="elegir($event)">
+    <div class="cursor-pointer relative shrink-0 w-full min-[1200px]:w-[min(70%,calc((100dvh_-_400px)_*_1.5385))] min-[1200px]:min-w-[560px] aspect-[1200/780] bg-[#b98f6b] bg-cover bg-center" [style.background-image]="'url(' + fondo + ')'"
+      (mouseover)="elegir($event)" (click)="elegir($event)">
       <div [innerHTML]="svg() | html"></div>
       <div class="absolute inset-0 pointer-events-none" [innerHTML]="realce() | html"></div>
     </div>
@@ -181,7 +181,7 @@ export function realceArquitectura(q: PuntoArq | undefined) {
         <p class="m-0 mb-1.5 text-xs font-bold uppercase tracking-widest text-cc-mut">Lugares · pasa el cursor o toca</p>
         <div class="flex flex-wrap gap-1.5" role="group" aria-label="Lugares de la arquitectura">
           @for (q of puntos(); track q.id) {
-            <button type="button" class="min-h-9 px-2.5 rounded-md border text-[0.8125rem] font-semibold cursor-pointer hover:brightness-125"
+            <button type="button" class="min-h-11 min-w-11 px-2.5 rounded-md border text-[0.8125rem] font-semibold cursor-pointer hover:brightness-125"
               [class]="activo() === q.id ? 'border-cc-cu bg-[#3a2416] text-white' : q.alerta ? 'border-cc-bad text-[#ff9d93] bg-cc-p2' : 'border-cc-line text-cc-tx bg-cc-p2'"
               [attr.aria-pressed]="activo() === q.id" (click)="activo.set(q.id)" (mouseenter)="activo.set(q.id)">{{ q.tit }}</button>
           }
@@ -207,9 +207,19 @@ export class IsoArch {
   readonly detalle = computed(() => this.puntos().find(q => q.id === this.activo()));
   readonly realce = computed(() => realceArquitectura(this.detalle()));
 
-  /** Marca como activo el lugar bajo el cursor, el que recibe el foco o el que se toca. */
-  elegir(ev: Event) {
-    const id = (ev.target as Element | null)?.closest?.('[data-id]')?.getAttribute('data-id');
+  /**
+   * Marca como activo el lugar bajo el cursor o el más cercano al toque. Los marcadores del dibujo no son
+   * controles (en pantallas angostas miden menos de 44 px): con teclado se usan los botones de «Lugares».
+   */
+  elegir(ev: MouseEvent) {
+    let id = (ev.target as Element | null)?.closest?.('[data-id]')?.getAttribute('data-id');
+    if (!id && ev.type === 'click') {
+      let menor = 30;
+      (ev.currentTarget as Element).querySelectorAll('[data-id]').forEach(g => {
+        const r = g.getBoundingClientRect(), d = Math.hypot(ev.clientX - r.left - r.width / 2, ev.clientY - r.top - r.height / 2);
+        if (d <= menor) { menor = d; id = g.getAttribute('data-id'); }
+      });
+    }
     if (id) this.activo.set(id);
   }
 }

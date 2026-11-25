@@ -39,7 +39,7 @@
           } @else {
             <app-banner tipo="ok" class="mt-4">Polígono <strong>{{ res.p.id }}</strong> · ley {{ nd(res.p.ley, 2) }} % Cu · {{ nf(res.p.as) }} ppm As · extraído el {{ fd(res.p.fecha) }}. Seguimiento completado en <strong>1,2 s</strong> (antes: semanas de revisión de carpetas).</app-banner>
             @if (res.r.length) {
-              <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+              <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
                 <table class="stack">
                   <thead><tr><th>Embarque</th><th>Stock intermedio</th><th class="text-right">Toneladas aportadas</th><th class="text-right">% del lote</th><th>Estado</th></tr></thead>
                   <tbody>

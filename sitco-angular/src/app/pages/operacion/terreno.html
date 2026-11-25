@@ -102,7 +102,7 @@
       <h3>Historial de este equipo</h3>
       @for (e of cola(); track e.id) {
         <div class="flex gap-2 items-center py-1.5 border-b border-arena-2 last:border-0 text-[0.8125rem]">
-          <span class="flex gap-1" [attr.aria-label]="['En equipo', 'En el Nodo', 'En nube'][e.tier]">
+          <span class="flex gap-1" role="img" [attr.aria-label]="['En equipo', 'En el Nodo', 'En nube'][e.tier]">
             @for (k of [0, 1, 2]; track k) { <i class="size-2.5 rounded-full border" [class]="e.tier >= k ? 'bg-senal border-senal' : 'bg-acero-l border-acero'"></i> }
           </span>
           <span class="flex-1 min-w-0"><strong>{{ e.type }}</strong> · {{ e.label }}</span><span class="muted">{{ ft(e.ts) }}</span>

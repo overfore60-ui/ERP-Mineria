@@ -22,7 +22,7 @@
         }
       </div>
       <h3 class="mt-6">Contrastes verificados (WCAG 2.2 AA)</h3>
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack">
           <thead><tr><th>Combinación</th><th>Contraste</th><th>Uso</th></tr></thead>
           <tbody>@for (r of contrastes; track r[0]) { <tr><td data-l="Combinación">{{ r[0] }}</td><td data-l="Contraste"><strong>{{ r[1] }}</strong></td><td data-l="Uso">{{ r[2] }}</td></tr> }</tbody>

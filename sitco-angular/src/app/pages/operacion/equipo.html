@@ -16,7 +16,7 @@
     <app-card titulo="Historial reciente (24 h)"><app-timeline [items]="x.historial" /></app-card>
 
     <app-card titulo="Alarmas de telemetría (3 portales, un solo lugar)">
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack">
           <thead><tr><th>Código</th><th>Origen</th><th>Severidad</th><th>Detalle</th><th><span class="sr">Acción</span></th></tr></thead>
           <tbody>

@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LIMITES, EMBARQUES, HUELLA } from '../../core/data';
 import { bar, donut, gauge, hbar, heat, line, scatter, stack } from '../../core/charts';
 import { nd, nf } from '../../core/util';
@@ -10,13 +10,13 @@ import { PageHeader } from '../../shared/page-header';
 import { Empty, Estado, Kpi, Skeleton } from '../../shared/ui';
 import { CATS, INDICADORES, PERIODOS, datosPeriodo } from './tablero-datos';
 
-interface Grafico { cat: string; t: string; svg: string; ley?: [string, string][] }
+interface Grafico { cat: string; t: string; svg: string; ley?: [string, string][]; enlace?: [string, string] }
 
 /** Tablero analítico: indicadores con filtros por período y categoría, y gráficos con detalle al hacer clic. */
 @Component({
   selector: 'app-tablero',
   templateUrl: './tablero.html',
-  imports: [ExportDialog, HtmlPipe, Icon, PageHeader, Empty, Estado, Kpi, Skeleton],
+  imports: [RouterLink, ExportDialog, HtmlPipe, Icon, PageHeader, Empty, Estado, Kpi, Skeleton],
 })
 export class Tablero {
   private router = inject(Router);
@@ -34,7 +34,7 @@ export class Tablero {
     const D = datosPeriodo(this.periodo()), F = PERIODOS[this.periodo()][0];
     const g: Grafico[] = [
       { cat: 'Mina', t: 'Utilización efectiva de flota', svg: line({ labels: D.L, series: [{ name: 'Utilización', values: D.util, color: '#9C4A1F' }], ref: 80, refLabel: 'Meta interna 80 %', min: 60, max: 90, fmt: v => nf(Math.round(v)) + '%', label: `Utilización de flota, ${F}` }) },
-      { cat: 'Mina', t: 'Detenciones por causa (clic para ver detalle)', svg: bar({ labels: ['Mecánica', 'Eléctrica', 'Esp. pala', 'Esp. camión', 'Clima', 'Turno', 'Comb.', 'Otras'], values: D.det, colors: ['#9C4A1F', '#9C4A1F', '#6C8294', '#6C8294', '#6C8294', '#8A6A3E', '#8A6A3E', '#1E2B35'], drill: () => 'data-href="/tablero/detalle/detenciones"', label: `Detenciones por causa, ${F}` }) },
+      { cat: 'Mina', t: 'Detenciones por causa (clic para ver detalle)', svg: bar({ labels: ['Mecánica', 'Eléctrica', 'Esp. pala', 'Esp. camión', 'Clima', 'Turno', 'Comb.', 'Otras'], values: D.det, colors: ['#9C4A1F', '#9C4A1F', '#6C8294', '#6C8294', '#6C8294', '#8A6A3E', '#8A6A3E', '#1E2B35'], drill: () => 'data-href="/tablero/detalle/detenciones"', label: `Detenciones por causa, ${F}` }), enlace: ['Ver detalle de detenciones', '/tablero/detalle/detenciones'] },
       { cat: 'Mina', t: 'Destino del mineral', svg: donut({ items: [{ label: 'Planta', value: 61, color: '#1E2B35' }, { label: 'Stock baja ley', value: 24, color: '#9C4A1F' }, { label: 'Botadero', value: 15, color: '#8A6A3E' }], big: '82 Mt', small: 'movidas al año', label: 'Distribución del material por destino' }), ley: [['Planta 61 %', '#1E2B35'], ['Stock baja ley 24 %', '#9C4A1F'], ['Botadero 15 %', '#8A6A3E']] },
       { cat: 'Mina', t: 'Tonelaje por destino (kt)', svg: stack({ labels: D.L, series: [{ name: 'Planta', values: D.stack.a, color: '#1E2B35' }, { name: 'Stock baja ley', values: D.stack.b, color: '#9C4A1F' }, { name: 'Botadero', values: D.stack.c, color: '#8A6A3E' }], label: `Tonelaje por destino, ${F}` }), ley: [['Planta', '#1E2B35'], ['Stock baja ley', '#9C4A1F'], ['Botadero', '#8A6A3E']] },
       { cat: 'Mina', t: 'Cumplimiento del plan (área)', svg: line({ labels: D.L, area: true, series: [{ name: 'Cumplimiento', values: D.plan, color: '#1F7A5C' }], min: 60, max: 100, fmt: v => nf(Math.round(v)) + '%', ref: 90, refLabel: 'Meta 90 %', label: `Cumplimiento del plan, ${F}` }) },
@@ -53,9 +53,8 @@ export class Tablero {
   }
   limpiar() { this.periodo.set(30); this.categoria.set('Todas'); }
 
-  /** Las barras con detalle llevan data-href: clic o Enter abre el detalle. */
+  /** Las columnas con detalle llevan data-href: el clic abre el detalle (con teclado, el enlace bajo el gráfico). */
   profundizar(e: Event) {
-    if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') return;
     const el = (e.target as Element).closest('[data-href]');
     if (!el) return;
     e.preventDefault();

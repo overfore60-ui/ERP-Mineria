@@ -38,7 +38,7 @@
   <div class="flex flex-col gap-3">
     <app-card titulo="Cola de sincronización (equipo → Nodo de Faena → nube)">
       @if (cola().length) {
-        <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+        <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
           <table class="stack text-sm!">
             <thead><tr><th>Evento</th><th>Detalle</th><th>Origen</th><th>Hora</th><th>Equipo → Nodo → Nube</th></tr></thead>
             <tbody>
@@ -70,7 +70,7 @@
   <div class="flex flex-col gap-3">
     <div class="card"><app-sim-panel [enlace]="false" /></div>
     <app-card titulo="Qué sigue y qué se detiene sin enlace">
-      <div class="overflow-x-auto border border-arena-2 rounded-xl bg-white">
+      <div tabindex="0" role="region" aria-label="Tabla, se puede desplazar" class="relative overflow-x-auto border border-arena-2 rounded-xl bg-white">
         <table class="stack text-sm!">
           <thead><tr><th>Función</th><th>Sin enlace</th><th>Cómo se suple</th></tr></thead>
           <tbody>

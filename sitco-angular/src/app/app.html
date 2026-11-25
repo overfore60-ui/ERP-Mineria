@@ -15,10 +15,10 @@
     <main id="main" tabindex="-1" class="w-full max-w-[1360px] mx-auto px-4 lg:px-6 pt-4 lg:pt-6 pb-24 min-w-0">
       @if (page.migas().length) {
         <nav class="text-sm text-acero mb-3" aria-label="Rastro de navegación">
-          <ol class="flex flex-wrap gap-1.5 list-none p-0 m-0">
+          <ol class="flex flex-wrap items-center gap-1.5 list-none p-0 m-0">
             @for (m of page.migas(); track $index; let ultimo = $last) {
               @if (!$first) { <li aria-hidden="true">›</li> }
-              @if (ultimo) { <li aria-current="page">{{ m[0] }}</li> } @else if (ses.permitidoRuta(m[1])) { <li><a [routerLink]="m[1]">{{ m[0] }}</a></li> } @else { <li>{{ m[0] }}</li> }
+              @if (ultimo) { <li aria-current="page">{{ m[0] }}</li> } @else if (ses.permitidoRuta(m[1])) { <li><a class="inline-flex items-center justify-center min-h-11 min-w-11" [routerLink]="m[1]">{{ m[0] }}</a></li> } @else { <li>{{ m[0] }}</li> }
             }
           </ol>
         </nav>
